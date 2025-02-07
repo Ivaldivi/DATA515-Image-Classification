@@ -11,9 +11,12 @@ Web-based tool
 Create an image classification tool that can ***** INSERT INFO HERE *******
 
 ## Data Sources: 
-* Use of observational data provided from iNaturalist 
+* Use of observational data provided from [iNaturalist](https://www.inaturalist.org/pages/about) 
   * More than 1 Million research-grade observational photos
   * Easily can filter and download sets of data or use their API
-* Labeled animal image dataset from Kaggle
+* Labeled animal image dataset from [Kaggle](https://www.kaggle.com/datasets/iamsouravbanerjee/animal-image-dataset-90-different-animals)
   * More than 5,000 images
   * 90 different animal types
+* Database of animal facts from [Kaggle](https://www.kaggle.com/datasets/iamsouravbanerjee/animal-information-dataset) 
+  * Generate facts to correspond with user input
+
