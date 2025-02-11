@@ -1,26 +1,27 @@
-# DATA515-Image-Classification
+# DATA515-Landmark-Classification
 
 
 ## The Project Type:
 Web-based tool
 
 ## Questions of Interest: 
-* How accurately can we classify images into predefined animal categories?
-* Can we distinguish between similar-appearing animals (e.g. same species)?
-* Can we identify animals through different environments and lighting conditions?
-* Can we identify animals if given a low-quality image input?
-* Can we identify animals that we have not trained our model upon?
+* How accurately can we classify landmarks?
+* Can we distinguish between similar-appearing landmarks (e.g. same area)?
+* Can we identify landmarks through different environments and lighting conditions?
+* Can we identify landmarks if given a low-quality image input?
+* Can we identify landmarks that we have not trained our model upon?
+* Can we provide further information about a landmark?
 
 ## Goal for project output: 
-Create an image classification tool that can correctly identify animals if given an image
+Create an image classification tool that can correctly identify landmarks (tentatively within Washington state) if given an image 
 
 ## Data Sources: 
-* Use of observational data provided from [iNaturalist](https://www.inaturalist.org/pages/about) 
-  * More than 1 Million research-grade observational photos
-  * Easily can filter and download sets of data or use their API
-* Labeled animal image dataset from [Kaggle](https://www.kaggle.com/datasets/iamsouravbanerjee/animal-image-dataset-90-different-animals)
-  * More than 5,000 images
-  * 90 different animal types
-* Database of animal facts from [Kaggle](https://www.kaggle.com/datasets/iamsouravbanerjee/animal-information-dataset) 
-  * Generate facts to correspond with user input
-
+* Images of Landmarks across the world, provided by [Google](https://github.com/cvdfoundation/google-landmark?tab=readme-ov-file)
+  * More than 4 million labeled landmark photos
+* [Wikimedia](https://www.wikimedia.org/) 
+  * (specifically, the Wikimedia link for a given landmark)
+  * Determine location information about a landmark
+  * Provide additional information about a landmark
+* User-taken Photos of Landmarks in Washington
+  * Use to validate model
+  * Demonstrate model performance
