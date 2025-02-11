@@ -5,10 +5,14 @@
 Web-based tool
 
 ## Questions of Interest: 
-
+* How accurately can we classify images into predefined animal categories?
+* Can we distinguish between similar-appearing animals (e.g. same species)?
+* Can we identify animals through different environments and lighting conditions?
+* Can we identify animals if given a low-quality image input?
+* Can we identify animals that we have not trained our model upon?
 
 ## Goal for project output: 
-Create an image classification tool that can ***** INSERT INFO HERE *******
+Create an image classification tool that can correctly identify animals if given an image
 
 ## Data Sources: 
 * Use of observational data provided from [iNaturalist](https://www.inaturalist.org/pages/about) 
