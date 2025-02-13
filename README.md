@@ -1,5 +1,5 @@
 # DATA515-Landmark-Classification
-
+Team members: Sarah Innis, Anthony Nguyen, Annie Staker,  Izzy Valdivia
 
 ## The Project Type:
 Web-based tool
@@ -13,7 +13,7 @@ Web-based tool
 * Can we provide further information about a landmark?
 
 ## Goal for project output: 
-Create an image classification tool that can correctly identify landmarks (tentatively within Washington state) if given an image 
+Create a multiclass image classification tool that can correctly identify landmarks (tentatively within Washington state) if given an image. 
 
 ## Data Sources: 
 * Images of Landmarks across the world, provided by [Google](https://github.com/cvdfoundation/google-landmark?tab=readme-ov-file)
@@ -23,5 +23,4 @@ Create an image classification tool that can correctly identify landmarks (tenta
   * Determine location information about a landmark
   * Provide additional information about a landmark
 * User-taken Photos of Landmarks in Washington
-  * Use to validate model
-  * Demonstrate model performance
+  * Use to validate model & demonstrate model accuracy and precision
