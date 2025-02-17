@@ -35,10 +35,14 @@
 
 ## Component Diagrams
 
+### User Photo Upload Success
 ![User Photo Upload Success](user_photo_upload_-_success.drawio.png)
 
+### User Photo Upload Falure 
 ![User Photo Upload Falure](user_photo_upload_-_failure.drawio.png)
 
+### Missing Landmark Reporting
 ![Missing Landmark Reporting](missing_landmark_reporting.drawio.png)
 
+### Landmark Search
 ![Landmark Search](landmark_search.drawio.png)
