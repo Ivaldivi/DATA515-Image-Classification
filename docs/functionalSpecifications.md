@@ -1,3 +1,7 @@
+# BACKGROUND
+ 
+Create a multiclass image classification tool that can correctly identify landmarks (tentatively within Washington state) if given an image. 
+
 # USER STORIES 
 
 ## USER 1: Tourist- Bob 
@@ -10,8 +14,18 @@ Doug is an architect visiting Seattle for the first time. He wants to figure out
 ## TECHNICIAN 1: ML model maintainer
 The technician will be maintaining the image classification model. They need the ability to update the data, fine tune the model, and retrain the model with any new data. They would have to monitor user requests for new landmarks, and feedback from incorrect model output. They need access to the existing requirements.txt file, and update it as any new requirements arise. 
 
+# DATA SOURCES
 
-# Use Cases 
+* Images of Landmarks across the world, provided by [Google](https://github.com/cvdfoundation/google-landmark?tab=readme-ov-file)
+  * More than 4 million labeled landmark photos
+* [Wikimedia](https://www.wikimedia.org/) 
+  * (specifically, the Wikimedia link for a given landmark)
+  * Determine location information about a landmark
+  * Provide additional information about a landmark
+* User-taken Photos of Landmarks in Washington
+  * Use to validate model & demonstrate model accuracy and precision
+
+# USE CASES
 
 ## Use Case 1: 
 Objective: User wants to upload photo and view results
