@@ -38,7 +38,7 @@
 ### User Photo Upload Success
 ![User Photo Upload Success](user_photo_upload_-_success.drawio.png)
 
-### User Photo Upload Falure 
+### User Photo Upload Failure 
 ![User Photo Upload Falure](user_photo_upload_-_failure.drawio.png)
 
 ### Missing Landmark Reporting
