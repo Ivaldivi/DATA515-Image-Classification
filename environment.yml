@@ -2,7 +2,6 @@ name: landmarks_classification_env
 channels:
   - defaults
 dependencies:
-  - build
   - python>=3.8
   - pandas
   - streamlit
