@@ -3,7 +3,7 @@ channels:
   - defaults
 dependencies:
   - build
-  - python=3
+  - python>=3.8
   - pandas
   - streamlit
   - pip
