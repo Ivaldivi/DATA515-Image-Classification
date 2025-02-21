@@ -1,0 +1,11 @@
+name: tf
+channels:
+  - defaults
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - tensorflow=2.12.0=eigen_py311h689d69b_0
+  - python=3.11
+  - pandas=1.5.0
+  - pip: 
+     - mediapipe=0.10.21
