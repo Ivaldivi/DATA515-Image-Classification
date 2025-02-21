@@ -29,5 +29,6 @@ Create a multiclass image classification tool that can correctly identify landma
 ## How To Use Conda Environment: 
 In order to create a conda environment from the current environment.yml file, run the following line:\
 conda env create -f environment.yml\
+
 To activate the environment run:\
 conda activate landmarks_classification_env
