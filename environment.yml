@@ -2,10 +2,11 @@ name: landmarks_classification_env
 channels:
   - defaults
 dependencies:
-  - tensorflow=2.12.0
+  - build
+  - tensorflow
   - python=3
-  - pandas=2.2.3
-  - streamlit=1.41.1
+  - pandas
+  - streamlit
   - pip
   - pip: 
-     - mediapipe==0.10.21
+     - mediapipe
