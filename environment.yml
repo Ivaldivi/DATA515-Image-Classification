@@ -5,6 +5,7 @@ dependencies:
   - python>=3.8
   - pandas
   - streamlit
+  - tensorflow
   - pip
   - pip: 
      - mediapipe==0.10.21
