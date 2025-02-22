@@ -1,15 +1,18 @@
 import unittest
-from notebooks.image_processing import create_directory
+from notebooks.image_processing import directory_exists
 
 # EXECUTE USING: 
-# python -m unittest test.image_proessing_test
+# python -m unittest test.image_processing_test
 
-class TestUi(unittest.TestCase):
+class TestImageProcessing(unittest.TestCase):
 
-    def test_print_directory_name(self):
-        expected = "The directory Test exists"
-        actual = create_directory("Test")
-        self.assertEqual(expected, actual)
+    def test_existing_directory_name(self):
+        actual = directory_exists("Test")
+        self.assertTrue(actual)
+
+    def test_missing_directory_name(self): 
+        actual2 = directory_exists("Izzys silly directory --> this doesn't exist")
+        self.assertFalse(actual2)
 
 
 if __name__ == '__main__':
