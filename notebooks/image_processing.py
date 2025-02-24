@@ -33,14 +33,13 @@ def resize_image():
     pass 
 
 def download_image(landmark_name, url, id): 
-    """Download image from url 
-    
+    """Download image from url and use id to name .jpeg 
     Keyword arguments:
     argument -- description
     Return: return_description
     """
-    
-    pass 
+    if directory_exists(landmark_name):
+        print("placeholder")
 
 
 if __name__ == '__main__':
