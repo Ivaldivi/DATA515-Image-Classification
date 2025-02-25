@@ -10,6 +10,7 @@ st.title("Washington Landmarks Search")
 
 # Connect to data for search
 # should I do a try catch here? do we want the exception to go to streamlit or terminal
+# add function and test
 response = requests.get('https://raw.githubusercontent.com/Ivaldivi/DATA515-Image-Classification/refs/heads/main/data/landmarks_washington_full.csv')
 if response.status_code == 200:
     landmarks_df = pd.read_csv(StringIO(response.text), sep=',')
@@ -25,10 +26,11 @@ else:
     print(f"Failed to fetch data: {response.status_code}")
 
 # left join landmarks_df and pics_df on 'landmark_id' column
-landmarks_df_join = landmarks_df.merge(pics_df, how='left', on='landmark_id')
+landmarks_df_join = landmarks_df.merge(pics_df, how='right', on='landmark_id')
 
 text_search = st.text_input("Search for a landmark by name", "")
 
+# add function name and unit test
 # this gives me multiple rows per landmarks as there are multiple images. Think about whether you want this or not
 search_results = landmarks_df_join[landmarks_df_join['name'].str.contains(text_search, case=False, na=False)]
 
