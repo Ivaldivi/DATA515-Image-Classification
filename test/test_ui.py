@@ -1,5 +1,5 @@
 import unittest
-from ui.dashboard import get_title
+from ui.Home import get_title
 
 class TestUi(unittest.TestCase):
 
