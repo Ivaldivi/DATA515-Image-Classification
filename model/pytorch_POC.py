@@ -4,6 +4,10 @@ import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
+from torch.utils.tensorboard import SummaryWriter
+
+# remove previous runs' logs 
+# rm -rf ./logs/
 
 # Transformations
 transform = transforms.Compose([
@@ -12,6 +16,7 @@ transform = transforms.Compose([
 ])
 
 # Load dataset
+x_train =  "ehl"
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, shuffle=True)
 
@@ -45,6 +50,18 @@ model = SimpleCNN().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
+writer = SummaryWriter('runs/fashion_mnist_experiment_1')
+dataiter = iter(trainloader)
+images, labels = next(dataiter)
+
+# create grid of images
+img_grid = torchvision.utils.make_grid(images)
+
+# show images
+matplotlib_imshow(img_grid, one_channel=True)
+
+# write to tensorboard
+writer.add_image('four_fashion_mnist_images', img_grid)
 
 # Training loop
 # 10 epochs 
