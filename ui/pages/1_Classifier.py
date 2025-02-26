@@ -30,7 +30,7 @@ if image is not None:
     st.markdown(
         '''
         ### Results
-        Your image is:
+        Our prediction:
         1. The Space Needle (90% confidence)
         2. The Columbia Center (5% confidence)
         3. A really tall tree (3% confidence)
