@@ -25,4 +25,4 @@ with st.form(key='feedback_form', clear_on_submit=True):
 
 if submitted:
     st.success('Success. Thank you for your feedback!')
-    # Process the user feedback (e.g., store in a database)
+    # Send an email with user feedback
