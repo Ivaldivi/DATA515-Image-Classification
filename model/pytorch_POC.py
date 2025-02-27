@@ -16,7 +16,6 @@ transform = transforms.Compose([
 ])
 
 # Load dataset
-x_train =  "ehl"
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, shuffle=True)
 
