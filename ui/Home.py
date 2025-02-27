@@ -1,12 +1,15 @@
 import streamlit as st
 import os
 
+def get_title():
+    return 'Washington State Landmark Classifier'
+
 st.set_page_config(
-    page_title="Home - WA Landmark Classifier",
-    page_icon="🔎",
+    page_title='Home - WA Landmark Classifier',
+    page_icon='🔎',
 )
 
-st.title('Washington State Landmark Classifier')
+st.title(get_title())
 
 st.image('images/seattle-skyline.jpg')
 
