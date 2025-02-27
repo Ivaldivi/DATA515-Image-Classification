@@ -13,23 +13,7 @@ st.title("Washington Landmarks Search")
 landmarks_df = getDataFromCSV('https://raw.githubusercontent.com/Ivaldivi/DATA515-Image-Classification/refs/heads/main/data/landmarks_washington_full.csv')
 pics_df = getDataFromCSV('https://raw.githubusercontent.com/Ivaldivi/DATA515-Image-Classification/refs/heads/main/data/landmarks_washington_clean_images.csv')
 
-# should I do a try catch here? do we want the exception to go to streamlit or terminal
-# add function and test
-# response = requests.get('https://raw.githubusercontent.com/Ivaldivi/DATA515-Image-Classification/refs/heads/main/data/landmarks_washington_full.csv')
-# if response.status_code == 200:
-#     landmarks_df = pd.read_csv(StringIO(response.text), sep=',')
-#     print("Data loaded successfully!")
-# else:
-#     print(f"Failed to fetch data: {response.status_code}")
-
-# response = requests.get('https://raw.githubusercontent.com/Ivaldivi/DATA515-Image-Classification/refs/heads/main/data/landmarks_washington_clean_images.csv')
-# if response.status_code == 200:
-#     pics_df = pd.read_csv(StringIO(response.text), sep=',')
-#     print("Data loaded successfully!")
-# else:
-#     print(f"Failed to fetch data: {response.status_code}")
-
-# left join landmarks_df and pics_df on 'landmark_id' column
+# right join landmarks_df and pics_df on 'landmark_id' column to remove any landmarks that had bad urls
 landmarks_df_join = landmarks_df.merge(pics_df, how='right', on='landmark_id')
 
 text_search = st.text_input("Search for a landmark by name", "")
@@ -44,9 +28,37 @@ if text_search:
 else:
     st.write("Enter a landmark name to search for it.")
 
+# print(search_results.columns)
+# columns = ['landmark_id', 'name', 'supercategory', 'location', 'latitude',
+#        'longitude', 'category', 'image_id', 'url']
+# short_results = pd.DataFrame(columns=columns)
+# short_results_list = []
+
+# display at most three images per landmark
+# for landmark_id in search_results['landmark_id'].drop_duplicates():
+#     print(landmark_id)
+#     landmark_short = search_results[search_results['landmark_id'] == landmark_id].head(3)
+#     print(landmark_short)
+#     short_results_list.append(landmark_short)
+
+# short_results = pd.concat(short_results_list, ignore_index = True)
+
+
+
 # Display images
 n_pics_per_row = 3
 if text_search:
-    for i in range(0, len(search_results), n_pics_per_row):
-        row = search_results.iloc[i:i + n_pics_per_row]
+    short_results_list = []
+
+    # display at most three images per landmark
+    # need to resize images so they are same size
+    for landmark_id in search_results['landmark_id'].drop_duplicates():
+        print(landmark_id)
+        landmark_short = search_results[search_results['landmark_id'] == landmark_id].head(3)
+        short_results_list.append(landmark_short)
+
+    short_results = pd.concat(short_results_list, ignore_index = True)
+
+    for i in range(0, len(short_results), n_pics_per_row):
+        row = short_results.iloc[i:i + n_pics_per_row]
         st.image(row['url'].tolist(), width=200, caption=row['name'].tolist())
