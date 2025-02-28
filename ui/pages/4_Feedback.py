@@ -1,3 +1,6 @@
+"""
+This file contains the code for the Feedback page of the Streamlit app.
+"""
 import streamlit as st
 
 st.set_page_config(
@@ -9,9 +12,10 @@ st.title('Feedback')
 
 st.markdown(
     '''
-    ### What landmarks are we missing? Did we misclassify your landmark? Let us know!
-    Please fill out the form below to let us know what we can do to improve. If you have an image of a misclassified or missing 
-    landmark, please include it in the form.
+    ### What landmarks are we missing? Did we misclassify your
+    # landmark? Let us know! Please fill out the form below to let
+    # us know what we can do to improve. If you have an image of a
+    #  misclassified or missing landmark, please include it in the form.
     '''
 )
 
@@ -19,7 +23,8 @@ with st.form(key='feedback_form', clear_on_submit=True):
     user_feedback = st.text_area('Please share your feedback:')
     image = st.file_uploader(label='Upload relevant files (optional):',
                          accept_multiple_files=True,
-                         help='''If there is an image that is relevant to your feedback, please provide it here. You may also
+                         help='''If there is an image that is relevant to
+                         your feedback, please provide it here. You may also
                          upload other types of files.''')
     submitted = st.form_submit_button('Submit')
 

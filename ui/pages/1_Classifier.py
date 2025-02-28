@@ -1,5 +1,9 @@
-import streamlit as st
+"""
+This file contains the code for the Classifier page of the Streamlit app.
+"""
 import time
+
+import streamlit as st
 
 st.set_page_config(
     page_title="Classifier - WA Landmark Classifier",
@@ -10,12 +14,14 @@ st.title('Classifier')
 
 st.markdown(
     '''
-    Welcome to the Washington State Landmark Classifier. To classify your image, upload it using the button below. We will give 
+    Welcome to the Washington State Landmark Classifier. To classify
+    your image, upload it using the button below. We will give 
     you the top five most likely places your image depicts.
     '''
 )
 
-image = st.file_uploader(label='Upload your image here. Must be a .png or .jpg file that is 200MB or less.',
+image = st.file_uploader(label=
+                         'Upload your image here. Must be a .png or .jpg file that is 200MB or less.',
                          type=['png', 'jpg', 'jpeg'],
                          accept_multiple_files=False,
                          help='Image must be a .png, .jpg, or .jpeg file that is 200MB or less.')

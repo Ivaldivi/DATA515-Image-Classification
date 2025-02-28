@@ -1,7 +1,12 @@
+"""
+This file contains the code for the Home page of the Streamlit app.
+"""
 import streamlit as st
-import os
 
 def get_title():
+    """
+    Returns the title of the Streamlit home page.
+    """
     return 'Washington State Landmark Classifier'
 
 st.set_page_config(

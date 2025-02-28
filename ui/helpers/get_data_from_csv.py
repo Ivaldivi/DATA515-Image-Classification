@@ -14,7 +14,7 @@ def get_data_from_csv(file_path):
     """
     try:
         df = pd.read_csv(file_path, sep=',')
-        return df  
-    except FileNotFoundError as e:
+        return df
+    except FileNotFoundError:
         print(f"Failed to fetch data: {file_path}")
-        return None  
+        return None
