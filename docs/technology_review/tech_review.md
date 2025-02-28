@@ -10,7 +10,8 @@ date: "2025-02-27"
 
 ## Background
 For our project, we hope to identify landmarks in the state of Washington, based on a user-inputted photo. As a result, we will need a Python library that will allow us to build and train a machine learning model for landmark image classification.
-Possible Libraries
+
+## Possible Libraries
 
 We have identified three possible libraries to use to build our convolutional neural network: PyTorch, TensorFlow, and Scikit-Learn.
 
