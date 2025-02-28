@@ -18,14 +18,11 @@ landmarks_df_join = landmarks_df.merge(pics_df, how='right', on='landmark_id')
 
 text_search = st.text_input("Search for a landmark by name", "")
 
-# add function name and unit test
-# this gives me multiple rows per landmarks as there are multiple images. Think about whether you want this or not
+
 search_results = landmarks_df_join[landmarks_df_join['name'].str.contains(text_search, case=False, na=False)]
 
 
 if not text_search:
-    #st.write(search_results)
-#else:
     st.write("Enter a landmark name to search for it.")
 
 # Display images
@@ -37,7 +34,6 @@ if text_search:
     # need to resize images so they are same size
     # this should probably go into a function that I test
     for landmark_id in search_results['landmark_id'].drop_duplicates():
-        # print(landmark_id)
         landmark_short = search_results[search_results['landmark_id'] == landmark_id].head(3)
         short_results_list.append(landmark_short)
 
