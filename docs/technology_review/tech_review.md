@@ -24,18 +24,14 @@ PyTorch is relatively user-friendly but requires knowledge of deep learning goin
 This walkthrough tests the capabilities of the PyTorch library as well as the robustness of the documentation and online community. In the tutorial, they describe how to load data, create a transformer, and customize the model by changing the loss calculation and optimizer. There are sections in the documentation that describe different helper packages (tensor.nn and tensor.optim) that are used in the example model development. The documentation is quite thorough and has some recommendations on how to tailor their pre-built models to meet the needs of the one the user is trying to develop. 
 
 There are a few potential downsides of the PyTorch library. There are some basic warnings online from community forums saying PyTorch does not perform as well as TensorFlow on large-scale projects or in a production environment. Although, the model we develop should be relatively lightweight so this may not be a limiting factor. 
-The video below shows model status output during training.
-
-<video src="PyTorch-demo.mov" width="320" height="240" controls></video>
+The video [here](/PyTorch-demo.mov) shows model status output during training.
 
 ### TensorFlow
 TensorFlow, like PyTorch, is a powerful framework for performing deep learning capabilities. Users are able to implement and adjust individual CNN layers for their models, allowing for complex functionality. With TensorFlow, however, many aspects of this layer-creation process have been simplified through pre-made classes.
 
 One important feature that we observed was that TensorFlow was much easier to get running out-of-the-box, in comparison to PyTorch. For instance, with PyTorch, we had to create a custom data loader for our data, while TensorFlow worked immediately from our Pandas DataFrame. Additionally, TensorFlow has significant documentation and a mature ecosystem.
 
-As of recently, however, online communities have gravitated toward PyTorch, emphasizing its flexibility, ease of use, and presence in current Deep Learning research papers., For this project, we experimented with both PyTorch and TensorFlow to see which option better suits our needs and goals.
-
-<video src="TensorFlow-demo.mp4" width="320" height="240" controls></video>
+As of recently, however, online communities have gravitated toward PyTorch, emphasizing its flexibility, ease of use, and presence in current Deep Learning research papers., For this project, we experimented with both PyTorch and TensorFlow to see which option better suits our needs and goals. We performed [this demo](/TensorFlow-demo.mp4) using TensorFlow.
 
 ### Scikit-Learn
 The biggest upside of Scikit Learn is that it is user-friendly. It has a straightforward framework, a robust API, and extensive documentation. There is also a large amount of online support available via forums like Medium, GeeksForGeeks, and Stack Overflow. Additionally, it is useful for training a large number of machine learning models and comparing their performance.
