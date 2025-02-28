@@ -52,6 +52,7 @@ if text_search:
 
     # display at most three images per landmark
     # need to resize images so they are same size
+    # this should probably go into a function that I test
     for landmark_id in search_results['landmark_id'].drop_duplicates():
         print(landmark_id)
         landmark_short = search_results[search_results['landmark_id'] == landmark_id].head(3)
