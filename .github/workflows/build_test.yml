@@ -94,9 +94,9 @@ jobs:
       # Next step: run pylint. Anything less than 10/10 will fail.
       #            Once we've covered pylint in lecture, uncomment
       #            the following lines.
-      # - name: Lint with pylint
-      #   run: |
-      #     pylint entropy/**/*.py
+      - name: Lint with pylint
+        run: |
+          pylint entropy/**/*.py
 
       # Lastly: report code coverage to Coveralls.
       - name: Report code coverage to Coveralls
