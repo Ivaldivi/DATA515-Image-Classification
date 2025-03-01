@@ -11,12 +11,11 @@ st.set_page_config(
 st.title('Feedback')
 
 st.markdown(
-    '''
-    ### What landmarks are we missing? Did we misclassify your
-    # landmark? Let us know! Please fill out the form below to let
-    # us know what we can do to improve. If you have an image of a
-    #  misclassified or missing landmark, please include it in the form.
-    '''
+    "### What landmarks are we missing? Did we misclassify your landmark? "
+    "Let us know! Please fill out the form below to let us know what we can "
+    "do to improve. If you have an image of a misclassified or missing "
+    "landmark, please include it in the form.",
+    unsafe_allow_html = True
 )
 
 with st.form(key='feedback_form', clear_on_submit=True):

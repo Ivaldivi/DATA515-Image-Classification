@@ -21,7 +21,8 @@ st.markdown(
 )
 
 image = st.file_uploader(label=
-                         'Upload your image here. Must be a .png or .jpg file that is 200MB or less.',
+                         'Upload your image here. Must be a .png or '+ 
+                         '.jpg file that is 200MB or less.',
                          type=['png', 'jpg', 'jpeg'],
                          accept_multiple_files=False,
                          help='Image must be a .png, .jpg, or .jpeg file that is 200MB or less.')
