@@ -96,7 +96,8 @@ jobs:
       #            the following lines.
       - name: Lint with pylint
         run: |
-          pylint entropy/**/*.py
+          #pylint entropy/**/*.py
+          pylint .
 
       # Lastly: report code coverage to Coveralls.
       - name: Report code coverage to Coveralls
