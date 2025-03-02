@@ -1,0 +1,50 @@
+"""
+This module is used to get predictions from user-input image
+"""
+
+import numpy as np
+import pandas as pd
+from PIL import Image
+from skimage.transform import resize
+import tensorflow as tf
+
+from ui.helpers.get_data_from_csv import get_data_from_csv
+
+model = tf.keras.models.load_model(
+    "./model/224x224 image classification EfficientNetB0.keras"
+)
+
+def read_image_data(image):
+    pil_image = Image.open(image).convert("RGB")
+    image_data = np.asarray(pil_image)
+
+    return image_data
+
+def resize_image(image):
+    IMAGE_DIMENSION_INPUT = (224, 224, 3)
+    IMAGE_SCALAR = 255
+
+    resized_image = resize(np.array(image), IMAGE_DIMENSION_INPUT, anti_aliasing=True)
+    resized_image = (resized_image * IMAGE_SCALAR).astype(int)
+
+    return resized_image
+
+def predict_from_image(image):
+    image_data = read_image_data(image)
+    resized_image = resize_image(image_data)
+
+    input = np.expand_dims(resized_image, axis=0)
+    output = model.predict(input)
+
+    return output
+
+def interpret_model_output(model_output):
+    washington_data_cleaned = get_data_from_csv('data/landmarks_washington_clean_images.csv')
+    classes = washington_data_cleaned['name'].unique()
+
+    prediction_index = np.argmax(model_output)
+    prediction = classes[prediction_index]
+
+    return prediction
+
+

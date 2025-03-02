@@ -7,6 +7,8 @@ import time
 
 import streamlit as st
 
+from ui.helpers.get_model_predictions import predict_from_image, interpret_model_output
+
 st.set_page_config(
     page_title="Classifier - WA Landmark Classifier",
     page_icon="🔎",
@@ -48,3 +50,6 @@ if image is not None:
     )
     st.write('Your image:')
     st.image(image)
+
+    output = predict_from_image(image)
+    st.write(interpret_model_output(output))
