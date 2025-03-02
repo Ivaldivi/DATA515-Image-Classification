@@ -14,6 +14,9 @@ model = tf.keras.models.load_model(
     "./model/224x224 image classification EfficientNetB0.keras"
 )
 
+landmark_classes = get_data_from_csv('data/landmark_classes.csv')
+classes = landmark_classes['landmark_name']
+
 def read_image_data(image):
     pil_image = Image.open(image).convert("RGB")
     image_data = np.asarray(pil_image)
@@ -39,12 +42,9 @@ def predict_from_image(image):
     return output
 
 def interpret_model_output(model_output):
-    washington_data_cleaned = get_data_from_csv('data/landmarks_washington_clean_images.csv')
-    classes = washington_data_cleaned['name'].unique()
-
     prediction_index = np.argmax(model_output)
     prediction = classes[prediction_index]
 
-    return prediction
+    return (prediction, model_output[0][prediction_index])
 
 
