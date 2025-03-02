@@ -1,6 +1,8 @@
 """
 This file contains the code for the Feedback page of the Streamlit app.
 """
+# pylint: disable=invalid-name
+
 import streamlit as st
 
 st.set_page_config(

@@ -1,6 +1,8 @@
 """
 This file contains the code for the Search page of the Streamlit app.
 """
+# pylint: disable=invalid-name
+
 import streamlit as st
 import pandas as pd
 

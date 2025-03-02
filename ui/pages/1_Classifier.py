@@ -1,6 +1,8 @@
 """
 This file contains the code for the Classifier page of the Streamlit app.
 """
+# pylint: disable=invalid-name
+
 import time
 
 import streamlit as st

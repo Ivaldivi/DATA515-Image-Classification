@@ -1,6 +1,8 @@
 """
 This file contains the code for the Home page of the Streamlit app.
 """
+# pylint: disable=invalid-name
+
 import streamlit as st
 
 def get_title():
