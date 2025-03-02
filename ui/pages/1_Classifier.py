@@ -51,9 +51,10 @@ if image is not None:
     st.write('Your image:')
     st.image(image)
 
-    output = predict_from_image(image)
-    landmark_name, confidence = interpret_model_output(output)
+    with st.spinner("Predicting..."):
+        output = predict_from_image(image)
+        landmark_name, confidence = interpret_model_output(output)
 
-    st.write(f"We predict that this landmark is \"{landmark_name}\" with {confidence * 100:.2f}% confidence!")
+        st.write(f"We predict that this landmark is \"{landmark_name}\" with {confidence * 100:.2f}% confidence!")
 
 

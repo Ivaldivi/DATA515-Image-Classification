@@ -10,12 +10,12 @@ import tensorflow as tf
 
 from ui.helpers.get_data_from_csv import get_data_from_csv
 
-model = tf.keras.models.load_model(
+MODEL = tf.keras.models.load_model(
     "./model/224x224 image classification EfficientNetB0.keras"
 )
 
-landmark_classes = get_data_from_csv('data/landmark_classes.csv')
-classes = landmark_classes['landmark_name']
+LANDMARK_CLASSES = get_data_from_csv('data/landmark_classes.csv')
+CLASSES = LANDMARK_CLASSES['landmark_name']
 
 def read_image_data(image):
     pil_image = Image.open(image).convert("RGB")
@@ -37,13 +37,13 @@ def predict_from_image(image):
     resized_image = resize_image(image_data)
 
     input = np.expand_dims(resized_image, axis=0)
-    output = model.predict(input)
+    output = MODEL.predict(input)
 
     return output
 
 def interpret_model_output(model_output):
     prediction_index = np.argmax(model_output)
-    prediction = classes[prediction_index]
+    prediction = CLASSES[prediction_index]
 
     return (prediction, model_output[0][prediction_index])
 
