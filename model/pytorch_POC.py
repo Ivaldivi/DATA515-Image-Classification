@@ -15,10 +15,10 @@ transform = transforms.Compose([
     transforms.Normalize((0.5,), (0.5,))
 ])
 
-# Load dataset
+# INPUTS: LOAD DATASET
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, shuffle=True)
-
+print(trainloader)
 testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
 testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
 
@@ -42,44 +42,54 @@ class SimpleCNN(nn.Module):
         return x
     
 
-# Set up the model: 
+## SET UP THE MODEL: 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = SimpleCNN().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
-
+test_optimizer = optim.Adam(model.parameters(), lr=0.001)
 writer = SummaryWriter('runs/fashion_mnist_experiment_1')
 dataiter = iter(trainloader)
 images, labels = next(dataiter)
-
-# create grid of images
-img_grid = torchvision.utils.make_grid(images)
-
-# show images
-matplotlib_imshow(img_grid, one_channel=True)
-
-# write to tensorboard
-writer.add_image('four_fashion_mnist_images', img_grid)
 
 # Training loop
 # 10 epochs 
 num_epochs = 10
 
+def get_accuracy(pred, actual):
+  assert len(pred) == len(actual)
+
+  total = len(actual)
+  _, predicted = torch.max(pred.data, 1)
+  correct = (predicted == actual).sum().item()
+  return correct / total
+
+
 for epoch in range(num_epochs):
-    running_loss = 0.0
-    for inputs, labels in trainloader:
-        inputs, labels = inputs.to(device), labels.to(device)
-        
+    running_training_loss = 0.0
+    running_test_loss = 0.0
+    for training_inputs, training_labels in trainloader:
+        training_inputs, training_labels = training_inputs.to(device), labels.to(device)
         optimizer.zero_grad()
-        outputs = model(inputs)
-        loss = criterion(outputs, labels)
-        loss.backward()
+        training_outputs = model(training_inputs)
+        training_loss = criterion(training_outputs, training_labels)
+        training_loss.backward()
         optimizer.step()
-        
-        running_loss += loss.item()
+        training_accuracy = get_accuracy(training_outputs, training_labels)
+        running_training_loss += training_loss.item()
+
+    for test_inputs, test_labels in testloader: 
+        test_inputs, test_labes = test_inputs.to(device), test_labels.to(device)
+        test_optimizer.zero_grad()
+        test_outputs = model(test_inputs)
+        test_loss = criterion(test_outputs, test_labels)
+        test_loss.backward()
+        test_optimizer.step()
+
+        running_test_loss += test_loss.item()
     
-    print(f"Epoch {epoch+1}, Loss: {running_loss/len(trainloader)}")
+    print(f"Epoch {epoch+1}, Training Loss: {running_training_loss/len(trainloader)}, Test Loss: {running_test_loss/len(testloader)}")
 
 # Evaluate the model 
 correct = 0
