@@ -47,4 +47,16 @@ def interpret_model_output(model_output):
 
     return (prediction, model_output[0][prediction_index])
 
+def get_top_five_predictions(model_output):
+    # indices of top 5 predictions (via confidence)
+    # reverse so it's descending order
+    top_five_predictions_indices = (np.argsort(model_output[0])[-5:])[::-1]
+
+    # names of the top 5 and their confidences
+    top_five_predictions_classes = CLASSES[top_five_predictions_indices.ravel()]
+    top_five_prediction_confidences = model_output[0][top_five_predictions_indices.ravel()]
+
+    return list(zip(top_five_predictions_classes, top_five_prediction_confidences))
+
+
 
