@@ -2,6 +2,7 @@
 This file contains the code for the Search page of the Streamlit app.
 """
 # pylint: disable=invalid-name
+# Pylint attribute disabled due to Streamlit multi-page naming conventions
 
 import streamlit as st
 import pandas as pd
@@ -36,17 +37,21 @@ if not text_search:
 # Display images
 N_PICS_PER_ROW = 3
 if text_search:
-    short_results_list = []
+    # If there has been text input but there are no results, display a message
+    if search_results.empty:
+        st.write("No landmarks found. Please try again.")
+    else:
+        short_results_list = []
 
-    # display at most three images per landmark
-    # need to resize images so they are same size
-    # this should probably go into a function that I test
-    for landmark_id in search_results['landmark_id'].drop_duplicates():
-        landmark_short = search_results[search_results['landmark_id'] == landmark_id].head(3)
-        short_results_list.append(landmark_short)
+        # display at most three images per landmark
+        # need to resize images so they are same size
+        # this should probably go into a function that I test
+        for landmark_id in search_results['landmark_id'].drop_duplicates():
+            landmark_short = search_results[search_results['landmark_id'] == landmark_id].head(3)
+            short_results_list.append(landmark_short)
 
-    short_results = pd.concat(short_results_list, ignore_index = True)
+        short_results = pd.concat(short_results_list, ignore_index = True)
 
-    for i in range(0, len(short_results), N_PICS_PER_ROW):
-        row = short_results.iloc[i:i + N_PICS_PER_ROW]
-        st.image(row['url'].tolist(), width=200, caption=row['name'].tolist())
+        for i in range(0, len(short_results), N_PICS_PER_ROW):
+            row = short_results.iloc[i:i + N_PICS_PER_ROW]
+            st.image(row['url'].tolist(), width=200, caption=row['name'].tolist())
