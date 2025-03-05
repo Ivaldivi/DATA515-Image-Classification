@@ -40,7 +40,7 @@ def send_email(name, email, user_feedback):
         }
     }
 
-    response = requests.post(EMAIL_API_URL, json=payload)
+    response = requests.post(EMAIL_API_URL, json=payload, timeout=10)
     print("Testing the print statment...")
     print(response.status_code)
     if response.status_code == 200:
@@ -48,13 +48,12 @@ def send_email(name, email, user_feedback):
     else:
         st.error("Failed to send feedback. Please try again later.")
 
-
 with st.form(key='general_feedback_form', clear_on_submit=True):
-    name = st.text_input('Name (optional):')
-    email = st.text_input('Email (optional):')
-    user_feedback = st.text_area('Please share your feedback:')
+    form_name = st.text_input('Name:')
+    form_email = st.text_input('Email (optional):')
+    form_user_feedback = st.text_area('Please share your feedback:')
 
-    image = st.file_uploader(label='Upload relevant files (optional):',
+    form_image = st.file_uploader(label='Upload relevant files (optional):',
                          accept_multiple_files=True,
                          help='''If there is an image that is relevant to
                          your feedback, please provide it here. You may also
@@ -63,6 +62,5 @@ with st.form(key='general_feedback_form', clear_on_submit=True):
 
 if submitted:
     st.success('Success. Thank you for your feedback!')
-    # send email to joint inbox: 
-    send_email(name, email, user_feedback)
-
+    # send email to joint inbox:
+    send_email(form_name, form_name, form_user_feedback)
