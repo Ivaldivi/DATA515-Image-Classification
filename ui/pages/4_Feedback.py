@@ -39,6 +39,7 @@ def upload_image_to_imgur(image):
     # Read the image content from Streamlit file uploader
     img_data = image.read()
 
+    # TODO: add error handling when no image data is found. Value error? #pylint: disable=fixme
     if not img_data:
         st.error("No image data found.")
         return None
@@ -46,17 +47,13 @@ def upload_image_to_imgur(image):
     url = 'https://api.imgur.com/3/upload'
     file= {'image': img_data}
 
-    response = requests.post(url, headers=headers, files=file)
+    response = requests.post(url, headers=headers, files=file, timeout=100)
 
     if response.status_code == 200:
-        # If successful, return the image link
         data = response.json()
         return data['data']['link']
-    else:
-        # Print out the full response for debugging
-        st.error(f"Error uploading image to Imgur: {response.status_code}")
-        st.error(f"Response: {response.text}")  # Print the full response body for more insight
-        return None
+
+    return None
 
 
 EMAIL_API_URL = "https://api.emailjs.com/api/v1.0/email/send"
@@ -79,6 +76,24 @@ def send_email(name, email, user_feedback, image):
                 "image": image_url
             }
         }
+    else:
+        image_url = upload_image_to_imgur(image)
+        print(image_url)
+        payload = {
+            "service_id": "walandmark_feedback",
+            "template_id": "template_3f5hfpd",
+            "user_id": "5caFDMvUBAm_o4TIH",
+            "template_params": {
+                "name": name,
+                "email": email,
+                "message": user_feedback,
+                "image": '''https://png.pngtree.com/png-vector/20221125/
+                            ourmid/pngtree-no-image-available-icon-
+                            flatvector-illustration-pic-design-profile-
+                            vector-png-image_40966566.jpg'''
+            }
+        }
+
 
     response = requests.post(EMAIL_API_URL, json=payload, timeout=100)
     print("Testing the print statment...")
