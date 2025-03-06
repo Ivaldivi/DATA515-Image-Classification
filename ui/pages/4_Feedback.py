@@ -4,6 +4,8 @@ This file contains the code for the Feedback page of the Streamlit app.
 # pylint: disable=invalid-name
 # Pylint attribute disabled due to Streamlit multi-page naming conventions
 
+from time import sleep
+
 import requests
 
 import streamlit as st
@@ -55,6 +57,29 @@ def upload_image_to_imgur(image):
 
     return None
 
+# Initialize session state variables if they don't exist
+if "name" not in st.session_state:
+    st.session_state.name = ""
+if "email" not in st.session_state:
+    st.session_state.email = ""
+if "user_feedback" not in st.session_state:
+    st.session_state.user_feedback = ""
+
+def verify_form_inputs(name, email, user_feedback):
+    """Function that checks that the user has entered a name, email, and feedback."""
+
+    if len(name)<1:
+        st.error('Please enter name.')
+    elif len(email)<1:
+        st.error("Please enter email.")
+    elif len(user_feedback)<10:
+        if len(user_feedback)<1:
+            st.error("Please enter feedback.")
+        else:
+            st.error("Feedback must be at least 10 characters.")
+    else:
+        return True
+    return False
 
 EMAIL_API_URL = "https://api.emailjs.com/api/v1.0/email/send"
 
@@ -64,7 +89,6 @@ def send_email(name, email, user_feedback, image):
     """
     if image is not None:
         image_url = upload_image_to_imgur(image)
-        print(image_url)
         payload = {
             "service_id": "walandmark_feedback",
             "template_id": "template_3f5hfpd",
@@ -77,41 +101,37 @@ def send_email(name, email, user_feedback, image):
             }
         }
     else:
-        image_url = upload_image_to_imgur(image)
-        print(image_url)
         payload = {
             "service_id": "walandmark_feedback",
-            "template_id": "template_3f5hfpd",
+            "template_id": "template_6h3tppj",
             "user_id": "5caFDMvUBAm_o4TIH",
             "template_params": {
                 "name": name,
                 "email": email,
-                "message": user_feedback,
-                "image": '''https://png.pngtree.com/png-vector/20221125/
-                            ourmid/pngtree-no-image-available-icon-
-                            flatvector-illustration-pic-design-profile-
-                            vector-png-image_40966566.jpg'''
+                "message": user_feedback
             }
         }
 
 
     response = requests.post(EMAIL_API_URL, json=payload, timeout=100)
-    print("Testing the print statment...")
-    print(response.status_code)
-    if name is None:
+
+    if len(name)<1:
         st.error("Please enter your name.")
-    elif user_feedback is None:
-        st.error("Please enter feedback.")
-    elif email is None:
+    elif len(email)<1:
         st.error("Please enter your email.")
+    elif len(user_feedback)<10:
+        if len(user_feedback)<1:
+            st.error("Please enter feedback.")
+        else:
+            st.error("Feedback must be at least 10 characters.")
     elif response.status_code == 200:
-        st.success("Feedback sent successfully!")
+        st.success("Feedback successfully sent. Thank you!")
     else:
         st.error("Failed to send feedback. Please try again later.")
 
 with st.form(key='general_feedback_form', clear_on_submit=True):
     form_name = st.text_input('Name:')
-    form_email = st.text_input('Email (optional):')
+    form_email = st.text_input('Email:')
     form_user_feedback = st.text_area('Please share your feedback:')
 
     form_image = st.file_uploader(label='Upload relevant files (optional):',
@@ -120,9 +140,14 @@ with st.form(key='general_feedback_form', clear_on_submit=True):
                          help='''If there is an image that is relevant to
                          your feedback, please provide it here. You may also
                          upload a .docx or pdf file with your feedback.''')
+
     submitted = st.form_submit_button('Submit')
 
 if submitted:
-    st.success('Success. Thank you for your feedback!')
-    # send email to joint inbox:
-    send_email(form_name, form_name, form_user_feedback, form_image)
+    # Check that name, email, and user feedback fields are not empty
+    if verify_form_inputs(form_name, form_email, form_user_feedback):
+        with st.spinner(text = 'Extracting information…'):
+            sleep(3)
+            # On submission with proper inputs, try to send email with
+            # form information to joint inbox:
+            send_email(form_name, form_email, form_user_feedback, form_image)
