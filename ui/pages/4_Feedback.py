@@ -135,8 +135,7 @@ with st.form(key='general_feedback_form', clear_on_submit=True):
                          accept_multiple_files=False,
                          type=["jpg", "png", "jpeg"],
                          help='''If there is an image that is relevant to
-                         your feedback, please provide it here. You may also
-                         upload a .docx or pdf file with your feedback.''')
+                         your feedback, please provide it here.''')
 
     submitted = st.form_submit_button('Submit')
 
