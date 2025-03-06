@@ -8,12 +8,18 @@ import time
 
 import streamlit as st
 
-from ui.helpers.get_model_predictions import predict_from_image, interpret_model_output
+from ui.helpers.load_landmarks import load_landmarks
+from ui.helpers.load_model import load_model
+from ui.helpers.process_image_input import process_image_input
+from ui.helpers.make_prediction import make_prediction
 
 st.set_page_config(
     page_title="Classifier - WA Landmark Classifier",
     page_icon="🔎",
 )
+
+model = load_model()
+landmarks = load_landmarks()
 
 st.title('Classifier')
 
@@ -38,24 +44,26 @@ if image is not None:
     message.empty()
     time.sleep(1)
     message = st.success("Successfully processed your image.")
-    st.image('images/space-needle.jpg', width=200)
+
     st.markdown(
         '''
         ### Results
         Our prediction:
-        1. The Space Needle (90% confidence)
-        2. The Columbia Center (5% confidence)
-        3. A really tall tree (3% confidence)
-        4. Other (2% confidence)
         '''
     )
-    st.write('Your image:')
-    st.image(image)
 
     with st.spinner("Predicting..."):
-        output = predict_from_image(image)
-        landmark_name, confidence = interpret_model_output(output)
+        processed_image = process_image_input(image)
+        output = model.predict(processed_image)[0]
 
-        st.write(f"We predict that this landmark is \"{landmark_name}\" with {confidence * 100:.2f}% confidence!")
+        predictions = make_prediction(output, confidence_threshold=0.45)
 
+        for index, prediction in enumerate(predictions):
+            landmark_index, confidence = prediction
 
+            st.write(f"{index + 1}: {landmarks[landmark_index]} "
+                     f"({confidence * 100:.2f}% confidence)\n"
+             )
+
+    st.write('Your image:')
+    st.image(image)
