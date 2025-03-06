@@ -50,11 +50,9 @@ def upload_image_to_imgur(image):
     file= {'image': img_data}
 
     response = requests.post(url, headers=headers, files=file, timeout=100)
-
     if response.status_code == 200:
         data = response.json()
         return data['data']['link']
-
     return None
 
 # Initialize session state variables if they don't exist
@@ -111,7 +109,6 @@ def send_email(name, email, user_feedback, image):
                 "message": user_feedback
             }
         }
-
 
     response = requests.post(EMAIL_API_URL, json=payload, timeout=100)
 
