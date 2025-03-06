@@ -133,7 +133,7 @@ with st.form(key='general_feedback_form', clear_on_submit=True):
 
     form_image = st.file_uploader(label='Upload relevant files (optional):',
                          accept_multiple_files=False,
-                         type=["jpg", "png", "jpeg", "pdf", "docx"],
+                         type=["jpg", "png", "jpeg"],
                          help='''If there is an image that is relevant to
                          your feedback, please provide it here. You may also
                          upload a .docx or pdf file with your feedback.''')
