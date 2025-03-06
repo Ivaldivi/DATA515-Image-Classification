@@ -31,22 +31,18 @@ def upload_image_to_imgur(image):
         return data['data']['link']
     return None
 
-# Initialize session state variables if they don't exist
-if "name" not in st.session_state:
-    st.session_state.name = ""
-if "email" not in st.session_state:
-    st.session_state.email = ""
-if "user_feedback" not in st.session_state:
-    st.session_state.user_feedback = ""
-
 def verify_form_inputs(name, email, user_feedback):
-    """Function that checks that the user has entered a name, email, and feedback.
+    """
+    Function that checks that the user has entered valid form inputs: 
+        including name, email, and feedback.
+
     Parameters: 
         name (str): The name input from user form.
         email (str): The email input from user form.
         user_feedback (str): The user feedback input from user form. 
             Must be at least 10 characters.
-    Returns: bool: True if all fields are filled out correctly, False otherwise.    
+    Returns: bool: True if all fields are filled 
+        out correctly, False otherwise.  
     """
 
     if len(name)<1:
@@ -67,6 +63,12 @@ EMAIL_API_URL = "https://api.emailjs.com/api/v1.0/email/send"
 def send_email(name, email, user_feedback, image):
     """
     Send an email to the joint inbox with the user's feedback.
+    
+    Parameters:
+        name (str): The name input from user form.
+        email (str): The email input from user form.
+        user_feedback (str): The user feedback input from user form.
+        image (UploadedFile object): The image file uploaded by the user.
     """
     if image is not None:
         image_url = upload_image_to_imgur(image)
