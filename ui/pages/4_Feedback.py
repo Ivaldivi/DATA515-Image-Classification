@@ -41,7 +41,6 @@ def upload_image_to_imgur(image):
     # Read the image content from Streamlit file uploader
     img_data = image.read()
 
-    # TODO: add error handling when no image data is found. Value error? #pylint: disable=fixme
     if not img_data:
         st.error("No image data found.")
         return None
