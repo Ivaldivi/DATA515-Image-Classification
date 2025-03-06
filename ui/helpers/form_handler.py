@@ -1,3 +1,7 @@
+"""
+This module contains helper functions for handling user feedback form
+submissions.
+"""
 
 import requests
 import streamlit as st
