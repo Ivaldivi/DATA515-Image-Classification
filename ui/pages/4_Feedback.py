@@ -3,14 +3,12 @@ This file contains the code for the Feedback page of the Streamlit app.
 """
 # pylint: disable=invalid-name
 # Pylint attribute disabled due to Streamlit multi-page naming conventions
+
 from time import sleep
-import sys
 
 import streamlit as st
 
-from ui.helpers.form_handler import verify_form_inputs, send_email # pylint: disable=import-error
-
-sys.path.append("../../")
+from ui.helpers.form_handler import verify_form_inputs, send_email
 
 st.set_page_config(
     page_title="Feedback - WA Landmark Classifier",
