@@ -4,7 +4,11 @@ This file contains the code for the Feedback page of the Streamlit app.
 # pylint: disable=invalid-name
 # Pylint attribute disabled due to Streamlit multi-page naming conventions
 
+from time import sleep
+
 import streamlit as st
+
+from ui.helpers.form_handler import verify_form_inputs, send_email
 
 st.set_page_config(
     page_title="Feedback - WA Landmark Classifier",
@@ -21,15 +25,24 @@ st.markdown(
     unsafe_allow_html = True
 )
 
-with st.form(key='feedback_form', clear_on_submit=True):
-    user_feedback = st.text_area('Please share your feedback:')
-    image = st.file_uploader(label='Upload relevant files (optional):',
-                         accept_multiple_files=True,
+with st.form(key='general_feedback_form', clear_on_submit=True):
+    form_name = st.text_input('Name:')
+    form_email = st.text_input('Email:')
+    form_user_feedback = st.text_area('Please share your feedback:')
+
+    form_image = st.file_uploader(label='Upload relevant files (optional):',
+                         accept_multiple_files=False,
+                         type=["jpg", "png", "jpeg"],
                          help='''If there is an image that is relevant to
-                         your feedback, please provide it here. You may also
-                         upload other types of files.''')
+                         your feedback, please provide it here.''')
+
     submitted = st.form_submit_button('Submit')
 
 if submitted:
-    st.success('Success. Thank you for your feedback!')
-    # Send an email with user feedback
+    # Check that name, email, and user feedback fields are not empty
+    if verify_form_inputs(form_name, form_email, form_user_feedback):
+        with st.spinner(text = 'Extracting information…'):
+            sleep(3)
+            # On submission with proper inputs, try to send email with
+            # form information to joint inbox:
+            send_email(form_name, form_email, form_user_feedback, form_image)
