@@ -49,11 +49,15 @@ def verify_form_inputs(name, email, user_feedback):
     Returns: bool: True if all fields are filled 
         out correctly, False otherwise.  
     """
-    if not isinstance(name, str) or not isinstance(email, str) or not isinstance(user_feedback, str):
-        raise TypeError("Feedback form inputs must be strings.")
+    if not isinstance(name, str) or not isinstance(email, str):
+        raise TypeError("Name and email must be strings.")
+
+    if not isinstance(user_feedback, str):
+        raise TypeError("Form feedback must be a string.")
+
     if len(name)<1 and len(email)<1 and len(user_feedback)<1:
         raise ValueError("Feedback form inputs cannot be empty.")
-    
+
     if len(name)<1:
         st.error('Please enter name.')
     elif len(email)<1:
@@ -81,10 +85,10 @@ def convert_urls_to_html(urls):
         raise TypeError("Input must be a list of image urls.")
     if len(urls) == 0:
         raise ValueError("List of image urls cannot be empty.")
-    
+
     images_in_html_tags = ""
     for url in urls:
-        images_in_html_tags += f'<img src="{url}" width="300"><br>'
+        images_in_html_tags = images_in_html_tags.join(f'<img src="{url}" width="300"><br>')
     return images_in_html_tags
 
 
@@ -100,10 +104,10 @@ def send_email(name, email, user_feedback, images):
         user_feedback (str): The user feedback input from user form.
         image (UploadedFile object): The image file uploaded by the user.
     """
-    
+
     if images is not None:
         list_of_urls = []
-        for image in images: 
+        for image in images:
             image_url = upload_image_to_imgur(image)
             list_of_urls.append(image_url)
         images_in_html_tags = convert_urls_to_html(list_of_urls)
