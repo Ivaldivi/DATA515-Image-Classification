@@ -10,7 +10,7 @@ dependencies:
   - requests=2.32
   - pylint=3.3.3
   - protobuf=3.20.3
-  - bleach=1.5.0
+  - bleach
   - notebook
   - streamlit
   - pip
