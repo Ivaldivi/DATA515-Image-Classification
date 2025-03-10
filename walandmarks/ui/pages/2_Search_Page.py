@@ -7,7 +7,7 @@ This file contains the code for the Search page of the Streamlit app.
 import streamlit as st
 import pandas as pd
 
-from helpers.get_data_from_csv import get_data_from_csv
+from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
 
 
 # Page setup
@@ -67,25 +67,6 @@ else:
 
     # # Display images
     # N_PICS_PER_ROW = 3
-    # # If there has been text input but there are no results, display a message
-    # if search_results.empty:
-    #     st.write("No landmarks found. Please try again.")
-    # else:
-    #     # if the search term is exactly the name of a landmark, display landmark facts
-
-    #     # if the search term is a substring of a landmark name, display suggested full landmark names
-
-    #     # if the search term is exactly the name of a landmark, display landmark facts
-    #     if search_results['name'].upper() == text_search.upper():
-    #         st.write(search_results['name'].iloc[0])
-    #         st.write(search_results['description'].iloc[0])
-    #         st.image(search_results['url'].iloc[0], width=200, caption=search_results['name'].iloc[0])
-    #     elif search_results['name'].str.upper().str.contains(text_search.upper()).any():
-    #         st.write("Did you mean:")
-    #         st.write(search_results['name'].unique())
-        
-
-    #     short_results_list = []
 
     #     # display at most three images per landmark
     #     # need to resize images so they are same size
