@@ -14,5 +14,4 @@ dependencies:
   - pip
   - pip: 
      - pandarallel==1.6.5
-     - mediapipe==0.10.21
      - tensorflow
