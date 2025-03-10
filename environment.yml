@@ -9,7 +9,7 @@ dependencies:
   - requests=2.32
   - pylint=3.3.3
   - build=0.10.0
-  - setuptools=75.8.0
+  - setuptools=76.0.0
   - pip
   - pip: 
      - mediapipe==0.10.21

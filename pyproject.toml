@@ -2,7 +2,7 @@
 # There are a number of supported build systems, but here we'll use
 # the "setuptools" package.
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=76.0"]
 build-backend = "setuptools.build_meta"
 
 # The "project" section contains metadata about the project, like
