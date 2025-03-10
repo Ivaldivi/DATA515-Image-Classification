@@ -36,7 +36,7 @@ if image is not None:
     message.empty()
     time.sleep(1)
     message = st.success("Successfully processed your image.")
-    st.image('images/space-needle.jpg', width=200)
+    st.image('walandmarks/images/space-needle.jpg', width=200)
     st.markdown(
         '''
         ### Results

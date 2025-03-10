@@ -1,0 +1,8 @@
+build==1.2.0
+mediapipe==0.10.21
+pandas==2.2.3
+pylint==3.3.3
+requests==2.32
+setuptools==76.0.0
+streamlit==1.42.0
+tensorflow==2.10.0
