@@ -4,10 +4,12 @@ channels:
 dependencies:
   - python>=3.8
   - pandas
-  - streamlit
+  - matplotlib
+  - scikit-learn
   - tensorflow
   - requests=2.32
   - pylint=3.3.3
-  - pip
-  - pip: 
-     - mediapipe==0.10.21
+  - pandarallel
+  - notebook
+  - streamlit
+  - protobuf=3.20
