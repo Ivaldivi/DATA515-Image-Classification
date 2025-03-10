@@ -9,7 +9,9 @@ dependencies:
   - tensorflow
   - requests=2.32
   - pylint=3.3.3
-  - pandarallel
   - notebook
   - streamlit
   - protobuf=3.20
+  - pip
+  - pip: 
+     - pandarallel==1.6.5
