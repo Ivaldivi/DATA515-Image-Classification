@@ -9,9 +9,10 @@ dependencies:
   - tensorflow
   - requests=2.32
   - pylint=3.3.3
+  - protobuf=3.20.3
+  - bleach=1.5.0
   - notebook
   - streamlit
-  - protobuf=3.20
   - pip
   - pip: 
      - pandarallel==1.6.5
