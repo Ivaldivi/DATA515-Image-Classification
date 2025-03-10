@@ -48,6 +48,7 @@ else:
             with col1:
                 st.markdown("**Supercategory:**"+exact_match['supercategory'].iloc[0])
                 st.markdown("**Location:**"+exact_match['location'].iloc[0])
+                # need to add images here
             with col2:
                 #st.map(exact_match)
                 df = pd.DataFrame(exact_match[['latitude', 'longitude']])
