@@ -13,7 +13,7 @@ st.set_page_config(
 
 st.title("Washington State Landmark Classifier")
 
-st.image("images/seattle-skyline.jpg")
+st.image('walandmarks/images/seattle-skyline.jpg')
 
 st.markdown(
     """
@@ -32,7 +32,7 @@ st.markdown(
     """
 )
 
-st.image("images/sarah-innis.jpg", width=150)
+st.image('walandmarks/images/sarah-innis.jpg', width=150)
 
 st.markdown(
     """
@@ -43,7 +43,7 @@ st.markdown(
     """
 )
 
-st.image("images/anthony-nguyen.jpg", width=150)
+st.image('walandmarks/images/anthony-nguyen.jpg', width=150)
 
 st.markdown(
     """
@@ -54,7 +54,7 @@ st.markdown(
     """
 )
 
-st.image("images/annie-staker.jpg", width=150)
+st.image('walandmarks/images/annie-staker.jpg', width=150)
 
 st.markdown(
     """
@@ -67,7 +67,7 @@ st.markdown(
     """
 )
 
-st.image("images/izzy-valdivia.jpg", width=150)
+st.image('walandmarks/images/izzy-valdivia.jpg', width=150)
 
 st.markdown(
     """
