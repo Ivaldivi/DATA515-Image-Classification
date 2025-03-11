@@ -8,10 +8,10 @@ import time
 
 import streamlit as st
 
-from ui.helpers.load_landmarks import load_landmarks
-from ui.helpers.load_model import load_model
-from ui.helpers.process_image_input import process_image_input
-from ui.helpers.make_prediction import make_prediction
+from helpers.load_landmarks import load_landmarks
+from helpers.load_model import load_model
+from helpers.process_image_input import process_image_input
+from helpers.make_prediction import make_prediction
 
 st.set_page_config(
     page_title="Classifier - WA Landmark Classifier",

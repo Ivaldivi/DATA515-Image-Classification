@@ -6,6 +6,7 @@ dependencies:
   - pandas
   - streamlit
   - tensorflow
+  - scikit-image=0.24.0
   - requests=2.32
   - pylint=3.3.3
   - pip
