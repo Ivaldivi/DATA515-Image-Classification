@@ -35,3 +35,12 @@ conda env create -f environment.yml
 
 To activate the environment run:\
 conda activate landmarks_classification_env
+
+## Unit testing:
+Our unit tests can be found at walandmarks/test.
+
+To run all unit tests:\
+python -m unittest discover
+
+To see code coverage:\
+coverage run -m unittest discover
