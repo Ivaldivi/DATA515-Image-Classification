@@ -27,7 +27,7 @@ st.markdown(
     [here](https://github.com/Ivaldivi/DATA515-Image-Classification).
 
     ## Bios
-    This page was made by four students of the Master"s of Data Science
+    This page was made by four students of the Master's of Data Science
     program at the University of Washington.
     """
 )
