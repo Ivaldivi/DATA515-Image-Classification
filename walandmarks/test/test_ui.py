@@ -2,7 +2,7 @@
 """
 
 import unittest
-from ui.Home import get_title
+from walandmarks.ui.Home import get_title
 
 class TestUi(unittest.TestCase):
     """
