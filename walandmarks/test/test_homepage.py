@@ -19,7 +19,7 @@ class TestUi(unittest.TestCase):
         """
         function to test the title of the home page
         """
-        assert self.at.title[0].value == "Washington State Landmark Classifier"
+        self.assertEqual(self.at.title[0].value, "Washington State Landmark Classifier")
 
     def test_markdown_about_section(self):
         """
@@ -47,7 +47,7 @@ class TestUi(unittest.TestCase):
         markdown_elt_num = 0
         actual_about = str(self.at.markdown[markdown_elt_num].body).strip()
         actual_about = "".join(actual_about.split()) # remove whitespace
-        assert expected_about == actual_about
+        self.assertEqual(expected_about, actual_about)
 
     def test_markdown_sarah_bio(self):
         """
@@ -64,11 +64,11 @@ class TestUi(unittest.TestCase):
         markdown_elt_num = 1
         actual_bio = str(self.at.markdown[markdown_elt_num].body).strip()
         actual_bio = "".join(actual_bio.split()) # remove whitespace
-        assert expected_bio == actual_bio
+        self.assertEqual(expected_bio, actual_bio)
 
     def test_markdown_anthony_bio(self):
         """
-        function to test that the markdown elements of Sarah's bio are as 
+        function to test that the markdown elements of Anthony's bio are as 
         expected, plus or minus whitespace.
         """
         expected_bio = """
@@ -81,11 +81,11 @@ class TestUi(unittest.TestCase):
         markdown_elt_num = 2
         actual_bio = str(self.at.markdown[markdown_elt_num].body).strip()
         actual_bio = "".join(actual_bio.split()) # remove whitespace
-        assert expected_bio == actual_bio
+        self.assertEqual(expected_bio, actual_bio)
 
     def test_markdown_annie_bio(self):
         """
-        function to test that the markdown elements of Sarah's bio are as 
+        function to test that the markdown elements of Annie's bio are as 
         expected, plus or minus whitespace.
         """
         expected_bio = """
@@ -100,15 +100,15 @@ class TestUi(unittest.TestCase):
         markdown_elt_num = 3
         actual_bio = str(self.at.markdown[markdown_elt_num].body).strip()
         actual_bio = "".join(actual_bio.split()) # remove whitespace
-        assert expected_bio == actual_bio
+        self.assertEqual(expected_bio, actual_bio)
 
     def test_markdown_izzy_bio(self):
         """
-        function to test that the markdown elements of Sarah's bio are as 
+        function to test that the markdown elements of Izzy's bio are as 
         expected, plus or minus whitespace.
         """
         expected_bio = """
-         Izzy Valdivia (she/they) is a highly motivated learner. Besides being
+        Izzy Valdivia (she/they) is a highly motivated learner. Besides being
         an MSDS student, she does research at Fred Hutch Cancer 
         Center. In their free time, they fly to Minnesota to taste food.
         She also has an adorable dog.
@@ -117,7 +117,7 @@ class TestUi(unittest.TestCase):
         markdown_elt_num = 4
         actual_bio = str(self.at.markdown[markdown_elt_num].body).strip()
         actual_bio = "".join(actual_bio.split()) # remove whitespace
-        assert expected_bio == actual_bio
+        self.assertEqual(expected_bio, actual_bio)
 
 
 if __name__ == '__main__':
