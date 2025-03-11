@@ -27,6 +27,15 @@ class TestSearchPage(unittest.TestCase):
         """
         at = AppTest.from_file("ui/pages/2_Search_Page.py").run()
         assert at.text_input[0].label == "Search for a landmark by name"
+    
+    def test_if_no_text_input(self):
+        """
+        function to test the message when no text is input
+        """
+        at = AppTest.from_file("ui/pages/2_Search_Page.py").run()
+        assert at.markdown[0].value == "Enter a landmark name to search for it."
+
+
 
 if __name__ == '__main__':
     unittest.main()
