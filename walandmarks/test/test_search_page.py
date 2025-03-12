@@ -1,11 +1,9 @@
 """
 This file contains the unit tests for the 2_Search_Page.py streamlit page 
 """
-
 import unittest
 
 import numpy as np
-import pandas as pd
 from streamlit.testing.v1 import AppTest
 
 from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
@@ -28,7 +26,7 @@ class TestSearchPage(unittest.TestCase):
         function to test the appearance of text input of the search page
         """
         self.assertEqual(self.at.text_input[0].label, "Search for a landmark by name")
-    
+
     def test_if_no_text_input(self):
         """
         function to test the message when no text is input
@@ -56,13 +54,12 @@ class TestSearchPage(unittest.TestCase):
         expected_category = search_results['supercategory']
         expected_location = search_results['location']
         expected_image = search_results['url']
-
         self.assertEqual(self.at.header[0].value, expected_name)
         self.assertEqual(self.at.markdown[0].value, f"<b>Category:</b> {expected_category}")
         self.assertEqual(self.at.markdown[1].value, f"<b>Location:</b> {expected_location}")
         cur_image_url = self.at.get('imgs')[0].proto.imgs[0].url
         self.assertEqual(cur_image_url, expected_image)
-    
+
     def test_if_text_input_and_partial_match_button_display(self):
         """
         function to test the display of a partial match
@@ -75,9 +72,8 @@ class TestSearchPage(unittest.TestCase):
         search_results = landmarks_df_join[landmarks_df_join['name'].str.contains(
                         search_string, case=False, na=False, regex = True)]
         expected_names = np.sort(search_results['name'].unique())
-
-        for i in range(len(self.at.button)):
-            self.assertEqual(self.at.button[i].label, expected_names[i])
+        for i in enumerate(self.at.button):
+            self.assertEqual(i[1].label, expected_names[i[0]])
 
     def test_if_text_input_and_partial_match_button_function(self):
         """
