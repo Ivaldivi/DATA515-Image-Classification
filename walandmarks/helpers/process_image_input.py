@@ -9,10 +9,10 @@ def read_image_data(image):
     return image_data
 
 def resize_image(image, image_dimension=(224, 224, 3)):
-    IMAGE_SCALAR = 255
+    image_scalar = 255
 
     resized_image = resize(np.array(image), image_dimension, anti_aliasing=True)
-    resized_image = (resized_image * IMAGE_SCALAR).astype(int)
+    resized_image = (resized_image * image_scalar).astype(int)
 
     return resized_image
 
