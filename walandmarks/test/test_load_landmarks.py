@@ -35,16 +35,25 @@ class TestLoadLandmarks(unittest.TestCase):
             os.remove(landmark_classes_path)
 
     def test_load_landmarks_length(self):
+        """
+        test the length of the landmarks
+        """
         landmark_classes_path = "walandmarks/data/landmark_classes.csv"
         landmarks = load_landmarks(landmark_classes_path)
         self.assertEqual(296, len(landmarks))
 
     def test_load_landmarks_bad_path(self):
+        """
+        test the load_landmarks function with a bad path
+        """
         landmark_classes_path = "walandmarks/bad-folder/landmark_classes.csv"
         with self.assertRaises(TypeError):
             load_landmarks(landmark_classes_path)
 
     def test_load_landmarks_wrong_filetype(self):
+        """
+        test the load_landmarks function with the wrong file type passed in
+        """
         landmark_classes_path = "walandmarks/images/seattle-skyline.jpg"
         with self.assertRaises(UnicodeDecodeError):
             load_landmarks(landmark_classes_path)

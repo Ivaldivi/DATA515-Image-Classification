@@ -41,3 +41,11 @@ class TestLoadModel(unittest.TestCase):
         model_path_full = "walandmarks/model/test_model.keras"
         loaded_model = load_model(model_path_full)
         self.assertIsInstance(loaded_model, tf.keras.models.Sequential)
+
+    def test_load_model_bad_path(self):
+        """
+        function to test passing a bad path into the load_model function
+        """
+        model_path = "walandmarks/bad-folder/test_model.keras"
+        with self.assertRaises(ValueError):
+            load_model(model_path)
