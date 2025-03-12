@@ -37,8 +37,10 @@ image = st.file_uploader(label=
 
 if image is not None:
     with st.spinner("Predicting..."):
-        model = load_model()
-        landmarks = load_landmarks()
+        model_path = "walandmarks/model/224x224 image classification EfficientNetB0.keras"
+        landmark_classes_path = "walandmarks/data/landmark_classes.csv"
+        model = load_model(model_path)
+        landmarks = load_landmarks(landmark_classes_path)
 
         processed_image = process_image_input(image)
         output = model.predict(processed_image)[0]
