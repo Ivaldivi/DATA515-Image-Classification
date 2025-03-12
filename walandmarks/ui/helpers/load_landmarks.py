@@ -1,6 +1,6 @@
 import streamlit as st
 
-from helpers.get_data_from_csv import get_data_from_csv
+from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
 
 LANDMARK_CLASSES_PATH = "walandmarks/data/landmark_classes.csv"
 
