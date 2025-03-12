@@ -2,7 +2,6 @@
 Test the classifier module.
 """
 import unittest
-from unittest.mock import MagicMock, patch
 
 from streamlit.testing.v1 import AppTest
 
@@ -15,7 +14,8 @@ class TestClassifier(unittest.TestCase):
     """
 
     def setUp(self):
-        self.at = AppTest.from_file("walandmarks/ui/pages/1_Classifier.py", default_timeout=10).run()
+        path = "walandmarks/ui/pages/1_Classifier.py"
+        self.at = AppTest.from_file(path, default_timeout=10).run()
         return super().setUp()
 
     def test_display_title(self):
@@ -47,11 +47,14 @@ class TestClassifier(unittest.TestCase):
         correctly.
         """
         file_uploader = self.at.get('file_uploader')[0]
-        self.assertEqual(file_uploader.label, 
-                         'Upload your image here. Must be a .png or .jpg file that is 200MB or less.')
+        first_half_label = "Upload your image here. Must be a .png or .jpg file"
+        second_half_label = " that is 200MB or less."
+        first_half_uploader = "Image must be a .png, .jpg, or .jpeg file"
+        second_half_uploader = " that is 200MB or less."
+
+        self.assertEqual(file_uploader.label, first_half_label + second_half_label)
         self.assertEqual(file_uploader.type, 'file_uploader')
-        self.assertEqual(file_uploader.help, 
-                         'Image must be a .png, .jpg, or .jpeg file that is 200MB or less.')
+        self.assertEqual(file_uploader.help, first_half_uploader + second_half_uploader)
 
 
 if __name__ == '__main__':

@@ -1,11 +1,14 @@
 """
 Test the load_model module.
 """
+# pylint: disable=no-member
+# Pylint attribute disabled because incorrect. It stated:
+# "E1101:Module 'tensorflow' has no 'keras' member", but tensorflow does
+# have a keras member. Code has been tested and works as expected.
 
 import os
 import unittest
 
-import pandas as pd
 import tensorflow as tf
 
 from walandmarks.helpers.load_model import load_model
@@ -29,7 +32,7 @@ class TestLoadModel(unittest.TestCase):
         # run test
         loaded_model = load_model(model_path)
         self.assertIsInstance(loaded_model, tf.keras.models.Sequential)
-        
+
         # delete model
         if os.path.exists(model_path):
             os.remove(model_path)

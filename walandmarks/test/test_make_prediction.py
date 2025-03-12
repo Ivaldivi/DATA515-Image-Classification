@@ -2,12 +2,9 @@
 Test the make_prediction module.
 """
 
-import os
 import unittest
 
 import numpy as np
-import pandas as pd
-import tensorflow as tf
 
 from walandmarks.helpers.make_prediction import make_prediction, get_top_predictions
 

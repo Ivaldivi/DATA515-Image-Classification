@@ -4,8 +4,6 @@ This file contains the code for the Classifier page of the Streamlit app.
 # pylint: disable=invalid-name
 # Pylint attribute disabled due to Streamlit multi-page naming conventions
 
-import time
-
 import streamlit as st
 
 from walandmarks.helpers.load_landmarks import load_landmarks

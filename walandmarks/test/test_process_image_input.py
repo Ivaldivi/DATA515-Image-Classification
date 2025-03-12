@@ -2,15 +2,13 @@
 Test the process_image_input module.
 """
 
-import os
 import unittest
 
 import numpy as np
-import pandas as pd
 from PIL import UnidentifiedImageError
-import tensorflow as tf
 
-from walandmarks.helpers.process_image_input import read_image_data, resize_image, process_image_input
+from walandmarks.helpers.process_image_input import read_image_data, \
+    resize_image, process_image_input
 
 class TestProcessImageInput(unittest.TestCase):
     """
@@ -23,8 +21,8 @@ class TestProcessImageInput(unittest.TestCase):
         """
         function to test the read_image_data function
         """
-        image_path = "walandmarks/data/images/Alki Beach/0b03aafd371bb518.jpg"
-        image_data = read_image_data(image_path)
+        path = """walandmarks/data/images/Alki Beach/0b03aafd371bb518.jpg"""
+        image_data = read_image_data(path)
         self.assertIsInstance(image_data, np.ndarray)
 
     def test_read_image_data_not_an_image(self):
