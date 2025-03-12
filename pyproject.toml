@@ -1,0 +1,40 @@
+# In order to build your package, you need to use a "build system".
+# There are a number of supported build systems, but here we'll use
+# the "setuptools" package.
+[build-system]
+requires = ["setuptools>=76.0"]
+build-backend = "setuptools.build_meta"
+
+# The "project" section contains metadata about the project, like
+# the authors and version. Note that the `dynamic` setting here
+# is very important so that the build system packages up your
+# dependencies!
+[project]
+name = "walandmark"
+version = "0.0.1"
+authors = [
+  { name="Sarah Innis" },
+  { name="Izzy Valdivia" },
+  { name="Annie Staker" },
+  { name="Anthony Nguyen" }
+]
+description = "WA state landmark classifier"
+readme = "README.md"
+requires-python = ">=3"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+
+# In conjunction with the "dynamic" option above in the "project"
+# section, this tells the build system to add any dependencies
+# specified in requirements.txt.
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+# Where can someone find out more about your project?
+[project.urls]
+Homepage = "https://github.com/Ivaldivi/DATA515-Image-Classification"
+Issues = "https://github.com/Ivaldivi/DATA515-Image-Classification/issues"
