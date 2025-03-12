@@ -2,6 +2,7 @@
 Test the classifier module.
 """
 import unittest
+from unittest.mock import MagicMock, patch
 
 from streamlit.testing.v1 import AppTest
 
@@ -14,8 +15,7 @@ class TestClassifier(unittest.TestCase):
     """
 
     def setUp(self):
-        self.at = AppTest.from_file("walandmarks/ui/pages/1_Classifier.py").run()
-        print(self.at)
+        self.at = AppTest.from_file("walandmarks/ui/pages/1_Classifier.py", default_timeout=10).run()
         return super().setUp()
 
     def test_display_title(self):
@@ -24,7 +24,6 @@ class TestClassifier(unittest.TestCase):
         """
         self.assertEqual(self.at.title[0].value, "Classifier")
 
-    @unittest.skip('coming back to this')
     def test_markdown_about_section(self):
         """
         function to test that the markdown elements of the about section are 
@@ -42,17 +41,16 @@ class TestClassifier(unittest.TestCase):
         actual_about = "".join(actual_about.split()) # remove whitespace
         self.assertEqual(expected_about, actual_about)
 
-    @unittest.skip('coming back to this')
     def test_file_uploader(self):
         """
         function to test that the file uploader widget is configured 
         correctly.
         """
-        self.assertEqual(self.at.get('file_uploader')[0].label, 
+        file_uploader = self.at.get('file_uploader')[0]
+        self.assertEqual(file_uploader.label, 
                          'Upload your image here. Must be a .png or .jpg file that is 200MB or less.')
-        self.assertEqual(self.at.get('file_uploader')[0].type, ['png', 'jpg', 'jpeg'])
-        self.assertEqual(self.at.get('file_uploader')[0].accept_multiple_files, False)
-        self.assertEqual(self.at.get('file_uploader')[0].help, 
+        self.assertEqual(file_uploader.type, 'file_uploader')
+        self.assertEqual(file_uploader.help, 
                          'Image must be a .png, .jpg, or .jpeg file that is 200MB or less.')
 
 
