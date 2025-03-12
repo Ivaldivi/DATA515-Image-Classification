@@ -21,8 +21,8 @@ st.set_page_config(page_title =
                    page_icon = ":mag_right:", layout = "wide")
 st.title("Washington Landmarks Search")
 # Connect to data for search
-landmarks_df = get_data_from_csv('data/landmarks_washington_full.csv')
-pics_df = get_data_from_csv('data/landmarks_washington_clean_images.csv')
+landmarks_df = get_data_from_csv('walandmarks/data/landmarks_washington_full.csv')
+pics_df = get_data_from_csv('walandmarks/data/landmarks_washington_clean_images.csv')
 # right join landmarks_df and pics_df on 'landmark_id' column to remove
 # any landmarks that had bad urls
 landmarks_df_join = landmarks_df.merge(pics_df, how='right', on='landmark_id')
