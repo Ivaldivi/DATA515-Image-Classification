@@ -18,9 +18,6 @@ st.set_page_config(
     page_icon="🔎",
 )
 
-model = load_model()
-landmarks = load_landmarks()
-
 st.title('Classifier')
 
 st.markdown(
@@ -39,10 +36,15 @@ image = st.file_uploader(label=
                          help='Image must be a .png, .jpg, or .jpeg file that is 200MB or less.')
 
 if image is not None:
-    message = st.success('Image successfully uploaded. Processing your image...')
-    time.sleep(3)
-    message.empty()
-    time.sleep(1)
+    with st.spinner("Predicting..."):
+        model = load_model()
+        landmarks = load_landmarks()
+
+        processed_image = process_image_input(image)
+        output = model.predict(processed_image)[0]
+
+        predictions = make_prediction(output, confidence_threshold=0.45)
+
     message = st.success("Successfully processed your image.")
     st.markdown(
         '''
@@ -51,18 +53,12 @@ if image is not None:
         '''
     )
 
-    with st.spinner("Predicting..."):
-        processed_image = process_image_input(image)
-        output = model.predict(processed_image)[0]
+    for index, prediction in enumerate(predictions):
+        landmark_index, confidence = prediction
 
-        predictions = make_prediction(output, confidence_threshold=0.45)
+        st.markdown(f"{index + 1}. {landmarks[landmark_index]} "
+                    f"({confidence * 100:.2f}% confidence)\n"
+            )
 
-        for index, prediction in enumerate(predictions):
-            landmark_index, confidence = prediction
-
-            st.write(f"{index + 1}: {landmarks[landmark_index]} "
-                     f"({confidence * 100:.2f}% confidence)\n"
-             )
-
-    st.write('Your image:')
+    st.markdown('Your image:')
     st.image(image)

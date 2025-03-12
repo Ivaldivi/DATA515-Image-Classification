@@ -1,5 +1,5 @@
 # DATA515-Landmark-Classification
-Team members: Sarah Innis, Anthony Nguyen, Annie Staker,  Izzy Valdivia
+Team members: Sarah Innis, Anthony Nguyen, Annie Staker, Izzy Valdivia
 
 ![Build/Test Workflow](https://github.com/Ivaldivi/Data515-Image-Classification/actions/workflows/build_test.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/Ivaldivi/DATA515-Image-Classification/badge.svg?branch=main)](https://coveralls.io/github/Ivaldivi/DATA515-Image-Classification?branch=main)
@@ -28,6 +28,10 @@ Create a multiclass image classification tool that can correctly identify landma
 * User-taken Photos of Landmarks in Washington
   * Use to validate model & demonstrate model accuracy and precision
 
+
+## Streamlit
+After cloning this repo, run the Streamlit app using this command:
+streamlit run walandmarks/ui/Home.py
 
 ## How To Use Conda Environment: 
 In order to create a conda environment from the current environment.yml file, run the following line:\

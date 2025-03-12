@@ -8,7 +8,7 @@ from time import sleep
 
 import streamlit as st
 
-from walandmarks.ui.helpers.form_handler import verify_form_inputs, send_email
+from helpers.form_handler import verify_form_inputs, send_email
 
 st.set_page_config(
     page_title="Feedback - WA Landmark Classifier",
