@@ -1,16 +1,20 @@
 name: landmarks_classification_env
 channels:
-  - defaults
+ - defaults
 dependencies:
   - python>=3.8
   - pandas
-  - streamlit
+  - matplotlib
+  - scikit-learn
   - scikit-image=0.24.0
+  - streamlit
   - requests=2.32
   - pylint=3.3.3
+  - notebook
   - pip
   - pip: 
      - mediapipe==0.10.21
+     - pandarallel==1.6.5
      - setuptools==76.0.0
      - build==1.2.0
      - tensorflow==2.18.0
