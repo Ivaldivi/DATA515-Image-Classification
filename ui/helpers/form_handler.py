@@ -90,7 +90,7 @@ def convert_urls_to_html(urls):
 
     images_in_html_tags = ""
     for url in urls:
-        images_in_html_tags += f'<img src="{url}" width="300"><br>'
+        images_in_html_tags += f'<img src="{url}" width="300"><br>'  # pylint: disable=consider-using-join
     return images_in_html_tags
 
 
