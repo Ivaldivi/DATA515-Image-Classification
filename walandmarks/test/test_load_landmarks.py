@@ -46,7 +46,7 @@ class TestLoadLandmarks(unittest.TestCase):
         """
         test the load_landmarks function with a bad path
         """
-        landmark_classes_path = "walandmarks/bad-folder/landmark_classes.csv"
+        landmark_classes_path = "walandmarks/bad-folder/doesnt-exist.txt"
         with self.assertRaises(TypeError):
             load_landmarks(landmark_classes_path)
 
