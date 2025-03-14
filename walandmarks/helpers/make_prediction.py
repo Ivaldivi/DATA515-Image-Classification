@@ -20,7 +20,7 @@ def get_top_predictions(model_output, top_k=5):
 
     return [(index, model_output[index]) for index in top_predictions_indices[:top_k]]
 
-def make_prediction(model_output, confidence_threshold=0.4):
+def make_prediction(model_output, confidence_threshold=0.5):
     """
     make official predictions using output from the model
 

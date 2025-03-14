@@ -26,7 +26,7 @@ class TestLoadModel(unittest.TestCase):
             0.0,
             0.0
         ])
-        confidence_threshold = 0.4
+        confidence_threshold = 0.5
 
         actual = make_prediction(output, confidence_threshold)
         expected = [(0, 0.8)]
@@ -44,7 +44,7 @@ class TestLoadModel(unittest.TestCase):
             0.15,
             0.05
         ])
-        confidence_threshold = 0.4
+        confidence_threshold = 0.5
 
         actual = make_prediction(output, confidence_threshold)
         expected = [(0, 0.3), (2, 0.275), (1, 0.225), (3, 0.15), (4, 0.05)]
