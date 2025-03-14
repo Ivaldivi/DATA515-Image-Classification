@@ -118,6 +118,7 @@ def send_email(name, email, user_feedback, images):
         payload = {
             "service_id": "walandmark_feedback",
             "template_id": "template_3f5hfpd",
+            # user_id is a *public* key, not a secret key
             "user_id": "5caFDMvUBAm_o4TIH",
             "template_params": {
                 "name": name,
@@ -130,6 +131,7 @@ def send_email(name, email, user_feedback, images):
         payload = {
             "service_id": "walandmark_feedback",
             "template_id": "template_6h3tppj",
+            # user_id is a *public* key, not a secret key
             "user_id": "5caFDMvUBAm_o4TIH",
             "template_params": {
                 "name": name,
