@@ -16,6 +16,8 @@ def upload_image_to_imgur(image):
                 uploaded to imgur.
     Returns: str: The url of the hosted image.
     """
+    # The client_id is a public key that is used
+    # when uploading an image to imgur.
     client_id = "24ea6736831793f"
     headers = {"Authorization": f"Client-ID {client_id}"}
 
