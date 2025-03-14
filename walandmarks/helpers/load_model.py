@@ -2,8 +2,8 @@
 for loading tensorflow model
 """
 
-import streamlit as st
 import keras
+import streamlit as st
 
 @st.cache_resource
 def load_model(model_path):
