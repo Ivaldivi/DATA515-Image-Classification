@@ -16,26 +16,26 @@ st.set_page_config(
     page_icon="🔎",
 )
 
-st.title('Classifier')
+st.title("Classifier")
 
 st.markdown(
-    '''
+    """
     Welcome to the Washington State Landmark Classifier. To classify
     your image, upload it using the button below. We will give 
     you the top five most likely places your image depicts.
-    '''
+    """
 )
 
 image = st.file_uploader(label=
-                         'Upload your image here. Must be a .png or '+ 
-                         '.jpg file that is 200MB or less.',
-                         type=['png', 'jpg', 'jpeg'],
+                         "Upload your image here. Must be a .png or "+ 
+                         ".jpg file that is 200MB or less.",
+                         type=["png", "jpg", "jpeg"],
                          accept_multiple_files=False,
-                         help='Image must be a .png, .jpg, or .jpeg file that is 200MB or less.')
+                         help="Image must be a .png, .jpg, or .jpeg file that is 200MB or less.")
 
 if image is not None:
     with st.spinner("Predicting..."):
-        model_path = "walandmarks/model/224x224 image classification EfficientNetB0.keras"
+        model_path = "walandmarks/model/final_EfficientNetb0_WA_landmarks_model.keras"
         landmark_classes_path = "walandmarks/data/landmark_classes.csv"
         model = load_model(model_path)
         landmarks = load_landmarks(landmark_classes_path)
@@ -47,10 +47,10 @@ if image is not None:
 
     message = st.success("Successfully processed your image.")
     st.markdown(
-        '''
+        """
         ### Results
         Our prediction:
-        '''
+        """
     )
 
     for index, prediction in enumerate(predictions):
@@ -60,5 +60,5 @@ if image is not None:
                     f"({confidence * 100:.2f}% confidence)\n"
             )
 
-    st.markdown('Your image:')
+    st.markdown("Your image:")
     st.image(image)
