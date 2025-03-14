@@ -1,15 +1,10 @@
 """
 Contains functions for processing image input for model prediction
 """
-# pylint: disable=no-name-in-module
-# Pylint attribute disabled because incorrect. It stated:
-# "E0611: No name 'resize' in module 'skimage.transform'", but
-# skimage.transform does have a function named resize. Code has
-# been tested and works as expected.
 
 import numpy as np
 from PIL import Image
-from skimage.transform import resize
+from skimage import transform
 
 def read_image_data(image):
     """
@@ -35,7 +30,7 @@ def resize_image(image, image_dimension=(224, 224, 3)):
     """
     image_scalar = 255
 
-    resized_image = resize(np.array(image), image_dimension, anti_aliasing=True)
+    resized_image = transform.resize(np.array(image), image_dimension, anti_aliasing=True)
     resized_image = (resized_image * image_scalar).astype(int)
 
     return resized_image

@@ -34,13 +34,6 @@ dynamic = ["dependencies"]
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 
-# for passing build
-[tool.coverage.run]
-omit = [
-    "config.py",
-    "config-3.py",
-    ]
-
 # Where can someone find out more about your project?
 [project.urls]
 Homepage = "https://github.com/Ivaldivi/DATA515-Image-Classification"
