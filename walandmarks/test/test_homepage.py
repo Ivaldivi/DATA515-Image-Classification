@@ -1,10 +1,11 @@
-"""Test the UI module.
+"""
+Test the Homepage module.
 """
 import unittest
 
 from streamlit.testing.v1 import AppTest
 
-class TestUi(unittest.TestCase):
+class TestHome(unittest.TestCase):
     """
     This class contains the unit tests for the Home page 
     of the Streamlit app. These tests use Streamlit's 

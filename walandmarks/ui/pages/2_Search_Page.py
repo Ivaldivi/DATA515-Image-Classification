@@ -9,7 +9,7 @@ import re
 import numpy as np
 import streamlit as st
 
-from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
+from walandmarks.helpers.get_data_from_csv import get_data_from_csv
 
 # initialize session state
 if "selected_landmark" not in st.session_state:
