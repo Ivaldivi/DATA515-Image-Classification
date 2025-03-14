@@ -30,8 +30,8 @@ Create a multiclass image classification tool that can correctly identify landma
 
 
 ## Streamlit
-After cloning this repo, run the Streamlit app using this command:
-streamlit run walandmarks/ui/Home.py
+After cloning this repo, run the Streamlit app using this command:\
+python -m streamlit run walandmarks/ui/Home.py
 
 ## How To Use Conda Environment: 
 In order to create a conda environment from the current environment.yml file, run the following line:\
@@ -48,3 +48,7 @@ python -m unittest discover
 
 To see code coverage:\
 coverage run -m unittest discover
+
+## Pylint:
+This repo uses PyLint as its linter. To run pylint:\
+PYTHONPATH=. pylint walandmarks
