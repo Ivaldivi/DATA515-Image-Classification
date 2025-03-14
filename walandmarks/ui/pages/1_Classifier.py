@@ -43,7 +43,7 @@ if image is not None:
         processed_image = process_image_input(image)
         output = model.predict(processed_image)[0]
 
-        predictions = make_prediction(output, confidence_threshold=0.45)
+        predictions = make_prediction(output, confidence_threshold=0.50)
 
     message = st.success("Successfully processed your image.")
     st.markdown(
