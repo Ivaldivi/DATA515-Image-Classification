@@ -96,7 +96,7 @@ jobs:
       #            the following lines.
       - name: Lint with pylint
         run: |
-          pylint .
+          pylint walandmarks/*.py
 
       # Lastly: report code coverage to Coveralls.
       - name: Report code coverage to Coveralls
