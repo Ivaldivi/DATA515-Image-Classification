@@ -6,7 +6,7 @@ import unittest
 
 import pandas as pd
 
-from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
+from walandmarks.helpers.get_data_from_csv import get_data_from_csv
 
 class TestGetDataFromCsv(unittest.TestCase):
     """

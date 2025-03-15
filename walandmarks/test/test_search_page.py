@@ -6,7 +6,7 @@ import unittest
 import numpy as np
 from streamlit.testing.v1 import AppTest
 
-from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
+from walandmarks.helpers.get_data_from_csv import get_data_from_csv
 
 class TestSearchPage(unittest.TestCase):
     """
