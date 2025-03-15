@@ -74,3 +74,26 @@ class TestFeedbackForm(unittest.TestCase):
         """
         form_handler.verify_form_inputs("name", "", "I love giving feedback!")
         mock_st_error.assert_called()
+    
+    def test_convert_urls_to_html_list_input(self):
+        """
+        Test to check non-list input raises type error
+        """
+        with self.assertRaises(TypeError):
+            form_handler.convert_urls_to_html("not a list")
+    
+    def test_convert_urls_to_html_empty_list(self):
+        """
+        Test to check empty list raises value error
+        """
+        with self.assertRaises(ValueError):
+            form_handler.convert_urls_to_html([])
+
+    def test_convert_urls_to_html_valid_input(self):
+        """
+        Test to check valid input returns correct output
+        """
+        urls = ["https://izzys_url.com/image.jpg", "https://annies_url.com/image.jpg"]
+        expected_output = '<img src="https://izzys_url.com/image.jpg" width="300"><br><img src="https://annies_url.com/image.jpg" width="300"><br>'
+        self.assertEqual(form_handler.convert_urls_to_html(urls), expected_output)
+
