@@ -3,15 +3,14 @@ Contains functions for scraping WikiMedia data
 and filtering it to only contain landmark data
 for those in Washington state
 """
+import re
 
 from bs4 import BeautifulSoup
-import numpy as np
 from pandarallel import pandarallel
 import pandas as pd
-import re
 import requests
 
-from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
+from walandmarks.helpers.get_data_from_csv import get_data_from_csv
 
 def load_landmark_categories(landmark_categories_path):
     """
@@ -96,7 +95,14 @@ def parse_dms(dms):
     if dms is None or not isinstance(dms, str):
         return None
 
-    pattern = r"""([+-]?\d{1,3})[°\s]*([\d]{1,2})?[′'´\s]*([\d]{1,2}(?:\.\d+)?)?[″"\s]*([NSEWnsew]?)"""
+    # regex to catch [degrees] [minutes] [seconds] [direction]
+    # also handles if certain inputs are missing (e.g. no seconds)
+    pattern = (
+        r"([+-]?\d{1,3})[°\s]*"
+        r"([\d]{1,2})?[′'´\s]*"
+        r"([\d]{1,2}(?:\.\d+)?)?[″\"\s]*"
+        r"([NSEWnsew]?)"
+    )
 
     match = re.match(pattern, dms.strip())
     if not match:
@@ -129,7 +135,7 @@ def get_soup_data(landmark_url):
         raise TypeError("landmark_url must be a string")
 
     try:
-        html_text = requests.get(landmark_url)
+        html_text = requests.get(landmark_url, timeout=0.01)
         soup = BeautifulSoup(html_text.content, "html.parser")
 
         url_if_redirected = soup.find("div", class_="category-redirect-header")
@@ -139,13 +145,16 @@ def get_soup_data(landmark_url):
             base_url = landmark_url.split("/w")[0]
             landmark_url = base_url + redirected_url_extension
 
-            html_text = requests.get(landmark_url)
+            html_text = requests.get(landmark_url, timeout=0.01)
             soup = BeautifulSoup(html_text.content, "html.parser")
 
         return (landmark_url, soup)
-    except Exception as e:
+    except requests.exceptions.Timeout as e:
+        print(e)
         return (landmark_url, None)
-
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return (landmark_url, None)
 
 def get_landmark_name(landmark_url):
     """
@@ -158,10 +167,11 @@ def get_landmark_name(landmark_url):
         title (str): name of landmark
     """
     title = None
+    title_split = landmark_url.split("Category:")
     try:
-        title = landmark_url.split("Category:")[1].replace("_", " ")
-    except Exception as e:
-        pass
+        title = title_split[1].replace("_", " ")
+    except IndexError:
+        print("cannot find landmark title")
 
     return title
 
@@ -184,7 +194,7 @@ def get_supercategory_from_soup(soup):
 
     if supercategory_location:
         supercategory_tag = supercategory_location.next_element
-        supercategory = [supercategory for supercategory in supercategory_tag.stripped_strings][0]
+        supercategory = list(supercategory_tag.stripped_strings)[0]
 
     return supercategory
 
@@ -215,8 +225,8 @@ def get_location_address_from_soup(soup):
             if location.replace(",", "").strip()
         ]
 
-        SEPARATOR = ", "
-        location_address = SEPARATOR.join(location_address)
+        separator = ", "
+        location_address = separator.join(location_address)
 
     return location_address
 
@@ -238,7 +248,11 @@ def get_location_coords_from_soup(soup):
         raise TypeError("soup must be type BeautifulSoup")
 
     latitude, longitude = None, None
-    coords = [location for location in soup.find_all("a", class_="external text") if "geohack.tool" in location["href"]]
+    coords = [
+        location
+        for location in soup.find_all("a", class_="external text")
+        if "geohack.tool" in location["href"]
+    ]
     coords = [coords for coords in coords if coords.text.find(",") != -1]
 
     if len(coords) != 0:
@@ -247,8 +261,8 @@ def get_location_coords_from_soup(soup):
         try:
             latitude = coords_expanded[0].strip()
             longitude = coords_expanded[1].strip()
-        except:
-            pass
+        except IndexError:
+            print("landmark has no coordinates available")
 
     return (latitude, longitude)
 
@@ -298,7 +312,12 @@ def scrape_landmark_data(landmark_categories_path):
 
     pandarallel.initialize()
     landmark_data[['name', 'supercategory', 'location', 'latitude', 'longitude']] = (
-        landmark_data.parallel_apply(lambda row: get_landmark_data(row['category']), axis='columns', result_type='expand'))
+        landmark_data.parallel_apply(
+            lambda row: get_landmark_data(row['category']),
+            axis='columns',
+            result_type='expand'
+        )
+    )
 
     landmark_data['latitude'] = landmark_data['latitude'].map(parse_dms)
     landmark_data['longitude'] = landmark_data['longitude'].map(parse_dms)
@@ -349,13 +368,14 @@ def filter_washington_coordinates(landmarks_data):
 
     # 1 degree wiggle room
     # accounts for landmarks that go through the border of Washington state
-    VARIANCE_CONSTANT = 1.0
+    coord_variance = 1.0
 
-    wa_lat1 = parse_dms("45°33′ N") - VARIANCE_CONSTANT
-    wa_lat2 = parse_dms("49° N") + VARIANCE_CONSTANT
+    # coordinates for Washington state
+    wa_lat1 = parse_dms("45°33′ N") - coord_variance
+    wa_lat2 = parse_dms("49° N") + coord_variance
 
-    wa_long1 = parse_dms("124°46′ W") - VARIANCE_CONSTANT
-    wa_long2 = parse_dms("116°55′ W") + VARIANCE_CONSTANT
+    wa_long1 = parse_dms("124°46′ W") - coord_variance
+    wa_long2 = parse_dms("116°55′ W") + coord_variance
 
     # sometimes, a few places in Washington State don't have coordinates on wikimedia
     # the first clause is a "just in cause" one
@@ -443,13 +463,19 @@ def get_washington_clean_images(
         landmark_washington_images['id'].isin(landmark_cleaned_images['images'])
     ]
 
-    landmark_washington_cleaned_images = landmark_washington_cleaned_images.sort_values('landmark_id')
-    landmark_washington_cleaned_images = landmark_washington_cleaned_images.reset_index(drop=True)
-    landmark_washington_cleaned_images = landmark_washington_cleaned_images.rename(columns = {
-        'id': 'image_id'
-    })
+    landmark_washington_cleaned_images.sort_values(
+        'landmark_id', inplace=True
+    )
+    landmark_washington_cleaned_images.reset_index(
+        drop=True, inplace=True
+    )
+    landmark_washington_cleaned_images.rename(
+        columns = {'id': 'image_id'}, inplace=True
+    )
 
-    landmark_washington_cleaned_images = landmark_washington_cleaned_images[['landmark_id', 'image_id', 'url']]
+    landmark_washington_cleaned_images = landmark_washington_cleaned_images[
+        ['landmark_id', 'image_id', 'url']
+    ]
 
     return landmark_washington_cleaned_images
 
@@ -499,22 +525,3 @@ def make_washington_landmark_data_files(
         landmark_washington_cleaned_images,
         landmark_washington_clean_location
     )
-
-def main():
-    LANDMARK_CATEGORIES_PATH = "../data/Google Landmarks Dataset/train_label_to_category.csv"
-    LANDMARK_IMAGES_PATH = "../data/Google Landmarks Dataset/train.csv"
-    LANDMARK_CLEAN_IMAGES_PATH = "../data/Google Landmarks Dataset/train_clean.csv"
-
-    LANDMARK_WASHINGTON_FULL_LOCATION = "../data/landmarks_washington_full.csv"
-    LANDMARK_WASHINGTON_CLEAN_LOCATION = "../data/landmarks_washington_clean_images.csv"
-
-    make_washington_landmark_data_files(
-        LANDMARK_CATEGORIES_PATH,
-        LANDMARK_IMAGES_PATH,
-        LANDMARK_CLEAN_IMAGES_PATH,
-        LANDMARK_WASHINGTON_FULL_LOCATION,
-        LANDMARK_WASHINGTON_CLEAN_LOCATION
-    )
-
-if __name__ == "__main__":
-    main()
