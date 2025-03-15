@@ -462,27 +462,52 @@ def save_washington_cleaned_images_data(landmark_washington_cleaned_images, file
 
     landmark_washington_cleaned_images.to_csv(file_location, index = False, encoding='utf-8-sig')
 
-def main():
-    """"general workflow"""
-    LANDMARK_CATEGORIES_PATH = "../data/Google Landmarks Dataset/train_label_to_category.csv"
-    LANDMARK_IMAGES_PATH = "../data/Google Landmarks Dataset/train.csv"
-    LANDMARK_CLEAN_IMAGES_PATH = "../data/Google Landmarks Dataset/train_clean.csv"
+def make_washington_landmark_data_files(
+        landmark_categories_path, landmark_images_path, landmark_clean_images_path,
+        landmark_washington_full_location, landmark_washington_clean_location
+    ):
+    """"
+    general workflow
 
-    landmark_data = scrape_landmark_data(LANDMARK_CATEGORIES_PATH)
+    Parameters:
+        landmark_categories_path (str): path to the landmark groupings csv file
+        landmark_images_path (str): path to the landmark images csv file
+        landmark_clean_images_path (str): path to the landmark cleaned images csv file
+        landmark_washington_full_location (str): path to save washington landmark full csv
+        landmark_washington_clean_location (str); path to save washington clean images csv
+    """
+
+    landmark_data = scrape_landmark_data(landmark_categories_path)
     landmark_washington = get_washington_full_data(landmark_data)
 
     save_washington_full_data(
         landmark_washington,
-        "../data/landmarks_washington_full.csv"
+        landmark_washington_full_location
     )
 
     landmark_washington_cleaned_images = get_washington_clean_images(
-        landmark_washington, LANDMARK_IMAGES_PATH, LANDMARK_CLEAN_IMAGES_PATH
+        landmark_washington, landmark_images_path, landmark_clean_images_path
     )
 
     save_washington_cleaned_images_data(
         landmark_washington_cleaned_images,
-        "../data/landmarks_washington_clean_images.csv"
+        landmark_washington_clean_location
+    )
+
+def main():
+    LANDMARK_CATEGORIES_PATH = "../data/Google Landmarks Dataset/train_label_to_category.csv"
+    LANDMARK_IMAGES_PATH = "../data/Google Landmarks Dataset/train.csv"
+    LANDMARK_CLEAN_IMAGES_PATH = "../data/Google Landmarks Dataset/train_clean.csv"
+
+    LANDMARK_WASHINGTON_FULL_LOCATION = "../data/landmarks_washington_full.csv"
+    LANDMARK_WASHINGTON_CLEAN_LOCATION = "../data/landmarks_washington_clean_images.csv"
+
+    make_washington_landmark_data_files(
+        LANDMARK_CATEGORIES_PATH,
+        LANDMARK_IMAGES_PATH,
+        LANDMARK_CLEAN_IMAGES_PATH,
+        LANDMARK_WASHINGTON_FULL_LOCATION,
+        LANDMARK_WASHINGTON_CLEAN_LOCATION
     )
 
 if __name__ == "__main__":
