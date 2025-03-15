@@ -1,3 +1,9 @@
+"""
+Contains functions for scraping WikiMedia data
+and filtering it to only contain landmark data
+for those in Washington state
+"""
+
 from bs4 import BeautifulSoup
 import numpy as np
 from pandarallel import pandarallel
