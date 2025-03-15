@@ -8,25 +8,63 @@ import requests
 from walandmarks.ui.helpers.get_data_from_csv import get_data_from_csv
 
 def load_landmark_categories(landmark_categories_path):
+    """
+    load landmark groupings given the path
+
+    Parameters:
+        landmark_categories_path (str): path to the landmark groupings csv file
+    Returns:
+        landmark_data (pandas DataFrame): DataFrame with landmark id, url
+    """
     landmark_data = get_data_from_csv(landmark_categories_path)
 
     return landmark_data
 
 def load_all_images(landmark_images_path):
+    """
+    load all landmark images given the path
+
+    Parameters:
+        landmark_images_path (str): path to the landmark images csv file
+    Returns:
+        landmark_images (pandas DataFrame): DataFrame with image id, landmark id, url
+    """
     landmark_images = get_data_from_csv(landmark_images_path)
 
     return landmark_images
 
 def load_clean_images(landmark_clean_images_path):
+    """
+    load cleaned landmark images given the path
+
+    Parameters:
+        landmark_clean_images_path (str): path to the landmark cleaned images csv file
+    Returns:
+        landmark_cleaned_images (pandas DataFrame): DataFrame with landmark id, image id
+    """
     landmark_cleaned_images = get_data_from_csv(landmark_clean_images_path)
 
     return landmark_cleaned_images
 
 def is_numeric(value):
-    """Checks if a given value is numeric (integer or float)"""
+    """
+    Checks if a given value is numeric (integer or float)
+    """
     return isinstance(value, (int, float))
 
 def dms_to_dd(degrees=0, minutes=0, seconds=0, direction='N'):
+    """
+    Converts Coordinates from Degrees-Minutes-Seconds
+    notation to Decimal Degrees
+
+    Parameters:
+        degrees (numeric): defaults to 0 if not input
+        minutes (numeric): defaults to 0 if not input
+        seconds (numeric): defaults to 0 if not input
+        direction (enum of N, S, W, E): defaults to N if not input
+    Returns:
+        dd (float): degrees in decimal notation
+    """
     if not (is_numeric(degrees) and is_numeric(minutes) and is_numeric(seconds)):
         raise TypeError("degrees, minutes, and seconds must be numeric")
 
@@ -40,6 +78,15 @@ def dms_to_dd(degrees=0, minutes=0, seconds=0, direction='N'):
     return dd
 
 def parse_dms(dms):
+    """
+    Parses Coordinates string in Degrees-Minutes-Seconds notation
+    and converts it to Decimal Degrees
+
+    Parameters:
+        dms (str): coordinate in Degrees-Minute-Seconds-Direction notation
+    Returns:
+        coords_dd (float): degrees in decimal notation
+    """
     if dms is None or not isinstance(dms, str):
         return None
 
@@ -60,6 +107,18 @@ def parse_dms(dms):
     return coords_dd
 
 def get_soup_data(landmark_url):
+    """
+    Given a WikiMedia url of a landmark,
+    returns a tuple of (landmark url, scraped data)
+    with scraped data being a BeautifulSoup4 object
+
+    Parameters:
+        landmark_url (str): WikiMedia url of landmark
+    Returns:
+        (landmark_url, soup/None) (tuple)
+            landmark_url (str): WikiMedia url of landmark
+            soup (BeautifulSoup): BeautifulSoup4 object of url scraped data
+    """
     if not isinstance(landmark_url, str):
         raise TypeError("landmark_url must be a string")
 
@@ -83,6 +142,15 @@ def get_soup_data(landmark_url):
 
 
 def get_landmark_name(landmark_url):
+    """
+    Given a WikiMedia url of a landmark,
+    returns name of landmark
+
+    Parameters:
+        landmark_url (str): WikiMedia url of landmark
+    Returns:
+        title (str): name of landmark
+    """
     title = None
     try:
         title = landmark_url.split("Category:")[1].replace("_", " ")
@@ -92,6 +160,16 @@ def get_landmark_name(landmark_url):
     return title
 
 def get_supercategory_from_soup(soup):
+    """
+    Given a WikiMedia url's BeautifulSoup4 object,
+    returns supercategory of landmark
+    (e.g. "... is a building")
+
+    Parameters:
+        soup (BeautifulSoup): BeautifulSoup4 object of url scraped data
+    Returns:
+        supercategory (str): supercategory of landmark
+    """
     if not isinstance(soup, BeautifulSoup):
         raise TypeError("soup must be type BeautifulSoup")
 
@@ -106,6 +184,16 @@ def get_supercategory_from_soup(soup):
 
 
 def get_location_address_from_soup(soup):
+    """
+    Given a WikiMedia url's BeautifulSoup4 object,
+    returns general location address of landmark
+    (e.g. Seattle, Washington, Pacific Northwest, USA)
+
+    Parameters:
+        soup (BeautifulSoup): BeautifulSoup4 object of url scraped data
+    Returns:
+        location_address (str): general location address of landmark
+    """
     if not isinstance(soup, BeautifulSoup):
         raise TypeError("soup must be type BeautifulSoup")
 
@@ -128,6 +216,18 @@ def get_location_address_from_soup(soup):
 
 
 def get_location_coords_from_soup(soup):
+    """
+    Given a WikiMedia url's BeautifulSoup4 object,
+    returns location coordinates of landmark in Decimal Degrees
+    (e.g. 123.45, 123.45)
+
+    Parameters:
+        soup (BeautifulSoup): BeautifulSoup4 object of url scraped data
+    Returns:
+        (latitude, longitude) (tuple)
+            latitude (float): latitude of landmark (decimal degrees)
+            longitude (float): longitude of landmark (decimal degrees)
+    """
     if not isinstance(soup, BeautifulSoup):
         raise TypeError("soup must be type BeautifulSoup")
 
@@ -147,6 +247,20 @@ def get_location_coords_from_soup(soup):
     return (latitude, longitude)
 
 def get_landmark_data(landmark_url):
+    """
+    Given a WikiMedia url of a landmark, provide the landmark's
+    name, supercategory, general location address, latitude, longitude
+
+    Parameters:
+        landmark_url (str): WikiMedia url of landmark
+    Returns:
+        (title, supercategory, location_address, latitude, longitude) (tuple)
+            title (str): name of landmark
+            supercategory (str): supercategory of landmark
+            location_address (str): general location address of landmark
+            latitude (float): latitude of landmark (decimal degrees)
+            longitude (float): longitude of landmark (decimal degrees)
+    """
     if not isinstance(landmark_url, str):
         raise TypeError("landmark_url must be a string")
 
@@ -159,11 +273,22 @@ def get_landmark_data(landmark_url):
 
     return (title, supercategory, location_address, latitude, longitude)
 
-def scrape_landmark_data(LANDMARK_CATEGORIES_PATH):
-    if not isinstance(LANDMARK_CATEGORIES_PATH, str):
-        raise TypeError("LANDMARK_CATEGORIES_PATH must be a string")
+def scrape_landmark_data(landmark_categories_path):
+    """
+    with landmark groupings (given the path),
+    use web scraper to get information about each landmark
 
-    landmark_data = load_landmark_categories(LANDMARK_CATEGORIES_PATH)
+    Parameters:
+        landmark_categories_path (str): path to the landmark groupings csv file
+    Returns:
+        landmark_full_info (pandas DataFrame)
+            DataFrame with landmark id, name, sueprcategory,
+            location address, latitude, longitude, WikiMedia url
+    """
+    if not isinstance(landmark_categories_path, str):
+        raise TypeError("landmark_categories_path must be a string")
+
+    landmark_data = load_landmark_categories(landmark_categories_path)
 
     pandarallel.initialize()
     landmark_data[['name', 'supercategory', 'location', 'latitude', 'longitude']] = (
@@ -177,6 +302,15 @@ def scrape_landmark_data(LANDMARK_CATEGORIES_PATH):
     return landmark_full_info
 
 def filter_washington_location(landmarks_data):
+    """
+    filter landmarks_data DataFrame for those in Washington state
+    by filters on location address
+
+    Parameters:
+        landmarks_data (pandas DataFrame)
+    Returns:
+        landmark_washington (pandas DataFrame)
+    """
     if not isinstance(landmarks_data, pd.DataFrame):
         raise TypeError("landmarks_data must be a pandas DataFrame")
 
@@ -192,6 +326,15 @@ def filter_washington_location(landmarks_data):
     return landmark_washington
 
 def filter_washington_coordinates(landmarks_data):
+    """
+    filter landmarks_data DataFrame for those in Washington state
+    by filters on location coordinates (lat/long)
+
+    Parameters:
+        landmarks_data (pandas DataFrame)
+    Returns:
+        landmark_washington (pandas DataFrame)
+    """
     if not isinstance(landmarks_data, pd.DataFrame):
         raise TypeError("landmarks_data must be a pandas DataFrame")
 
@@ -228,6 +371,15 @@ def filter_washington_coordinates(landmarks_data):
     return landmark_washington
 
 def get_washington_full_data(landmarks_data):
+    """
+    filter landmarks_data DataFrame for those in Washington state
+    by filters on location address and coordinates
+
+    Parameters:
+        landmarks_data (pandas DataFrame)
+    Returns:
+        landmark_washington (pandas DataFrame)
+    """
     if not isinstance(landmarks_data, pd.DataFrame):
         raise TypeError("landmarks_data must be a pandas DataFrame")
 
@@ -237,6 +389,13 @@ def get_washington_full_data(landmarks_data):
     return landmark_washington
 
 def save_washington_full_data(landmark_washington, file_location):
+    """
+    saves landmark_washington to csv file at given location
+
+    Parameters:
+        landmark_washington (pandas DataFrame)
+        file_location (str)
+    """
     if not isinstance(landmark_washington, pd.DataFrame):
         raise TypeError("landmark_washington must be a pandas DataFrame")
     if not isinstance(file_location, str):
@@ -247,7 +406,17 @@ def save_washington_full_data(landmark_washington, file_location):
 def get_washington_clean_images(
         landmark_washington, landmark_images_path, landmark_clean_images_path
     ):
+    """
+    gets all the cleaned landmark images (+data) associated with
+    the landmarks within Washington state
 
+    Parameters:
+        landmark_washington (pandas DataFrame)
+        landmark_images_path (str)
+        landmark_clean_images_path (str)
+    Returns:
+        landmark_washington_cleaned_images (pandas DataFrame)
+    """
     if not isinstance(landmark_washington, pd.DataFrame):
         raise TypeError("landmark_washington must be a pandas DataFrame")
     if not (isinstance(landmark_images_path, str) and isinstance(landmark_clean_images_path, str)):
@@ -279,6 +448,13 @@ def get_washington_clean_images(
     return landmark_washington_cleaned_images
 
 def save_washington_cleaned_images_data(landmark_washington_cleaned_images, file_location):
+    """
+    saves landmark_washington_cleaned_images to csv file at given location
+
+    Parameters:
+        landmark_washington_cleaned_images (pandas DataFrame)
+        file_location (str)
+    """
     if not isinstance(landmark_washington_cleaned_images, pd.DataFrame):
         raise TypeError("landmark_washington must be a pandas DataFrame")
     if not isinstance(file_location, str):
@@ -287,6 +463,7 @@ def save_washington_cleaned_images_data(landmark_washington_cleaned_images, file
     landmark_washington_cleaned_images.to_csv(file_location, index = False, encoding='utf-8-sig')
 
 def main():
+    """"general workflow"""
     LANDMARK_CATEGORIES_PATH = "../data/Google Landmarks Dataset/train_label_to_category.csv"
     LANDMARK_IMAGES_PATH = "../data/Google Landmarks Dataset/train.csv"
     LANDMARK_CLEAN_IMAGES_PATH = "../data/Google Landmarks Dataset/train_clean.csv"
