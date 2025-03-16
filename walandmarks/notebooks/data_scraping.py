@@ -166,6 +166,9 @@ def get_landmark_name(landmark_url):
     Returns:
         title (str): name of landmark
     """
+    if not isinstance(landmark_url, str):
+        raise TypeError("landmark_url must be a string")
+
     title = None
     title_split = landmark_url.split("Category:")
     try:
@@ -198,7 +201,6 @@ def get_supercategory_from_soup(soup):
 
     return supercategory
 
-
 def get_location_address_from_soup(soup):
     """
     Given a WikiMedia url's BeautifulSoup4 object,
@@ -229,7 +231,6 @@ def get_location_address_from_soup(soup):
         location_address = separator.join(location_address)
 
     return location_address
-
 
 def get_location_coords_from_soup(soup):
     """
