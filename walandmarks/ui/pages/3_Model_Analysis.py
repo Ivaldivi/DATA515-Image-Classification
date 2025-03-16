@@ -8,7 +8,7 @@ import pandas as pd
 import streamlit as st
 
 st.set_page_config(
-    page_title="Model Analysis - WA Landmark Classifier",
+    page_title="Model Analysis - Cascadia Classifier",
     page_icon="🔎",
 )
 
@@ -16,7 +16,7 @@ st.title("Model Analysis")
 
 st.image("walandmarks/images/great-wheel-wide.png", width=800,
          caption="""The Great Wheel in Seattle, WA. Photo by Chris Yang on
-         Seattle Pacific University website.""")
+         Seattle Pacific University Website.""")
 
 st.subheader("Intro")
 motivation = """

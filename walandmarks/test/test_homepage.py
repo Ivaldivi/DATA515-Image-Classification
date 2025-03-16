@@ -20,7 +20,7 @@ class TestHome(unittest.TestCase):
         """
         function to test the title of the home page
         """
-        self.assertEqual(self.at.title[0].value, "Washington State Landmark Classifier")
+        self.assertEqual(self.at.title[0].value, "Cascadia Classifier")
 
     def test_markdown_about_section(self):
         """
@@ -30,7 +30,7 @@ class TestHome(unittest.TestCase):
 
         expected_about = """
         ## About
-        Welcome to the Washington State Landmark Classifier! Perfect for 
+        Welcome to the Cascadia Classifier! Perfect for 
         Washington state enthusiasts, we provide a tool for 
         determining what that cool building is. Just take a picture and 
         upload to

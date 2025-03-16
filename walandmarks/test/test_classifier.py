@@ -22,7 +22,7 @@ class TestClassifier(unittest.TestCase):
         """
         function to test the title of the classifier page
         """
-        self.assertEqual(self.at.title[0].value, "Classifier")
+        self.assertEqual(self.at.title[0].value, "Cascadia Classifier")
 
     def test_markdown_about_section(self):
         """
@@ -31,9 +31,8 @@ class TestClassifier(unittest.TestCase):
         """
 
         expected_about = """
-        Welcome to the Washington State Landmark Classifier. To classify
-        your image, upload it using the button below. We will give 
-        you the top five most likely places your image depicts.
+        Welcome to the Cascadia Classifier. To classify
+        your image, upload it using the button below.
         """
 
         expected_about = "".join(expected_about.split()) # remove whitespace
