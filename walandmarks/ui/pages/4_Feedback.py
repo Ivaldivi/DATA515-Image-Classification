@@ -30,11 +30,14 @@ with st.form(key='general_feedback_form', clear_on_submit=True):
     form_email = st.text_input('Email:')
     form_user_feedback = st.text_area('Please share your feedback:')
 
-    form_image = st.file_uploader(label='Upload relevant files (optional):',
-                         accept_multiple_files=False,
+    form_images = st.file_uploader(label='Upload relevant files (optional):',
+                         accept_multiple_files=True,
                          type=["jpg", "png", "jpeg"],
                          help='''If there is an image that is relevant to
                          your feedback, please provide it here.''')
+    for file in form_images:
+        st.write("filename:", file.name)
+
 
     submitted = st.form_submit_button('Submit')
 
@@ -45,4 +48,4 @@ if submitted:
             sleep(3)
             # On submission with proper inputs, try to send email with
             # form information to joint inbox:
-            send_email(form_name, form_email, form_user_feedback, form_image)
+            send_email(form_name, form_email, form_user_feedback, form_images)
