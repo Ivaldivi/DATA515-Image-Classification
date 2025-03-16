@@ -5,7 +5,7 @@ This module contains the unit tests for the feedback form.
 import unittest
 from unittest.mock import patch, MagicMock
 
-from ui.helpers import form_handler
+from walandmarks.helpers import form_handler
 
 class TestFeedbackForm(unittest.TestCase):
     """
