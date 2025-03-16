@@ -15,7 +15,8 @@ st.set_page_config(
 st.title("Model Analysis")
 
 st.image("walandmarks/images/great-wheel-wide.png", width=800,
-         caption="The Great Wheel in Seattle, WA. Photo by Chris Yang on Seattle Pacific University website.")
+         caption="""The Great Wheel in Seattle, WA. Photo by Chris Yang on
+         Seattle Pacific University website.""")
 
 st.subheader("Intro")
 motivation = """
@@ -78,7 +79,7 @@ Our loss, accuracy, and AUROC curves for both training and validation sets are
 given below.
 """
 st.markdown(model_implementation)
-st.image("walandmarks/model/Loss.png", width=800, 
+st.image("walandmarks/model/Loss.png", width=800,
          caption="Training and Validation Loss by Epoch")
 st.image("walandmarks/model/Accuracy.png", width=800,
          caption="Training and Validation Accuracy by Epoch")
@@ -136,9 +137,9 @@ The images we used are shown below.
 st.markdown(manual_testing)
 st.image("walandmarks/notebooks/personal_test_images/space_needle_1.jpg",
          width=300, caption="Space Needle")
-st.image("walandmarks/notebooks/personal_test_images/suzzalo.jpg", 
+st.image("walandmarks/notebooks/personal_test_images/suzzalo.jpg",
          width=300, caption="Suzzallo Library")
-st.image("walandmarks/notebooks/personal_test_images/fountain.jpg", 
+st.image("walandmarks/notebooks/personal_test_images/fountain.jpg",
          width=300, caption="Drumheller Fountain")
 st.image("walandmarks/notebooks/personal_test_images/Chinatown_gate.jpg",
          width=300, caption="Chinatown Gate")

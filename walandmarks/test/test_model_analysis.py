@@ -2,6 +2,9 @@
 This module contains unit tests for the Model Analysis page of the
 Streamlit app.
 """
+# pylint: disable=duplicate-code
+# Pylint attribute disabled because duplicate code is necessary for
+# Streamlit AppTest unit testing of markdown elements
 
 import unittest
 
