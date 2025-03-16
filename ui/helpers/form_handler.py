@@ -33,8 +33,7 @@ def upload_image_to_imgur(image):
     file= {'image': img_data}
 
     response = requests.post(url, headers=headers, files=file, timeout=100)
-    print(url)
-    print(response)
+
     if response.status_code == 200:
         data = response.json()
         return data['data']['link']
