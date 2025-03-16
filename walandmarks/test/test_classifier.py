@@ -20,7 +20,7 @@ class TestClassifier(unittest.TestCase):
 
     def test_display_title(self):
         """
-        function to test the title of the home page
+        function to test the title of the classifier page
         """
         self.assertEqual(self.at.title[0].value, "Classifier")
 
