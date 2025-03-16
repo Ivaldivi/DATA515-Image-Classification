@@ -17,7 +17,7 @@ if "selected_landmark" not in st.session_state:
 
 # Page setup
 st.set_page_config(page_title =
-                   "Washington Landmarks Search",
+                   "Washington Landmarks Search - Cascadia Classifier",
                    page_icon = ":mag_right:", layout = "wide")
 st.title("Washington Landmarks Search")
 # Connect to data for search

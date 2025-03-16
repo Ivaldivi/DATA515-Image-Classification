@@ -12,17 +12,16 @@ from walandmarks.helpers.process_image_input import process_image_input
 from walandmarks.helpers.make_prediction import make_prediction
 
 st.set_page_config(
-    page_title="Classifier - WA Landmark Classifier",
+    page_title="Classifier - Cascadia Classifier",
     page_icon="🔎",
 )
 
-st.title("Classifier")
+st.title("Cascadia Classifier")
 
 st.markdown(
     """
-    Welcome to the Washington State Landmark Classifier. To classify
-    your image, upload it using the button below. We will give 
-    you the top five most likely places your image depicts.
+    Welcome to the Cascadia Classifier. To classify
+    your image, upload it using the button below.
     """
 )
 

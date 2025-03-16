@@ -7,18 +7,19 @@ This file contains the code for the Home page of the Streamlit app.
 import streamlit as st
 
 st.set_page_config(
-    page_title="Home - WA Landmark Classifier",
+    page_title="Home - Cascadia Classifier",
     page_icon="🔎",
 )
 
-st.title("Washington State Landmark Classifier")
+st.title("Cascadia Classifier")
 
-st.image('walandmarks/images/seattle-skyline.jpg')
+st.image("walandmarks/images/seattle-skyline.jpg",
+         caption="Source: https://www.getyourguide.com/space-needle-l4857/")
 
 st.markdown(
     """
     ## About
-    Welcome to the Washington State Landmark Classifier! Perfect for 
+    Welcome to the Cascadia Classifier! Perfect for 
     Washington state enthusiasts, we provide a tool for 
     determining what that cool building is. Just take a picture and upload to
     our tool! See the Classifier page for more information.
