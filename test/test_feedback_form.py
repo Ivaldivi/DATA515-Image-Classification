@@ -4,10 +4,8 @@ This module contains the unit tests for the feedback form.
 
 import unittest
 from unittest.mock import patch, MagicMock
-import ui.helpers.form_handler as form_handler
-import streamlit as st
-from streamlit.runtime.uploaded_file_manager import UploadedFile
 
+from ui.helpers import form_handler
 
 class TestFeedbackForm(unittest.TestCase):
     """
