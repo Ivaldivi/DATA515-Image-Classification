@@ -364,7 +364,7 @@ def filter_washington_coordinates(landmarks_data):
     if not isinstance(landmarks_data, pd.DataFrame):
         raise TypeError("landmarks_data must be a pandas DataFrame")
 
-    if ['location', 'latitude', 'longitude'] not in landmarks_data.columns:
+    if not set(['location', 'latitude', 'longitude']).issubset(set(landmarks_data.columns)):
         raise ValueError("landmarks_data must have columns 'location', 'latitude', and 'longitude'")
 
     # 1 degree wiggle room
@@ -388,16 +388,9 @@ def filter_washington_coordinates(landmarks_data):
         )
     ]
 
-    landmark_washington = landmark_washington[
-        [
-            'landmark_id', 'name', 'supercategory', 'location',
-            'latitude', 'longitude', 'category'
-        ]
-    ]
-
     return landmark_washington
 
-def get_washington_full_data(landmarks_data):
+def filter_washington_full_data(landmarks_data):
     """
     filter landmarks_data DataFrame for those in Washington state
     by filters on location address and coordinates
@@ -412,6 +405,13 @@ def get_washington_full_data(landmarks_data):
 
     landmark_washington = filter_washington_location(landmarks_data)
     landmark_washington = filter_washington_coordinates(landmark_washington)
+
+    landmark_washington = landmark_washington[
+        [
+            'landmark_id', 'name', 'supercategory', 'location',
+            'latitude', 'longitude', 'category'
+        ]
+    ]
 
     return landmark_washington
 
@@ -509,9 +509,8 @@ def make_washington_landmark_data_files(
         landmark_washington_full_location (str): path to save washington landmark full csv
         landmark_washington_clean_location (str); path to save washington clean images csv
     """
-
     landmark_data = scrape_landmark_data(landmark_categories_path)
-    landmark_washington = get_washington_full_data(landmark_data)
+    landmark_washington = filter_washington_full_data(landmark_data)
 
     save_washington_full_data(
         landmark_washington,
