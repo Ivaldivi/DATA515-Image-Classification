@@ -250,6 +250,13 @@ class TestDataScraping(unittest.TestCase):
         self.assertEqual(expected_url, actual_url)
         self.assertEqual(expected_soup, actual_soup)
 
+    def test_get_soup_data_invalid_type(self):
+        """
+        edge case test for get_soup_data function for invalid input type
+        """
+        with self.assertRaises(TypeError):
+            get_soup_data(0)
+
     @mock.patch('requests.get')
     def test_get_soup_data_timeout(self, mock_get):
         """
@@ -437,12 +444,46 @@ class TestDataScraping(unittest.TestCase):
         self.assertEqual(expected_latitude, actual_latitude)
         self.assertEqual(expected_longitude, actual_longitude)
 
+    def test_get_location_coords_from_soup_no_coords(self):
+        """
+        function to test the get_location_coords_from_soup function if no coords
+        """
+        test_soup_content = """
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <title>Category:Happy Valley Racecourse - Wikimedia Commons</title>
+            </head>
+            <body>
+                <div
+                    class="mw-body-content"
+                    id="mw-content-text"
+                >
+                    <div
+                        class="mw-content-ltr mw-parser-output"
+                        dir="ltr"
+                        lang="en"
+                    >
+                        <table class="fileinfotpl-type-information vevent infobox mw-collapsible" dir="ltr" id="wdinfobox"><caption class="fn org" id="wdinfoboxcaption"><b>Happy Valley Racecourse </b></caption><tbody><tr><td class="wdinfo_nomobile" colspan="2" style="text-align:center"><div>Racecourse in Hong Kong</div><div class="switcher-container"><div class="center"><span class="wpImageAnnotatorControl wpImageAnnotatorCaptionOff"><span typeof="mw:File"><a class="mw-file-description" href="/wiki/File:Happy_Valley_Racecourse_1.jpg"><img class="mw-file-element" data-file-height="1536" data-file-width="2048" decoding="async" height="173" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Happy_Valley_Racecourse_1.jpg/230px-Happy_Valley_Racecourse_1.jpg" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Happy_Valley_Racecourse_1.jpg/345px-Happy_Valley_Racecourse_1.jpg 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Happy_Valley_Racecourse_1.jpg/460px-Happy_Valley_Racecourse_1.jpg 2x" width="230"/></a></span></span></div></div></td></tr><tr><td colspan="2" style="text-align:center"><b><a class="external text" href="https://commons.wikimedia.org/w/index.php?title=Special%3AUploadWizard&amp;categories=Happy+Valley+Racecourse">Upload media</a></b></td></tr><tr><td colspan="2" style="text-align:center; font-weight:bold"><div><span typeof="mw:File"><span><img alt="" class="mw-file-element" data-file-height="94" data-file-width="103" decoding="async" height="15" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/16px-Wikipedia-logo-v2.svg.png" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/24px-Wikipedia-logo-v2.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/32px-Wikipedia-logo-v2.svg.png 2x" width="16"/></span></span> <a class="extiw" href="https://en.wikipedia.org/wiki/Happy_Valley_Racecourse" title="en:Happy Valley Racecourse">Wikipedia</a></div></td></tr><tr><th class="wikidatainfobox-lcell">Instance of</th><td><div class="plainlist"><ul><li><a href="/wiki/Category:Racecourses" title="Category:Racecourses">horse racing venue</a></li></ul></div></td></tr><tr class="wdinfo_nomobile"><th class="wikidatainfobox-lcell">Location</th><td><a href="/wiki/Category:Happy_Valley" title="Category:Happy Valley">Happy Valley</a>, <a href="/wiki/Category:Wan_Chai_District" title="Category:Wan Chai District">Wan Chai District</a>, <a href="/wiki/%E9%A6%99%E6%B8%AF" title="香港">Hong Kong</a>, PRC</td></tr><tr class="wdinfo_nomobile"><th class="wikidatainfobox-lcell">Operator</th><td><div class="plainlist"><ul><li><a href="/wiki/Category:Hong_Kong_Jockey_Club" title="Category:Hong Kong Jockey Club">Hong Kong Jockey Club</a></li></ul></div></td></tr><tr class="wdinfo_nomobile"><th class="wikidatainfobox-lcell">Inception</th><td><div class="plainlist"><ul><li>1846</li></ul></div></td></tr><tr class="wdinfo_nomobile"><td colspan="2" style="text-align:center"><a class="mw-kartographer-map notheme mw-kartographer-container center" data-height="250" data-lang="en" data-mw-kartographer="mapframe" data-overlays='["_66eb5e2878172cb2a4d22abdf02918d64a0c6752"]' data-style="osm-intl" data-width="250" style="width: 250px; height: 250px;"><img alt="Map" decoding="async" height="250" src="https://maps.wikimedia.org/img/osm-intl,a,a,a,250x250.png?lang=en&amp;domain=commons.wikimedia.org&amp;title=Category%3AHappy_Valley_Racecourse&amp;revid=510586893&amp;groups=_66eb5e2878172cb2a4d22abdf02918d64a0c6752" srcset="https://maps.wikimedia.org/img/osm-intl,a,a,a,250x250@2x.png?lang=en&amp;domain=commons.wikimedia.org&amp;title=Category%3AHappy_Valley_Racecourse&amp;revid=510586893&amp;groups=_66eb5e2878172cb2a4d22abdf02918d64a0c6752 2x" width="250"/></a><small><span class="plainlinksneverexpand"></span></small></td></tr></tbody></table>
+                    </div>
+                </div>
+            </body>
+        </html>
+        """
+        test_soup = BeautifulSoup(test_soup_content, "html.parser")
+
+        actual_latitude, actual_longitude = get_location_coords_from_soup(test_soup)
+
+        self.assertIsNone(actual_latitude)
+        self.assertIsNone(actual_longitude)
+
     def test_get_location_coords_from_soup_invalid_type(self):
         """
         function to test the get_location_coords_from_soup function if invalid type
         """
         with self.assertRaises(TypeError):
-            get_location_address_from_soup("test")
+            get_location_coords_from_soup("test")
 
     def test_get_location_coords_from_soup_bad_soup(self):
         """
@@ -503,6 +544,13 @@ class TestDataScraping(unittest.TestCase):
         self.assertEqual(expected_location, actual_location)
         self.assertEqual(expected_latitude, actual_latitude)
         self.assertEqual(expected_longitude, actual_longitude)
+
+    def test_get_landmark_data_invalid_type(self):
+        """
+        function to test get_landmark_data function if invalid type
+        """
+        with self.assertRaises(TypeError):
+            get_landmark_data(0)
 
     @mock.patch('requests.get')
     @mock.patch('walandmarks.notebooks.data_scraping.load_landmark_categories')
@@ -567,6 +615,13 @@ class TestDataScraping(unittest.TestCase):
 
         pd.testing.assert_frame_equal(expected_dataframe, actual_dataframe)
 
+    def test_scrape_landmark_data_invalid_type(self):
+        """
+        function to test scrape_landmark_data function if invalid type
+        """
+        with self.assertRaises(TypeError):
+            scrape_landmark_data(0)
+
     def test_filter_washington_location(self):
         """
         function to test filter_washington_location function
@@ -596,6 +651,30 @@ class TestDataScraping(unittest.TestCase):
         actual_dataframe = filter_washington_location(test_dataframe)
 
         pd.testing.assert_frame_equal(expected_dataframe, actual_dataframe)
+
+    def test_filter_washington_location_invalid_type(self):
+        """
+        function to test filter_washington_location function if invalid type
+        """
+        with self.assertRaises(TypeError):
+            filter_washington_location("test")
+
+    def test_filter_washington_location_missing_data(self):
+        """
+        function to test filter_washington_location function if no location column
+        """
+        test_data = {
+            'landmark_id': [0, 1],
+            'category': ['link1', 'link2'],
+            'name': ['place1', 'place2'],
+            'supercategory': ['cat1', 'cat2'],
+            'latitude': [47.6204, 0.0],
+            'longitude': [-122.3490, 0.0]
+        }
+        test_dataframe = pd.DataFrame(test_data)
+
+        with self.assertRaises(ValueError):
+            filter_washington_location(test_dataframe)
 
     def test_filter_washington_coordinates(self):
         """
@@ -627,9 +706,33 @@ class TestDataScraping(unittest.TestCase):
 
         pd.testing.assert_frame_equal(expected_dataframe, actual_dataframe)
 
+    def test_filter_washington_coordinates_invalid_type(self):
+        """
+        function to test filter_washington_coordinates function if invalid type
+        """
+        with self.assertRaises(TypeError):
+            filter_washington_coordinates("test")
+
+    def test_filter_washington_coordinates_missing_data(self):
+        """
+        function to test filter_washington_coordinates function if no location column
+        """
+        test_data = {
+            'landmark_id': [0, 1],
+            'category': ['link1', 'link2'],
+            'name': ['place1', 'place2'],
+            'supercategory': ['cat1', 'cat2'],
+            'latitude': [47.6204, 0.0],
+            'longitude': [-122.3490, 0.0]
+        }
+        test_dataframe = pd.DataFrame(test_data)
+
+        with self.assertRaises(ValueError):
+            filter_washington_coordinates(test_dataframe)
+
     def test_filter_washington_full_data(self):
         """
-        function to test filter_washington_coordinates function
+        function to test filter_washington_full_data function
         """
         test_data = {
             'landmark_id': [0, 1],
@@ -657,6 +760,13 @@ class TestDataScraping(unittest.TestCase):
 
         pd.testing.assert_frame_equal(expected_dataframe, actual_dataframe)
 
+    def test_filter_washington_full_data_invalid_type(self):
+        """
+        function to test filter_washington_full_data function if invalid type
+        """
+        with self.assertRaises(TypeError):
+            filter_washington_full_data("test")
+
     def test_save_washington_full_data(self):
         """
         function to test save_washington_full_data function
@@ -683,6 +793,20 @@ class TestDataScraping(unittest.TestCase):
 
         if os.path.exists(washington_full_path):
             os.remove(washington_full_path)
+
+    def test_save_washington_full_data_invalid_data(self):
+        """
+        function to test save_washington_full_data function if invalid data
+        """
+        with self.assertRaises(TypeError):
+            save_washington_full_data("test", "test")
+
+    def test_save_washington_full_data_invalid_file_location(self):
+        """
+        function to test save_washington_full_data function if invalid file location
+        """
+        with self.assertRaises(TypeError):
+            save_washington_full_data(pd.DataFrame(), 0)
 
     @mock.patch('walandmarks.notebooks.data_scraping.load_clean_images')
     @mock.patch('walandmarks.notebooks.data_scraping.load_all_images')
@@ -731,6 +855,20 @@ class TestDataScraping(unittest.TestCase):
 
         pd.testing.assert_frame_equal(expected_dataframe, actual_dataframe)
 
+    def test_get_washington_clean_images_invalid_data(self):
+        """
+        function to test get_washington_clean_images function if invalid data
+        """
+        with self.assertRaises(TypeError):
+            get_washington_clean_images("test", "file1", "file2")
+
+    def test_get_washington_clean_images_invalid_file_location(self):
+        """
+        function to test get_washington_clean_images function if invalid file location
+        """
+        with self.assertRaises(TypeError):
+            get_washington_clean_images(pd.DataFrame(), 0, "file2")
+
     def test_save_washington_clean_images_data(self):
         """
         function to test save_washington_clean_images_data function
@@ -753,6 +891,20 @@ class TestDataScraping(unittest.TestCase):
 
         if os.path.exists(washington_clean_images_path):
             os.remove(washington_clean_images_path)
+
+    def test_save_washington_clean_images_data_invalid_data(self):
+        """
+        function to test save_washington_cleaned_images_data function if invalid data
+        """
+        with self.assertRaises(TypeError):
+            save_washington_cleaned_images_data("test", "test")
+
+    def test_save_washington_clean_images_invalid_file_location(self):
+        """
+        function to test save_washington_cleaned_images_data function if invalid file location
+        """
+        with self.assertRaises(TypeError):
+            save_washington_cleaned_images_data(pd.DataFrame(), 0)
 
     @mock.patch('requests.get')
     @mock.patch('walandmarks.notebooks.data_scraping.load_landmark_categories')
