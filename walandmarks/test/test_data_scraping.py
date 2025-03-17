@@ -2,9 +2,11 @@
 test data_scraping module
 """
 
-# pylint: disable=too-many-public-methods, too-many-locals
-# Pylint attribute disabled due using many public methods for comprehensive unit testings,
-#    as well as many local variables for testing
+# pylint: disable=too-many-public-methods, too-many-locals, too-many-lines
+# Pylint attribute disabled
+#    using many public methods (many unit tests)
+#    using many variables (comprehensive unit tests with lots of moving parts)
+#    using many lines (many unit tests)
 
 import os
 import unittest
@@ -34,7 +36,8 @@ from walandmarks.notebooks.data_scraping import (
     filter_washington_full_data,
     save_washington_full_data,
     get_washington_clean_images,
-    save_washington_cleaned_images_data, make_washington_landmark_data_files
+    save_washington_cleaned_images_data,
+    make_washington_landmark_data_files
 )
 
 class TestDataScraping(unittest.TestCase):
