@@ -6,15 +6,15 @@ images of Washington landmarks.
 import glob
 import os
 from PIL import Image
-import keras
 
+import keras
 from keras import layers, models
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import skimage.transform as skt
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
 
 def load_model_data():
     """
@@ -79,7 +79,17 @@ def create_model_architecture(num_classes, dropout_rate, img_dimension):
         img_dimension: The image dimension for the model
     Returns:
         model: The model architecture
+    Raises:
+        TypeError: if num_classes is not an integer
+        TypeError: if dropout_rate is not a float
+        TypeError: if img_dimension is not a tuple 
     """
+    if not isinstance(num_classes, int):
+        raise TypeError("num_classes must be an integer")
+    if not isinstance(dropout_rate, float):
+        raise TypeError("dropout_rate must be a float")
+    if not isinstance(img_dimension, tuple):
+        raise TypeError("img_dimension must be a tuple")
 
     data_augmentation = keras.Sequential([
         layers.RandomFlip("horizontal"),
@@ -147,45 +157,12 @@ def train_model(model, x_train, y_train, x_val, y_val):
         validation_data = (x_val, y_val),
         callbacks=[early_stopping]
     )
-    return history, model
+    if not isinstance(model, keras.Model):
+        raise TypeError("Model is not a Keras model")
+    return (history, model)
 
 
-def plot_model_accuracy(model_history):
-    """
-    Function to plot the model accuracy.
-    parameters:
-        model_history: the history of the model
-    returns:
-        plt: the plot of the model accuracy
-    """
-
-    plt.plot(model_history.history['accuracy'], label='accuracy')
-    plt.plot(model_history.history['val_accuracy'], label = 'val_accuracy')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
-    plt.legend(loc='lower right')
-
-    plt.show()
-    return plt
-
-def plot_model_loss(history):
-    """ 
-    Function to plot the model loss.
-    parameters:
-        history: the history of the model
-    returns:
-        plt: the plot of the model loss
-    """
-    plt.plot(history.history['loss'], label='loss')
-    plt.plot(history.history['val_loss'], label = 'val_loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.legend(loc='upper right')
-
-    plt.show()
-    return plt
-
-def plot_model_auc(history):
+def plot_model_metric(history, metric):
     """
     Function to plot the model AUC.
     parameters:
@@ -193,14 +170,34 @@ def plot_model_auc(history):
     returns:
         plt: the plot of the model AUC
     """
-    plt.plot(history.history['auc'], label='auc')
-    plt.plot(history.history['val_auc'], label = 'val_auc')
-    plt.xlabel('Epoch')
-    plt.ylabel('AUC')
-    plt.legend(loc='lower right')
-    plt.ylim(0.58,1.01)
+    if not isinstance(metric, str):
+        raise TypeError("metric must be a string")
+    if metric not in ("loss", "accuracy", "auc"):
+        raise ValueError("metric must be 'loss', 'accuracy', or 'auc'")
+    if not isinstance(history, keras.callbacks.History):
+        raise TypeError("history must be a Keras history object")
 
-    plt.show()
+    if metric == "loss":
+        plt.plot(history.history['loss'], label='loss')
+        plt.plot(history.history['val_loss'], label = 'val_loss')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.legend(loc='upper right')
+        plt.show()
+    elif metric == "accuracy":
+        plt.plot(history.history['accuracy'], label='accuracy')
+        plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+        plt.xlabel('Epoch')
+        plt.ylabel('Accuracy')
+        plt.legend(loc='lower right')
+        plt.show()
+    else:
+        plt.plot(history.history['auc'], label='auc')
+        plt.plot(history.history['val_auc'], label = 'val_auc')
+        plt.xlabel('Epoch')
+        plt.ylabel('AUC')
+        plt.legend(loc='lower right')
+        plt.show()
     return plt
 
 def save_model(model, model_path_name):
@@ -213,6 +210,11 @@ def save_model(model, model_path_name):
     Returns:
         None
     """
+    if not isinstance(model_path_name, str):
+        raise TypeError("model_path_name must be a string")
+    if not isinstance(model, keras.Model):
+        raise TypeError("model must be a Keras model")
+
     model.save(model_path_name)
 
 
@@ -244,6 +246,11 @@ def test_personal_images(model, washington_data_cleaned):
     Returns:
         None
     """
+    if not isinstance(washington_data_cleaned, pd.DataFrame):
+        raise TypeError("washington_data_cleaned must be a pandas DataFrame")
+    if not isinstance(model, keras.Model):
+        raise TypeError("model must be a Keras model")
+
     img_needle = load_image("walandmarks/notebooks/personal_test_images/space_needle_1.jpg")
     img_chinatown = load_image("walandmarks/notebooks/personal_test_images/Chinatown_gate.jpg")
     img_fountain = load_image("walandmarks/notebooks/personal_test_images/fountain.jpg")
@@ -312,7 +319,20 @@ def create_dist_top_incorrect_guess_confidence_plot(x_test, y_test, model, washi
         washington_data_cleaned: the cleaned Washington data
     Returns:
         None
+    Raises:
+        TypeError: if x_test is not a numpy array
+        TypeError: if y_test is not a numpy array
+        TypeError: if model is not a Keras model
+        TypeError: if washington_data_cleaned is not a pandas DataFrame
     """
+    if not isinstance(x_test, np.ndarray):
+        raise TypeError("x_test must be a numpy array")
+    if not isinstance(y_test, np.ndarray):
+        raise TypeError("y_test must be a numpy array")
+    if not isinstance(model, keras.Model):
+        raise TypeError("model must be a Keras model")
+    if not isinstance(washington_data_cleaned, pd.DataFrame):
+        raise TypeError("washington_data_cleaned must be a pandas DataFrame")
 
     test_output = model.predict(x_test)
     classes = np.sort(washington_data_cleaned['name'].unique())
@@ -343,10 +363,9 @@ def create_dist_top_incorrect_guess_confidence_plot(x_test, y_test, model, washi
     plt.show()
 
 
-
 def create_train_analyze_model(
         save_model_flag,
-        save_model_path_name,
+        save_model_path_name="walandmarks/model/test_model.keras",
         dropout_rate = 0.3,
         img_dimension = (224, 224, 3)
         ):
@@ -365,32 +384,46 @@ def create_train_analyze_model(
         top_five_accuracy_plot: plot of model top five accuracy
     """
 
-    washington_data_cleaned = load_model_data()
-    washington_data_cleaned = washington_data_cleaned[['name', 'image_id', 'image_data']]
+    if not isinstance(save_model_flag, bool):
+        raise TypeError("save_model_flag must be a boolean")
+    if not isinstance(save_model_path_name, str):
+        raise TypeError("save_model_path_name must be a string")
 
-    encoder = OneHotEncoder(handle_unknown='ignore')
-    encoder.fit(pd.DataFrame(washington_data_cleaned['name']))
-    washington_images_stack = np.stack(washington_data_cleaned['image_data'], axis=0)
+    washington_data_cleaned = load_model_data()[['name', 'image_id', 'image_data']]
+    encoder = OneHotEncoder(handle_unknown='ignore').fit(
+        pd.DataFrame(washington_data_cleaned['name'])
+    )
 
-    x_train, x_test, x_val, y_train, y_test, y_val = (
-        create_train_test_val_split(washington_images_stack, encoder.transform(
-            pd.DataFrame(washington_data_cleaned['name'])).toarray()
-        )
+    x_train, x_test, x_val, y_train, y_test, y_val = create_train_test_val_split(
+        np.stack(washington_data_cleaned['image_data'], axis=0), encoder.transform(
+            pd.DataFrame(washington_data_cleaned['name'])
+        ).toarray()
     )
 
     model_architecture = create_model_architecture(
-        washington_data_cleaned['name'].nunique(),
-        dropout_rate,
-        img_dimension)
-    trained_model = train_model(model_architecture, x_train, y_train, x_val, y_val)
-
-    if not isinstance(trained_model, keras.Model):
-        raise TypeError("Model is not a Keras model")
+        washington_data_cleaned['name'].nunique(), dropout_rate, img_dimension
+    )
+    model_history, trained_model = train_model(model_architecture,
+                                                x_train,
+                                                y_train,
+                                                x_val,
+                                                y_val)
 
     test_model_on_test_data(trained_model, x_test, y_test)
     create_dist_top_incorrect_guess_confidence_plot(x_test,
                                                     y_test,
                                                     trained_model,
                                                     washington_data_cleaned)
+    plot_model_metric(model_history, "loss")
+    plot_model_metric(model_history, "accuracy")
+    plot_model_metric(model_history, "auc")
+    print(f'Model history: {model_history}')
+    print(f'Model trained: {trained_model}')
+    print(f'Type of model: {type(trained_model)}')
+    test_personal_images(trained_model, washington_data_cleaned)
+
     if save_model_flag:
         save_model(trained_model, save_model_path_name)
+
+
+create_train_analyze_model(False)
