@@ -419,11 +419,10 @@ def create_train_analyze_model(
     plot_model_metric(model_history, "auc")
     print(f'Model history: {model_history}')
     print(f'Model trained: {trained_model}')
-    print(f'Type of model: {type(trained_model)}')
     test_personal_images(trained_model, washington_data_cleaned)
 
     if save_model_flag:
         save_model(trained_model, save_model_path_name)
 
 
-create_train_analyze_model(False)
+#create_train_analyze_model(False)
