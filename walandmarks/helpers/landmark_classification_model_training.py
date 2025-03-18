@@ -67,12 +67,25 @@ def create_train_test_val_split(washington_images_stack, labels_onehot):
                                                       random_state=42)
     return x_train, x_test, x_val, y_train, y_test, y_val
 
+def create_data_augmentation(): 
+    """
+    Function to set the data augmentation. 
+    Broken-out into separate function for testing.
+    """
+
+    return keras.Sequential([
+        layers.RandomFlip("horizontal"),
+        layers.RandomRotation(0.1),
+        layers.RandomZoom(0.1),
+        layers.RandomTranslation(0.1, 0.1),
+        layers.RandomBrightness(0.1),
+        layers.RandomContrast(0.1)
+    ], name="data_augmentation")
 
 def create_model_architecture(num_classes, dropout_rate, img_dimension):
     """
     Function that sets up model architecture that
     includes transfer learning using EfficientNetB0.
-
     Parameters:
         num_classes: The number of classes in the model
         dropout_rate: The dropout rate for the model
@@ -90,15 +103,10 @@ def create_model_architecture(num_classes, dropout_rate, img_dimension):
         raise TypeError("dropout_rate must be a float")
     if not isinstance(img_dimension, tuple):
         raise TypeError("img_dimension must be a tuple")
+    if dropout_rate >1 or dropout_rate <0:
+        raise ValueError("dropout rate mustt be between 0.0 and 1.0")
 
-    data_augmentation = keras.Sequential([
-        layers.RandomFlip("horizontal"),
-        layers.RandomRotation(0.1),
-        layers.RandomZoom(0.1),
-        layers.RandomTranslation(0.1, 0.1),
-        layers.RandomBrightness(0.1),
-        layers.RandomContrast(0.1)
-    ], name="data_augmentation")
+    data_augmentation = create_data_augmentation()
 
     # takes input data, augments, and preps it for EfficientNetB0
     inputs = layers.Input(shape=img_dimension)
@@ -136,6 +144,13 @@ def train_model(model, x_train, y_train, x_val, y_val):
         history: The model training history
         model: The trained model as a Keras model
     """
+    if not isinstance(model, keras.Model): 
+        raise TypeError("model must be a keras model")
+
+    for ds in [x_train, y_train, x_val, y_val]:
+        if not isinstance(ds, np.ndarray): 
+            raise TypeError("x_train, y_train, "
+            "x_val and y_val must be ndarrays") 
 
     early_stopping = keras.callbacks.EarlyStopping(
         monitor='val_loss', patience=5, restore_best_weights=True
@@ -157,10 +172,8 @@ def train_model(model, x_train, y_train, x_val, y_val):
         validation_data = (x_val, y_val),
         callbacks=[early_stopping]
     )
-    if not isinstance(model, keras.Model):
-        raise TypeError("Model is not a Keras model")
-    return (history, model)
 
+    return (history, model)
 
 def plot_model_metric(history, metric):
     """
@@ -180,25 +193,24 @@ def plot_model_metric(history, metric):
     if metric == "loss":
         plt.plot(history.history['loss'], label='loss')
         plt.plot(history.history['val_loss'], label = 'val_loss')
-        plt.xlabel('Epoch')
         plt.ylabel('Loss')
         plt.legend(loc='upper right')
-        plt.show()
+
     elif metric == "accuracy":
         plt.plot(history.history['accuracy'], label='accuracy')
         plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
-        plt.xlabel('Epoch')
         plt.ylabel('Accuracy')
         plt.legend(loc='lower right')
-        plt.show()
+
     else:
         plt.plot(history.history['auc'], label='auc')
         plt.plot(history.history['val_auc'], label = 'val_auc')
-        plt.xlabel('Epoch')
         plt.ylabel('AUC')
         plt.legend(loc='lower right')
-        plt.show()
-    return plt
+
+    plt.xlabel('Epoch')
+    plt.show()
+    return None 
 
 def save_model(model, model_path_name):
     """
@@ -213,7 +225,7 @@ def save_model(model, model_path_name):
     if not isinstance(model_path_name, str):
         raise TypeError("model_path_name must be a string")
     if not isinstance(model, keras.Model):
-        raise TypeError("model must be a Keras model")
+        raise TypeError("The model must be a Keras model")
 
     model.save(model_path_name)
 
@@ -362,7 +374,6 @@ def create_dist_top_incorrect_guess_confidence_plot(x_test, y_test, model, washi
     plt.title("Distribution of Top Guess Confidence when Incorrect")
     plt.show()
 
-
 def create_train_analyze_model(
         save_model_flag,
         save_model_path_name="walandmarks/model/test_model.keras",
@@ -373,7 +384,6 @@ def create_train_analyze_model(
     Function to create model acrchigecture,
     train the model, display model metrics, 
     and test the model on personal images.
-
     Parameters:
         None
     Returns:
