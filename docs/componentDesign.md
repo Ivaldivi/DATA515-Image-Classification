@@ -4,6 +4,11 @@
 
 ### Image Classification Model: 
 * The image classification model
+* TRAINING INPUT: landmark images (PNGs, in folders for each landmark)
+* INPUT: user-input image of landmark (reformatted to 224 x 224 x 3)
+* OUTPUT: model-predicted landmark associated with INPUT, w/ prediction confidence
+    * If confidence >= 50%, output top 1 landmark prediction
+    * If confidence < 50%, output top 5 landmark predictions
 
 ### User Interface:
 * Model demonstration and accuracy test page
@@ -29,7 +34,14 @@
 
 ### Data Management System: 
 * Scraping data from Wikimedia
-* Creating some way to store wikimedia and image data
+* Data Scraper
+    * INPUT: Wikimedia URL for landmark, all landmark images
+    * OUTPUT: 
+        * full information about landmarks (e.g. name, location) in Washington state [CSV]
+        * url for each clean image of landmarks in Washington state [CSV]
+* Data Downloader
+    * INPUT: image url for each clean image of landmarks in Washington state
+    * OUTPUT: downloaded images, based on INPUT (PNGs, in folders for each landmark)
 
 # APPENDIX
 
