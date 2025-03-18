@@ -222,13 +222,16 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         cm.plot_model_metric(mocked_model_history, "accuracy")
         mock_show.assert_called_once()
 
-    @patch('matplotlib.pyplot.show')
-    def test_plot_metric_accuracy_x_axis_label(self, mock_show):
+    @patch('matplotlib.pyplot.xlabel')
+    def test_plot_metric_accuracy_x_axis_label(self, mock_x_label):
         """
-        Function to check that the x-axis is 'Accuracy' when
-        plotting accuracy. 
+        Function to check that the plot x-axis label is 'Epoch'
         """
-
+        mocked_model_history = MagicMock(spec=keras.callbacks.History)
+        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44], 
+                                        "val_accuracy": [.12,.34,.54,.55]}
+        cm.plot_model_metric(mocked_model_history, "accuracy")
+        mock_x_label.assert_called_once_with('Epoch')
 
     # Tests for save_model():
     def test_save_model_raises_type_error_if_model_path_not_string(self):
@@ -245,3 +248,85 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         """
         with self.assertRaises(TypeError):
             cm.save_model("string", "Not a keras model...")
+
+    # tests for load_image(): 
+    def test_load_image_raises_type_error_if_path_not_string(self): 
+        """
+        Function that checks load_image raises a TypeError
+        if the image_path provided is not a string.
+        """
+        with self.assertRaises(TypeError):
+            cm.load_image(23)
+
+    @patch('keras.Model.evaluate')
+    def test_test_model_on_test_data_returns_tuple(self, mock_evaluate):
+        """
+        Checks that test_model_on_test_data returns a tuple.
+        """
+        mock_evaluate.return_value = [0.5, 0.5, 0.5, 0.5]
+        actual = cm.test_model_on_test_data(keras.Model(), np.ndarray(3), np.ndarray(3))
+        self.assertIsInstance(actual, tuple)
+    
+    
+    # tests for test_model_on_test_data():
+    def test_test_model_on_test_data_raises_type_error_if_model_not_keras_model(self):
+        """
+        Function that checks test_model_on_test_data raises a TypeError
+        if the model provided is not a keras model.
+        """
+        with self.assertRaises(TypeError):
+            cm.test_model_on_test_data("not a keras model", np.ndarray(3), np.ndarray(3))
+    
+    def test_test_model_on_test_data_raises_type_error_if_x_test_not_ndarray(self):
+        """
+        Function that checks test_model_on_test_data raises a TypeError
+        if x_test is not a numpy ndarray.
+        """
+        with self.assertRaises(TypeError):
+            cm.test_model_on_test_data(keras.Model(), "not an ndarray", np.ndarray(3))
+    
+    def test_test_model_on_test_data_raises_type_error_if_y_test_not_ndarray(self):
+        """
+        Check test_model_on_test_data raises a TypeError
+        if y_test is not a numpy ndarray.
+        """
+        with self.assertRaises(TypeError):
+            cm.test_model_on_test_data(keras.Model(), np.ndarray(3), "not an ndarray")
+        
+    @patch('keras.Model.evaluate')
+    def test_test_model_on_test_data_retruns_tuple(self, mock_evaluate):
+        """
+        Function that checks test_model_on_test_data returns tuple.
+        """
+        mock_evaluate.return_value = (0.5,0.5,0.5,0.5)
+        actual = cm.test_model_on_test_data(keras.Model(), np.ndarray(3), np.ndarray(3))
+        self.assertEqual(type(actual), tuple)
+
+    # Tests for create_train_analyze_model: 
+    def test_create_train_analyze_model_raises_type_error_if_save_model_flag_not_bool(self): 
+        with self.assertRaises(TypeError):
+            cm.create_train_analyze_model("not a boolean", "walandmarks/model/test.keras")
+    
+    def test_create_train_analyze_model_raises_type_error_if_save_model_pathname_not_str(self):
+        with self.assertRaises(TypeError): 
+            cm.create_train_analyze_model(False, 5)
+
+    def test_create_train_analyze_model_raises_type_error_if_dropout_rate_not_float(self): 
+        with self.assertRaises(TypeError):
+            cm.create_train_analyze_model(
+                False,
+                "walandmarks/model/test.keras",
+                dropout_rate="not a float",
+                img_dimension=(1,2,4)
+            )
+    
+    # @patch('cm.plot_model_metric')
+    # def test_create_train_analyze_model_plots_loss(self, mock_plot_metric): 
+    #     """
+    #     Function to check that the model plots loss using plot_model_metric()
+    #     """
+
+    #     mock_plot_metric.assert_any_call()
+    #     self.assertEqual(mock_load_image.call_count, 3)
+
+        
