@@ -93,7 +93,7 @@ def convert_urls_to_html(urls):
     for url in urls:
         # We had to disable the pylint consider-using-join warning here
         # because the <img> tags produced using .join() do not properly
-        # render in the email inbox. 
+        # render in the email inbox.
         images_in_html_tags += f'<img src="{url}" width="300"><br>'  # pylint: disable=consider-using-join
     return images_in_html_tags
 
