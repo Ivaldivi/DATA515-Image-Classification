@@ -3,14 +3,14 @@ channels:
  - defaults
 dependencies:
   - python>=3.8
-  - pandas
-  - matplotlib
-  - scikit-learn
+  - pandas=2.2.3
+  - matplotlib=3.10.0
+  - scikit-learn=1.6.1
   - scikit-image=0.24.0
-  - streamlit
+  - streamlit=1.42.0
   - requests=2.32
   - pylint=3.3.3
-  - notebook
+  - notebook=7.3.2
   - pip
   - pip: 
      - mediapipe==0.10.21
@@ -18,3 +18,4 @@ dependencies:
      - setuptools==76.0.0
      - build==1.2.0
      - tensorflow==2.18.0
+     - keras==3.9.0
