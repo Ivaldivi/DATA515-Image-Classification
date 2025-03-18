@@ -6,6 +6,7 @@ This file contains the code for the Classifier page of the Streamlit app.
 
 import streamlit as st
 
+from walandmarks.helpers.get_landmark_details import get_landmark_details
 from walandmarks.helpers.load_landmarks import load_landmarks
 from walandmarks.helpers.load_model import load_model
 from walandmarks.helpers.process_image_input import process_image_input
@@ -54,10 +55,13 @@ if image is not None:
 
     for index, prediction in enumerate(predictions):
         landmark_index, confidence = prediction
+        landmark_name = landmarks[landmark_index]
 
-        st.markdown(f"{index + 1}. {landmarks[landmark_index]} "
-                    f"({confidence * 100:.2f}% confidence)\n"
+        st.markdown(f"<b>{index + 1}. {landmark_name}</b> "
+                    f"<b>({confidence * 100:.2f}% confidence)</b>\n", unsafe_allow_html=True
             )
+        st.markdown(f"Location: {get_landmark_details(landmark_name)['location'].title()}")
+        st.markdown(f"Category: {get_landmark_details(landmark_name)['category'].title()}")
 
     st.markdown("Your image:")
     st.image(image)
