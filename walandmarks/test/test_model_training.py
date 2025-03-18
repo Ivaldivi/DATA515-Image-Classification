@@ -3,9 +3,12 @@ This file is used to test
 landmark_classification_model_training.py file.
 """
 
+# pylint: disable=too-many-public-methods
+# disabling too many public methods because there are more than 20
+# tests needed to test the functions in the file.
+
 import unittest
 from unittest.mock import MagicMock
-import matplotlib.pyplot as plt
 from unittest.mock import patch
 
 import keras
@@ -199,15 +202,14 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
             cm.plot_model_metric(keras.callbacks.History(), "a string, but not"
             "a valid metric")
 
-    def test_plot_metric_returns_none(self): 
+    def test_plot_metric_returns_none(self):
         """
         Check that plot_model_metric returns none.
         """
         mocked_model_history = MagicMock(spec=keras.callbacks.History)
-        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44], 
+        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
                                         "val_accuracy": [.12,.34,.54,.55]}
-        actual = cm.plot_model_metric(mocked_model_history, "accuracy")
-        self.assertIsNone(actual)
+        self.assertIsNone(cm.plot_model_metric(mocked_model_history, "accuracy"))
 
     @patch('matplotlib.pyplot.show')
     def test_plot_model_metric_calls_plt_show(self, mock_show):
@@ -217,7 +219,7 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         only once.
         """
         mocked_model_history = MagicMock(spec=keras.callbacks.History)
-        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44], 
+        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
                                         "val_accuracy": [.12,.34,.54,.55]}
         cm.plot_model_metric(mocked_model_history, "accuracy")
         mock_show.assert_called_once()
@@ -228,7 +230,7 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         Function to check that the plot x-axis label is 'Epoch'
         """
         mocked_model_history = MagicMock(spec=keras.callbacks.History)
-        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44], 
+        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
                                         "val_accuracy": [.12,.34,.54,.55]}
         cm.plot_model_metric(mocked_model_history, "accuracy")
         mock_x_label.assert_called_once_with('Epoch')
@@ -249,8 +251,8 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         with self.assertRaises(TypeError):
             cm.save_model("string", "Not a keras model...")
 
-    # tests for load_image(): 
-    def test_load_image_raises_type_error_if_path_not_string(self): 
+    # tests for load_image():
+    def test_load_image_raises_type_error_if_path_not_string(self):
         """
         Function that checks load_image raises a TypeError
         if the image_path provided is not a string.
@@ -266,33 +268,31 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         mock_evaluate.return_value = [0.5, 0.5, 0.5, 0.5]
         actual = cm.test_model_on_test_data(keras.Model(), np.ndarray(3), np.ndarray(3))
         self.assertIsInstance(actual, tuple)
-    
-    
+
     # tests for test_model_on_test_data():
     def test_test_model_on_test_data_raises_type_error_if_model_not_keras_model(self):
         """
-        Function that checks test_model_on_test_data raises a TypeError
-        if the model provided is not a keras model.
+        Function that checks test_model_on_test_data raises a
+        TypeError if the model provided is not a keras model.
         """
         with self.assertRaises(TypeError):
             cm.test_model_on_test_data("not a keras model", np.ndarray(3), np.ndarray(3))
-    
+
     def test_test_model_on_test_data_raises_type_error_if_x_test_not_ndarray(self):
         """
-        Function that checks test_model_on_test_data raises a TypeError
-        if x_test is not a numpy ndarray.
+        Function that checks test_model_on_test_data raises a
+        TypeError if x_test is not a numpy ndarray.
         """
         with self.assertRaises(TypeError):
             cm.test_model_on_test_data(keras.Model(), "not an ndarray", np.ndarray(3))
-    
+
     def test_test_model_on_test_data_raises_type_error_if_y_test_not_ndarray(self):
         """
-        Check test_model_on_test_data raises a TypeError
-        if y_test is not a numpy ndarray.
+        Check test_model_on_test_data raises a TypeError if y_test is not a numpy ndarray.
         """
         with self.assertRaises(TypeError):
             cm.test_model_on_test_data(keras.Model(), np.ndarray(3), "not an ndarray")
-        
+
     @patch('keras.Model.evaluate')
     def test_test_model_on_test_data_retruns_tuple(self, mock_evaluate):
         """
@@ -302,16 +302,27 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         actual = cm.test_model_on_test_data(keras.Model(), np.ndarray(3), np.ndarray(3))
         self.assertEqual(type(actual), tuple)
 
-    # Tests for create_train_analyze_model: 
-    def test_create_train_analyze_model_raises_type_error_if_save_model_flag_not_bool(self): 
+    # Tests for create_train_analyze_model:
+    def test_create_train_analyze_model_raises_type_error_if_save_model_flag_not_bool(self):
+        """ 
+        Check create_train_analyze raises type error if save_model flag is not boolean
+        """
         with self.assertRaises(TypeError):
             cm.create_train_analyze_model("not a boolean", "walandmarks/model/test.keras")
-    
+
     def test_create_train_analyze_model_raises_type_error_if_save_model_pathname_not_str(self):
-        with self.assertRaises(TypeError): 
+        """
+        Check create_train_analyze_model raises a TypeError
+        if path to save model is not a string. 
+        """
+        with self.assertRaises(TypeError):
             cm.create_train_analyze_model(False, 5)
 
-    def test_create_train_analyze_model_raises_type_error_if_dropout_rate_not_float(self): 
+    def test_create_train_analyze_model_raises_type_error_if_dropout_rate_not_float(self):
+        """
+        Check that create_train_analyze model raises a TypeError
+        if dropout rate is not a float. 
+        """
         with self.assertRaises(TypeError):
             cm.create_train_analyze_model(
                 False,
