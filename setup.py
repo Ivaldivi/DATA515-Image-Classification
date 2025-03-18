@@ -4,5 +4,5 @@ setup(
     name="walandmarks",
     version="0.1",
     packages=['walandmarks'],
-    install_requires=[],
+    install_requires=[]
 )
