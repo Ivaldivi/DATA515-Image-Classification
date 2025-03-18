@@ -243,57 +243,11 @@ def load_image(image_path):
     if not isinstance(image_path, str):
         raise TypeError("filename must be a string")
 
+    
     img = Image.open(image_path)
     img.load()
     data = np.asarray( img, dtype="uint8" )
     return data
-
-def test_personal_images(model, washington_data_cleaned):
-    """
-    Function to test the model on personal images.
-    Prints the top five guesses for each personal image.
-    Parameters:
-        model: the trained model
-        washington_data_cleaned: the cleaned Washington data
-    Returns:
-        None
-    """
-    if not isinstance(washington_data_cleaned, pd.DataFrame):
-        raise TypeError("washington_data_cleaned must be a pandas DataFrame")
-    if not isinstance(model, keras.Model):
-        raise TypeError("model must be a Keras model")
-
-    img_needle = load_image("walandmarks/notebooks/personal_test_images/space_needle_1.jpg")
-    img_chinatown = load_image("walandmarks/notebooks/personal_test_images/Chinatown_gate.jpg")
-    img_fountain = load_image("walandmarks/notebooks/personal_test_images/fountain.jpg")
-
-    img_needle_resized = skt.resize(np.array(img_needle), (224, 224, 3), anti_aliasing=True)
-    img_chinatown_resized = skt.resize(np.array(img_chinatown), (224, 224, 3), anti_aliasing=True)
-    img_fountain_resized = skt.resize(np.array(img_fountain), (224, 224, 3), anti_aliasing=True)
-
-    img_needle_resized = keras.applications.efficientnet.preprocess_input(
-        img_needle_resized * 255
-    ).astype(int)
-    img_chinatown_resized = keras.applications.efficientnet.preprocess_input(
-        img_chinatown_resized * 255
-    ).astype(int)
-    img_fountain_resized = keras.applications.efficientnet.preprocess_input(
-        img_fountain_resized * 255
-    ).astype(int)
-
-    image_batch = np.array([img_needle_resized, img_chinatown_resized, img_fountain_resized])
-
-    output = model.predict(image_batch)
-
-    classes = np.sort(washington_data_cleaned['name'].unique())
-    for picture in output:
-        guesses = np.argsort(picture)[-5:]
-        print(np.round(picture[guesses][::-1], 3))
-
-        for guess in guesses[::-1]:
-            print(classes[guess])
-
-        print("----------")
 
 def test_model_on_test_data(model, x_test, y_test):
     """
@@ -309,70 +263,18 @@ def test_model_on_test_data(model, x_test, y_test):
         test_auc: the test AUC
         test_top_five_accuracy: the test top five accuracy
     """
-
-    test_loss, test_acc, test_auc, test_top_five_accuracy = (
-        model.evaluate(x_test, y_test, verbose=2)
-    )
-    print(f"Test loss: {test_loss}")
-    print(f"Test accuracy: {test_acc}")
-    print(f"Test AUC: {test_auc}")
-    print(f"Test top five accuracy: {test_top_five_accuracy}")
-
-    return test_loss, test_acc, test_auc, test_top_five_accuracy
-
-def create_dist_top_incorrect_guess_confidence_plot(x_test, y_test, model, washington_data_cleaned):
-    """
-    Function to create a boxplot of the distribution of the top guess
-    confidence when the model is incorrect.
-    Parameters:
-        x_test: the test image data
-        y_test: the test image labels
-        model: the trained model
-        washington_data_cleaned: the cleaned Washington data
-    Returns:
-        None
-    Raises:
-        TypeError: if x_test is not a numpy array
-        TypeError: if y_test is not a numpy array
-        TypeError: if model is not a Keras model
-        TypeError: if washington_data_cleaned is not a pandas DataFrame
-    """
+    if not isinstance(model, keras.Model):
+        raise TypeError("The model must be a Keras model")
     if not isinstance(x_test, np.ndarray):
         raise TypeError("x_test must be a numpy array")
     if not isinstance(y_test, np.ndarray):
         raise TypeError("y_test must be a numpy array")
-    if not isinstance(model, keras.Model):
-        raise TypeError("model must be a Keras model")
-    if not isinstance(washington_data_cleaned, pd.DataFrame):
-        raise TypeError("washington_data_cleaned must be a pandas DataFrame")
 
-    test_output = model.predict(x_test)
-    classes = np.sort(washington_data_cleaned['name'].unique())
-    index=0
-    inaccurate_guess_confidence = []
+    test_loss, test_acc, test_auc, test_top_five_accuracy = (
+        model.evaluate(x_test, y_test, verbose=2)
+    )
 
-    ## Check if correct output is in the most confident output:
-    for single_guess_output in test_output:
-        guesses = np.argsort(single_guess_output)[-1:]
-        actual_test_label_index = np.argmax(y_test[index])
-        actual_label = classes[actual_test_label_index]
-
-        prioritized_guesses = guesses[::-1]
-        guess = classes[prioritized_guesses[0]]
-        index+=1
-
-        if guess != actual_label:
-            inaccurate_guess_confidence.append(single_guess_output[prioritized_guesses[0]])
-
-    mean_value = np.mean(inaccurate_guess_confidence)
-    plt.boxplot(inaccurate_guess_confidence)
-    plt.scatter(1, mean_value, color='red', zorder=3)
-    plt.text(1.09, mean_value+.015, f'Mean: {mean_value:.3f}', color='red')
-    plt.text(1.08, np.median(inaccurate_guess_confidence),
-             f'Median: {np.median(inaccurate_guess_confidence): .3f}', color='darkorange')
-    plt.ylabel("Model Confidence of Top Guess")
-    plt.title("Distribution of Top Guess Confidence when Incorrect")
-    plt.show()
+    return test_loss, test_acc, test_auc, test_top_five_accuracy
 
 def create_train_analyze_model(
         save_model_flag,
@@ -398,6 +300,10 @@ def create_train_analyze_model(
         raise TypeError("save_model_flag must be a boolean")
     if not isinstance(save_model_path_name, str):
         raise TypeError("save_model_path_name must be a string")
+    if not isinstance(dropout_rate, float): 
+        raise TypeError("dropout rate must be a float!")
+    if not isinstance(img_dimension, tuple): 
+        raise TypeError("img_dimension must be a tuple!")
 
     washington_data_cleaned = load_model_data()[['name', 'image_id', 'image_data']]
     encoder = OneHotEncoder(handle_unknown='ignore').fit(
@@ -420,19 +326,11 @@ def create_train_analyze_model(
                                                 y_val)
 
     test_model_on_test_data(trained_model, x_test, y_test)
-    create_dist_top_incorrect_guess_confidence_plot(x_test,
-                                                    y_test,
-                                                    trained_model,
-                                                    washington_data_cleaned)
     plot_model_metric(model_history, "loss")
     plot_model_metric(model_history, "accuracy")
     plot_model_metric(model_history, "auc")
-    print(f'Model history: {model_history}')
-    print(f'Model trained: {trained_model}')
-    test_personal_images(trained_model, washington_data_cleaned)
 
     if save_model_flag:
         save_model(trained_model, save_model_path_name)
-
 
 #create_train_analyze_model(False)
