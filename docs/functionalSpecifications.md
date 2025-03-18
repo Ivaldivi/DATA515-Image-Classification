@@ -14,7 +14,7 @@ The technician will be maintaining the image classification model. They need the
 
 * Images of Landmarks across the world, provided by [Google](https://github.com/cvdfoundation/google-landmark?tab=readme-ov-file)
   * More than 4 million labeled landmark photos
-  * **Structure:** landmark id, name, and photo urls in relational data table in .csv file
+  * **Structure:** train.csv is a table with fields "image id, image url, landmark id"
 * [Wikimedia](https://www.wikimedia.org/) 
   * (specifically, the Wikimedia link for a given landmark)
   * Determine location information about a landmark
