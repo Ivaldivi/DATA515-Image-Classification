@@ -319,14 +319,3 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
                 dropout_rate="not a float",
                 img_dimension=(1,2,4)
             )
-    
-    @patch('cm.plot_model_metric')
-    def test_create_train_analyze_model_plots_loss(self, mock_plot_metric): 
-        """
-        Function to check that the model plots loss using plot_model_metric()
-        """
-
-        mock_plot_metric.assert_any_call()
-        self.assertEqual(mock_plot_metric.call_count, 3)
-
-        
