@@ -1,23 +1,27 @@
 """
-Given landmark index get landmark details
+Given landmark name get landmark details
 """
-
-import streamlit as st
 
 from walandmarks.helpers.get_data_from_csv import get_data_from_csv
 
-def get_landmark_details(landmark_id):
+def get_landmark_details(landmark_name):
     """
-    Given landmark index get landmark location and category
+    Given landmark name get landmark location and category
 
     Parameters:
-        landmark_id (int): landmark index
+        landmark_name (str): landmark name
     Returns:
         landmark_details (dict): landmark location and category
     """
     landmarks_df = get_data_from_csv('walandmarks/data/landmarks_washington_full.csv')
-    landmarks_df_select = landmarks_df[landmarks_df['landmark_id'] == landmark_id]
-    landmark_details = {"location": landmarks_df_select['location'].values[0],
-                        "category": landmarks_df_select['supercategory'].values[0]}
+    landmarks_df_select = landmarks_df[landmarks_df['name'] == landmark_name]
 
-    return landmark_details
+    try:
+        if landmarks_df_select.empty:
+            raise ValueError(f"Landmark name: {landmark_name} is not in the dataset")
+        landmark_details = {"location": landmarks_df_select['location'].values[0],
+                            "category": landmarks_df_select['supercategory'].values[0]}
+        return landmark_details
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None

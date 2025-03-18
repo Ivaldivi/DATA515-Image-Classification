@@ -55,6 +55,5 @@ class TestClassifier(unittest.TestCase):
         self.assertEqual(file_uploader.type, 'file_uploader')
         self.assertEqual(file_uploader.help, first_half_uploader + second_half_uploader)
 
-
 if __name__ == '__main__':
     unittest.main()
