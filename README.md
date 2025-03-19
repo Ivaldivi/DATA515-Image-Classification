@@ -5,7 +5,7 @@ Team members: Sarah Innis, Anthony Nguyen, Annie Staker, Izzy Valdivia
 [![Coverage Status](https://coveralls.io/repos/github/Ivaldivi/DATA515-Image-Classification/badge.svg?branch=main)](https://coveralls.io/github/Ivaldivi/DATA515-Image-Classification?branch=main)
 
 ## Deployed Website:
-Cascadia Classifier is available here: [Cascadia Classifier](https://cascadia-classifier-3.streamlit.app/)
+Cascadia Classifier is available here: [Cascadia Classifier](https://cascadia-classifier.streamlit.app/)
 
 ## The Project Type:
 Web-based tool
