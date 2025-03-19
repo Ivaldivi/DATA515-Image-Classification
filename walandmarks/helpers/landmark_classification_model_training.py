@@ -279,7 +279,7 @@ def create_train_analyze_model(
         img_dimension = (224, 224, 3)
         ):
     """
-    Function to create model acrchigecture,
+    Function to create model architecture,
     train the model, display model metrics, 
     and test the model on personal images.
     Parameters:
