@@ -12,7 +12,6 @@ from keras import layers, models
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import skimage.transform as skt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 
@@ -67,7 +66,7 @@ def create_train_test_val_split(washington_images_stack, labels_onehot):
                                                       random_state=42)
     return x_train, x_test, x_val, y_train, y_test, y_val
 
-def create_data_augmentation(): 
+def create_data_augmentation():
     """
     Function to set the data augmentation. 
     Broken-out into separate function for testing.
@@ -144,11 +143,11 @@ def train_model(model, x_train, y_train, x_val, y_val):
         history: The model training history
         model: The trained model as a Keras model
     """
-    if not isinstance(model, keras.Model): 
+    if not isinstance(model, keras.Model):
         raise TypeError("model must be a keras model")
 
     for ds in [x_train, y_train, x_val, y_val]:
-        if not isinstance(ds, np.ndarray): 
+        if not isinstance(ds, np.ndarray):
             raise TypeError("x_train, y_train, "
             "x_val and y_val must be ndarrays") 
 
@@ -210,7 +209,6 @@ def plot_model_metric(history, metric):
 
     plt.xlabel('Epoch')
     plt.show()
-    return None 
 
 def save_model(model, model_path_name):
     """
@@ -229,7 +227,6 @@ def save_model(model, model_path_name):
 
     model.save(model_path_name)
 
-
 def load_image(image_path):
     """
     Function to get image data from filepath.
@@ -243,7 +240,6 @@ def load_image(image_path):
     if not isinstance(image_path, str):
         raise TypeError("filename must be a string")
 
-    
     img = Image.open(image_path)
     img.load()
     data = np.asarray( img, dtype="uint8" )
@@ -300,9 +296,9 @@ def create_train_analyze_model(
         raise TypeError("save_model_flag must be a boolean")
     if not isinstance(save_model_path_name, str):
         raise TypeError("save_model_path_name must be a string")
-    if not isinstance(dropout_rate, float): 
+    if not isinstance(dropout_rate, float):
         raise TypeError("dropout rate must be a float!")
-    if not isinstance(img_dimension, tuple): 
+    if not isinstance(img_dimension, tuple):
         raise TypeError("img_dimension must be a tuple!")
 
     washington_data_cleaned = load_model_data()[['name', 'image_id', 'image_data']]
@@ -332,5 +328,3 @@ def create_train_analyze_model(
 
     if save_model_flag:
         save_model(trained_model, save_model_path_name)
-
-#create_train_analyze_model(False)
