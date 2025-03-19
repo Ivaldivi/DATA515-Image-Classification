@@ -29,16 +29,16 @@ Create a multiclass image classification tool that can correctly identify landma
   * Use to validate model & demonstrate model accuracy and precision
 
 
-## Streamlit
-After cloning this repo, run the Streamlit app using this command:\
-python -m streamlit run walandmarks/ui/Home.py
-
 ## How To Use Conda Environment: 
 In order to create a conda environment from the current environment.yml file, run the following line:\
 conda env create -f environment.yml
 
 To activate the environment run:\
 conda activate landmarks_classification_env
+
+## Streamlit
+After configuring an environment, run the Streamlit app using this command:\
+python -m streamlit run walandmarks/ui/Home.py
 
 ## Unit testing:
 Our unit tests can be found at walandmarks/test.
