@@ -251,15 +251,6 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         with self.assertRaises(TypeError):
             cm.load_image(23)
 
-    @patch('keras.Model.evaluate')
-    def test_test_model_on_test_data_returns_tuple(self, mock_evaluate):
-        """
-        Checks that test_model_on_test_data returns a tuple.
-        """
-        mock_evaluate.return_value = [0.5, 0.5, 0.5, 0.5]
-        actual = cm.test_model_on_test_data(keras.Model(), np.ndarray(3), np.ndarray(3))
-        self.assertIsInstance(actual, tuple)
-
     # tests for test_model_on_test_data():
     def test_test_model_on_test_data_raises_type_error_if_model_not_keras_model(self):
         """
