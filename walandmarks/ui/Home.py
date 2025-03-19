@@ -4,7 +4,13 @@ This file contains the code for the Home page of the Streamlit app.
 # pylint: disable=invalid-name
 # Pylint attribute disabled due to Streamlit multi-page naming conventions
 
+import os 
+import sys
+
 import streamlit as st
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
 
 st.set_page_config(
     page_title="Home - Cascadia Classifier",
