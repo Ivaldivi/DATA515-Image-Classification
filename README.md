@@ -31,6 +31,13 @@ Create a multiclass image classification tool that can correctly identify landma
 * User-taken Photos of Landmarks in Washington
   * Use to validate model & demonstrate model accuracy and precision
 
+## Download Data
+* Note: unzip these files in walandmarks/data
+* Data for WikiMedia Scraping
+  * From the Google Landmarks Dataset
+  * [Google Drive Link](https://drive.google.com/file/d/19JGjnZVSxfkTTE-MQyt0StxuNC_h0l_M/view?usp=sharing)
+* Data For Training Our Model
+  * [Google Drive Link](https://drive.google.com/file/d/1CIUK6Z1cK4M9srZSAsXyKVHaNI8pU3Bz/view?usp=sharing)
 
 ## How To Use Conda Environment: 
 In order to create a conda environment from the current environment.yml file, run the following line:\
@@ -55,3 +62,4 @@ coverage run -m unittest discover
 ## Pylint:
 This repo uses PyLint as its linter. To run pylint:\
 PYTHONPATH=. pylint walandmarks
+
