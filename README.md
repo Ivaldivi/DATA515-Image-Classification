@@ -31,7 +31,7 @@ Create a multiclass image classification tool that can correctly identify landma
 * User-taken Photos of Landmarks in Washington
   * Use to validate model & demonstrate model accuracy and precision
 
-## Download Data
+## Download Data:
 * Note: unzip these files in walandmarks/data
 * Data for WikiMedia Scraping
   * From the Google Landmarks Dataset
@@ -46,7 +46,7 @@ conda env create -f environment.yml
 To activate the environment run:\
 conda activate landmarks_classification_env
 
-## Streamlit
+## Streamlit:
 After configuring an environment, run the Streamlit app using this command:\
 python -m streamlit run walandmarks/ui/Home.py
 
