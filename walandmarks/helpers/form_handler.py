@@ -111,7 +111,7 @@ def send_email(name, email, user_feedback, images):
         image (UploadedFile object): The image file uploaded by the user.
     """
 
-    if images is not None:
+    if len(images) > 0:
         list_of_urls = []
         for image in images:
             image_url = upload_image_to_imgur(image)
