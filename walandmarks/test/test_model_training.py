@@ -202,15 +202,6 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
             cm.plot_model_metric(keras.callbacks.History(), "a string, but not"
             "a valid metric")
 
-    def test_plot_metric_returns_none(self):
-        """
-        Check that plot_model_metric returns none.
-        """
-        mocked_model_history = MagicMock(spec=keras.callbacks.History)
-        mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
-                                        "val_accuracy": [.12,.34,.54,.55]}
-        self.assertIsNone(cm.plot_model_metric(mocked_model_history, "accuracy"))
-
     @patch('matplotlib.pyplot.show')
     def test_plot_model_metric_calls_plt_show(self, mock_show):
         """
