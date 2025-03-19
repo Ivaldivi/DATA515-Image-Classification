@@ -60,8 +60,10 @@ if image is not None:
         st.markdown(f"<b>{index + 1}. {landmark_name}</b> "
                     f"<b>({confidence * 100:.2f}% confidence)</b>\n", unsafe_allow_html=True
             )
-        st.markdown(f"Location: {get_landmark_details(landmark_name)['location'].title()}")
-        st.markdown(f"Category: {get_landmark_details(landmark_name)['category'].title()}")
+        landmark_details = get_landmark_details(landmark_name)
+        if landmark_details is not None:
+            st.markdown(f"Location: {get_landmark_details(landmark_name)['location'].title()}")
+            st.markdown(f"Category: {get_landmark_details(landmark_name)['category'].title()}")
 
     st.markdown("Your image:")
     st.image(image)
