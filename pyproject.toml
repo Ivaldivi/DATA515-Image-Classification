@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 # is very important so that the build system packages up your
 # dependencies!
 [project]
-name = "walandmark"
+name = "walandmarks"
 version = "0.0.1"
 authors = [
   { name="Sarah Innis" },
