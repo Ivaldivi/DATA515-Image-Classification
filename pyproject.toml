@@ -42,7 +42,7 @@ omit = [
     ]
 
 [tool.setuptools.package-data]
-walandmark = ["data/*.csv", "images/*", "model/*"]
+walandmark = ["data/*.csv", "images/*", "model/*.png", "model/*.keras", "model/*.md"]
 
 
 # Where can someone find out more about your project?
