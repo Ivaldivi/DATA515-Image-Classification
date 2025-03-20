@@ -41,6 +41,10 @@ omit = [
     "config-3.py",
     ]
 
+[tool.setuptools.package-data]
+walandmark = ["data/*.csv", "images/*", "model/*"]
+
+
 # Where can someone find out more about your project?
 [project.urls]
 Homepage = "https://github.com/Ivaldivi/DATA515-Image-Classification"
