@@ -214,7 +214,9 @@ def plot_model_metric(history, metric, save_path):
 
     plt.xlabel('Epoch')
     plt.show()
-    plt.savefig(save_path)
+
+    if save_path is not None:
+        plt.savefig(save_path)
 
 def save_model(model, model_path_name):
     """

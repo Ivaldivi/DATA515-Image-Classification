@@ -214,8 +214,7 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         mocked_model_history = MagicMock(spec=keras.callbacks.History)
         mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
                                         "val_accuracy": [.12,.34,.54,.55]}
-        cm.plot_model_metric(mocked_model_history, "accuracy",
-                             "walandmarks/test/outputs/plot.png")
+        cm.plot_model_metric(mocked_model_history, "accuracy", None)
         mock_show.assert_called_once()
 
     @patch('matplotlib.pyplot.xlabel')
@@ -226,8 +225,7 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         mocked_model_history = MagicMock(spec=keras.callbacks.History)
         mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
                                         "val_accuracy": [.12,.34,.54,.55]}
-        cm.plot_model_metric(mocked_model_history, "accuracy",
-                             "walandmarks/test/outputs/plot.png")
+        cm.plot_model_metric(mocked_model_history, "accuracy", None)
         mock_x_label.assert_called_once_with('Epoch')
 
     # Tests for save_model():
