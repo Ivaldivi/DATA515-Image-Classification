@@ -1,0 +1,5 @@
+recursive-include walandmarks/data *.csv
+recursive-include walandmarks/images *
+recursive-include walandmarks/model *.png
+include walandmarks/model/final_EfficientNetb0_WA_landmarks_model.keras
+recursive-include walandmarks/model *.md

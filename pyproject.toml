@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 # is very important so that the build system packages up your
 # dependencies!
 [project]
-name = "walandmark"
+name = "walandmarks"
 version = "0.0.1"
 authors = [
   { name="Sarah Innis" },
@@ -40,6 +40,10 @@ omit = [
     "config.py",
     "config-3.py",
     ]
+
+[tool.setuptools.package-data]
+walandmark = ["data/*.csv", "images/*", "model/*.png", "model/*.keras", "model/*.md"]
+
 
 # Where can someone find out more about your project?
 [project.urls]
