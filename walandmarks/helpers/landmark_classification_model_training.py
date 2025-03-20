@@ -340,5 +340,3 @@ def create_train_analyze_model(
 
     if save_model_flag:
         save_model(trained_model, save_model_path_name)
-
-create_train_analyze_model(False)
