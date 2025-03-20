@@ -111,7 +111,7 @@ class TestFeedbackForm(unittest.TestCase):
         requests_response = MagicMock()
         requests_response.status_code = 200
         mock_post.return_value = requests_response
-        form_handler.send_email("name", "email", "feedback is so cool", list())
+        form_handler.send_email("name", "email", "feedback is so cool", [])
 
         mock_post.assert_called_once()
         mock_st_success.assert_called()
@@ -127,7 +127,7 @@ class TestFeedbackForm(unittest.TestCase):
         requests_response = MagicMock()
         requests_response.status_code = 400
         mock_post.return_value = requests_response
-        form_handler.send_email("name", "email", "feedback is so cool", list())
+        form_handler.send_email("name", "email", "feedback is so cool", [])
 
         mock_post.assert_called_once()
         mock_st_success.assert_not_called()
