@@ -302,6 +302,18 @@ def create_train_analyze_model(
         raise TypeError("img_dimension must be a tuple!")
 
     washington_data_cleaned = load_model_data()[['name', 'image_id', 'image_data']]
+
+    washington_data_cleaned = washington_data_cleaned.sort_values(
+        by='name',
+        key=lambda x: x.str.lower()
+    )
+    # Save the sorted landmark names to a csv file
+    # Have to use the lowercase name to match how PCs sort alphabetically
+    pd.DataFrame(
+        washington_data_cleaned['name'].unique(),
+        columns=['landmark_name']
+    ).to_csv('walandmarks/data/landmark_classes.csv', index=False)
+
     encoder = OneHotEncoder(handle_unknown='ignore').fit(
         pd.DataFrame(washington_data_cleaned['name'])
     )
@@ -328,3 +340,5 @@ def create_train_analyze_model(
 
     if save_model_flag:
         save_model(trained_model, save_model_path_name)
+
+create_train_analyze_model(False)
