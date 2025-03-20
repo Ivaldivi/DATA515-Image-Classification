@@ -1,0 +1,95 @@
+Metadata-Version: 2.4
+Name: walandmarks
+Version: 0.0.1
+Summary: WA state landmark classifier
+Author: Sarah Innis, Izzy Valdivia, Annie Staker, Anthony Nguyen
+Project-URL: Homepage, https://github.com/Ivaldivi/DATA515-Image-Classification
+Project-URL: Issues, https://github.com/Ivaldivi/DATA515-Image-Classification/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: build==1.2.0
+Requires-Dist: mediapipe==0.10.21
+Requires-Dist: pandas==2.2.3
+Requires-Dist: pylint==3.3.3
+Requires-Dist: requests==2.32
+Requires-Dist: setuptools==76.0.0
+Requires-Dist: streamlit==1.42.0
+Requires-Dist: tensorflow==2.18.0
+Requires-Dist: keras==3.9.0
+Requires-Dist: matplotlib
+Requires-Dist: scikit-learn==1.6.1
+Requires-Dist: scikit-image==0.24.0
+Requires-Dist: notebook==7.3.2
+Requires-Dist: imbalanced-learn==0.12.3
+Requires-Dist: pandarallel==1.6.5
+Dynamic: license-file
+
+# DATA515-Landmark-Classification
+Team members: Sarah Innis, Anthony Nguyen, Annie Staker, Izzy Valdivia
+
+![Build/Test Workflow](https://github.com/Ivaldivi/Data515-Image-Classification/actions/workflows/build_test.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/Ivaldivi/DATA515-Image-Classification/badge.svg?branch=main)](https://coveralls.io/github/Ivaldivi/DATA515-Image-Classification?branch=main)
+
+## Deployed Website:
+Cascadia Classifier is available here: [Cascadia Classifier](https://cascadia-classifier.streamlit.app/)
+
+## The Project Type:
+Web-based tool
+
+## Questions of Interest: 
+* How accurately can we classify landmarks?
+* Can we distinguish between similar-appearing landmarks (e.g. same area)?
+* Can we identify landmarks through different environments and lighting conditions?
+* Can we identify landmarks if given a low-quality image input?
+* Can we identify landmarks that we have not trained our model upon?
+* Can we provide further information about a landmark?
+
+## Goal for project output: 
+Create a multiclass image classification tool that can correctly identify landmarks (tentatively within Washington state) if given an image. 
+
+## Data Sources: 
+* Images of Landmarks across the world, provided by [Google](https://github.com/cvdfoundation/google-landmark?tab=readme-ov-file)
+  * More than 4 million labeled landmark photos
+* [Wikimedia](https://www.wikimedia.org/) 
+  * (specifically, the Wikimedia link for a given landmark)
+  * Determine location information about a landmark
+  * Provide additional information about a landmark
+* User-taken Photos of Landmarks in Washington
+  * Use to validate model & demonstrate model accuracy and precision
+
+## Download Data:
+* Note: unzip these files in walandmarks/data
+* Data for WikiMedia Scraping
+  * From the Google Landmarks Dataset
+  * [Google Drive Link](https://drive.google.com/file/d/19JGjnZVSxfkTTE-MQyt0StxuNC_h0l_M/view?usp=sharing)
+* Data For Training Our Model
+  * [Google Drive Link](https://drive.google.com/file/d/1CIUK6Z1cK4M9srZSAsXyKVHaNI8pU3Bz/view?usp=sharing)
+
+## How To Use Conda Environment: 
+In order to create a conda environment from the current environment.yml file, run the following line:\
+conda env create -f environment.yml
+
+To activate the environment run:\
+conda activate landmarks_classification_env
+
+## Streamlit:
+After configuring an environment, run the Streamlit app using this command:\
+python -m streamlit run walandmarks/ui/Home.py
+
+## Unit testing:
+Our unit tests can be found at walandmarks/test.
+
+To run all unit tests:\
+python -m unittest discover
+
+To see code coverage:\
+coverage run -m unittest discover
+
+## Pylint:
+This repo uses PyLint as its linter. To run pylint:\
+PYTHONPATH=. pylint walandmarks
+
