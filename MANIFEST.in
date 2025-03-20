@@ -2,4 +2,5 @@ recursive-include walandmarks/data *.csv
 recursive-include walandmarks/images *
 recursive-include walandmarks/model *.png
 recursive-include walandmarks/model *.keras
+prune walandmarks/model/old_model/*.keras
 recursive-include walandmarks/model *.md
