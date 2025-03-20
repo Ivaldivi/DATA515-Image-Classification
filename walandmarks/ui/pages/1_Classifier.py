@@ -4,6 +4,7 @@ This file contains the code for the Classifier page of the Streamlit app.
 # pylint: disable=invalid-name
 # Pylint attribute disabled due to Streamlit multi-page naming conventions
 
+from PIL import Image, ImageOps
 import streamlit as st
 
 from walandmarks.helpers.get_landmark_details import get_landmark_details
@@ -64,6 +65,11 @@ if image is not None:
         if landmark_details is not None:
             st.markdown(f"Location: {get_landmark_details(landmark_name)['location'].title()}")
             st.markdown(f"Category: {get_landmark_details(landmark_name)['category'].title()}")
+
+    # removes EXIF data because streamlit
+    #  messes up image orientation from EXIF tags
+    image = Image.open(image)
+    image = ImageOps.exif_transpose(image)
 
     st.markdown("Your image:")
     st.image(image)
