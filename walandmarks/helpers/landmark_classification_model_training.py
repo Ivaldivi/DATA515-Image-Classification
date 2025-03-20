@@ -102,8 +102,8 @@ def create_model_architecture(num_classes, dropout_rate, img_dimension):
         raise TypeError("dropout_rate must be a float")
     if not isinstance(img_dimension, tuple):
         raise TypeError("img_dimension must be a tuple")
-    if dropout_rate >1 or dropout_rate <0:
-        raise ValueError("dropout rate mustt be between 0.0 and 1.0")
+    if dropout_rate > 1 or dropout_rate < 0:
+        raise ValueError("dropout rate must be between 0.0 and 1.0")
 
     data_augmentation = create_data_augmentation()
 
@@ -174,13 +174,18 @@ def train_model(model, x_train, y_train, x_val, y_val):
 
     return (history, model)
 
-def plot_model_metric(history, metric):
+def plot_model_metric(history, metric, save_path):
     """
     Function to plot the model AUC.
-    parameters:
+    Parameters:
         history: the history of the model
-    returns:
-        plt: the plot of the model AUC
+        metric: the metric to plot (loss, accuracy, or auc)
+        save_path: the path to save the plot
+    Returns:
+        None
+    
+    Side Effects:
+        plt: shows the plot of the model AUC
     """
     if not isinstance(metric, str):
         raise TypeError("metric must be a string")
@@ -209,6 +214,9 @@ def plot_model_metric(history, metric):
 
     plt.xlabel('Epoch')
     plt.show()
+
+    if save_path is not None:
+        plt.savefig(save_path)
 
 def save_model(model, model_path_name):
     """
@@ -275,31 +283,40 @@ def test_model_on_test_data(model, x_test, y_test):
 def create_train_analyze_model(
         save_model_flag,
         save_model_path_name="walandmarks/model/test_model.keras",
-        dropout_rate = 0.3,
-        img_dimension = (224, 224, 3)
+        loss_curve_path_name="walandmarks/model/loss_curve.png",
+        accuracy_curve_path_name="walandmarks/model/accuracy_curve.png",
+        auc_curve_path_name="walandmarks/model/auc_curve.png"
         ):
     """
     Function to create model architecture,
     train the model, display model metrics, 
     and test the model on personal images.
     Parameters:
-        None
+        save_model_flag: boolean flag to save the model
+        save_model_path_name: path to save the model
+        loss_curve_path_name: path to save the loss curve
+        accuracy_curve_path_name: path to save the accuracy curve
+        auc_curve_path_name: path to save the AUC curve
     Returns:
+        None
+
+    Side Effects:
         model: trained model
         accuracy_plot: plot of model accuracy
         loss_plot: plot of model loss
         auc_plot: plot of model auc
-        top_five_accuracy_plot: plot of model top five accuracy
     """
 
     if not isinstance(save_model_flag, bool):
         raise TypeError("save_model_flag must be a boolean")
     if not isinstance(save_model_path_name, str):
         raise TypeError("save_model_path_name must be a string")
-    if not isinstance(dropout_rate, float):
-        raise TypeError("dropout rate must be a float!")
-    if not isinstance(img_dimension, tuple):
-        raise TypeError("img_dimension must be a tuple!")
+    if not isinstance(loss_curve_path_name, str):
+        raise TypeError("loss_curve_path_name must be a string")
+    if not isinstance(accuracy_curve_path_name, str):
+        raise TypeError("accuracy_curve_path_name must be a string")
+    if not isinstance(auc_curve_path_name, str):
+        raise TypeError("auc_curve_path_name must be a string")
 
     washington_data_cleaned = load_model_data()[['name', 'image_id', 'image_data']]
 
@@ -318,25 +335,37 @@ def create_train_analyze_model(
         pd.DataFrame(washington_data_cleaned['name'])
     )
 
-    x_train, x_test, x_val, y_train, y_test, y_val = create_train_test_val_split(
+    split = create_train_test_val_split(
         np.stack(washington_data_cleaned['image_data'], axis=0), encoder.transform(
             pd.DataFrame(washington_data_cleaned['name'])
         ).toarray()
     )
 
     model_architecture = create_model_architecture(
-        washington_data_cleaned['name'].nunique(), dropout_rate, img_dimension
+        washington_data_cleaned['name'].nunique(),
+        dropout_rate=0.3,
+        img_dimension=(224, 224, 3)
     )
     model_history, trained_model = train_model(model_architecture,
-                                                x_train,
-                                                y_train,
-                                                x_val,
-                                                y_val)
+                                                split[0],
+                                                split[3],
+                                                split[2],
+                                                split[5])
 
-    test_model_on_test_data(trained_model, x_test, y_test)
-    plot_model_metric(model_history, "loss")
-    plot_model_metric(model_history, "accuracy")
-    plot_model_metric(model_history, "auc")
+    test_model_on_test_data(trained_model, split[1], split[4])
+    plot_model_metric(model_history, "loss", loss_curve_path_name)
+    plot_model_metric(model_history, "accuracy", accuracy_curve_path_name)
+    plot_model_metric(model_history, "auc", auc_curve_path_name)
 
     if save_model_flag:
         save_model(trained_model, save_model_path_name)
+
+
+if __name__ == "__main__":
+    create_train_analyze_model(
+        save_model_flag=True,
+        save_model_path_name="walandmarks/model/final_EfficientNetb0_WA_landmarks_model.keras",
+        loss_curve_path_name="walandmarks/model/loss_curve.png",
+        accuracy_curve_path_name="walandmarks/model/accuracy_curve.png",
+        auc_curve_path_name="walandmarks/model/auc_curve.png"
+    )

@@ -183,7 +183,8 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         if metric is not a string. 
         """
         with self.assertRaises(TypeError):
-            cm.plot_model_metric(keras.callbacks.History, 5)
+            cm.plot_model_metric(keras.callbacks.History, 5,
+                                 "./path/to/save/plot.png")
 
     def test_plot_model_metric_raises_type_error_if_history_not_keras_history(self):
         """
@@ -191,7 +192,8 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         if history is not a keras history object. 
         """
         with self.assertRaises(TypeError):
-            cm.plot_model_metric("not a keras history object", "accuracy")
+            cm.plot_model_metric("not a keras history object", "accuracy",
+                                 "./path/to/save/plot.png")
 
     def test_plot_model_metric_raises_value_error_if_metric_not_allowed(self):
         """
@@ -200,7 +202,7 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             cm.plot_model_metric(keras.callbacks.History(), "a string, but not"
-            "a valid metric")
+            "a valid metric", "./path/to/save/plot.png")
 
     @patch('matplotlib.pyplot.show')
     def test_plot_model_metric_calls_plt_show(self, mock_show):
@@ -212,7 +214,7 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         mocked_model_history = MagicMock(spec=keras.callbacks.History)
         mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
                                         "val_accuracy": [.12,.34,.54,.55]}
-        cm.plot_model_metric(mocked_model_history, "accuracy")
+        cm.plot_model_metric(mocked_model_history, "accuracy", None)
         mock_show.assert_called_once()
 
     @patch('matplotlib.pyplot.xlabel')
@@ -223,7 +225,7 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         mocked_model_history = MagicMock(spec=keras.callbacks.History)
         mocked_model_history.history = {"accuracy": [.12,.32,.34,.44],
                                         "val_accuracy": [.12,.34,.54,.55]}
-        cm.plot_model_metric(mocked_model_history, "accuracy")
+        cm.plot_model_metric(mocked_model_history, "accuracy", None)
         mock_x_label.assert_called_once_with('Epoch')
 
     # Tests for save_model():
@@ -298,17 +300,31 @@ class TestLandmarkClassificationModelTraining(unittest.TestCase):
         if path to save model is not a string. 
         """
         with self.assertRaises(TypeError):
-            cm.create_train_analyze_model(False, 5)
+            cm.create_train_analyze_model(False, 5, 'loss/path', 'accuracy/path', 'auc/path')
 
-    def test_create_train_analyze_model_raises_type_error_if_dropout_rate_not_float(self):
+    def test_create_train_analyze_model_raises_type_error_if_loss_pathname_not_str(self):
         """
-        Check that create_train_analyze model raises a TypeError
-        if dropout rate is not a float. 
+        Check create_train_analyze_model raises a TypeError
+        if path to save loss plot is not a string. 
         """
         with self.assertRaises(TypeError):
-            cm.create_train_analyze_model(
-                False,
-                "walandmarks/model/test.keras",
-                dropout_rate="not a float",
-                img_dimension=(1,2,4)
-            )
+            cm.create_train_analyze_model(False, 'model/path', 5,
+                                          'accuracy/path', 'auc/path')
+
+    def test_create_train_analyze_model_raises_type_error_if_accuracy_pathname_not_str(self):
+        """
+        Check create_train_analyze_model raises a TypeError
+        if path to save accuracy plot is not a string. 
+        """
+        with self.assertRaises(TypeError):
+            cm.create_train_analyze_model(False, 'model/path', 'loss/path',
+                                          5, 'auc/path')
+
+    def test_create_train_analyze_model_raises_type_error_if_auc_pathname_not_str(self):
+        """
+        Check create_train_analyze_model raises a TypeError
+        if path to save AUC plot is not a string. 
+        """
+        with self.assertRaises(TypeError):
+            cm.create_train_analyze_model(False, 'model/path', 'loss/path',
+                                          'accuracy/path', 5)
